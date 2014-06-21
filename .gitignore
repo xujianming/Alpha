@@ -1,0 +1,8 @@
+*.sdf
+*.lastbuildstate
+*.filters
+*.tlog
+*.idb
+*.ipch
+AlphaClient/AlphaTest/Debug/
+*.opensdf
