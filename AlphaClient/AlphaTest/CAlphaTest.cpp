@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "AlphaTest.h"
+#include "CAlphaTest.h"
 
 
 
