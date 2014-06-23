@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlphaCommon", "AlphaCommon\AlphaCommon.vcxproj", "{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlphaTest", "AlphaTest\AlphaTest.vcxproj", "{61C55715-68EB-4524-BC5A-682F7B574093}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0} = {3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
