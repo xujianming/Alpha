@@ -8,6 +8,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlphaTest", "AlphaTest\Alph
 		{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0} = {3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlphaGraph", "AlphaGraph\AlphaGraph.vcxproj", "{31BA2CB4-008D-4F9C-A115-3BDAC6AAA4AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -22,6 +24,10 @@ Global
 		{61C55715-68EB-4524-BC5A-682F7B574093}.Debug|Win32.Build.0 = Debug|Win32
 		{61C55715-68EB-4524-BC5A-682F7B574093}.Release|Win32.ActiveCfg = Release|Win32
 		{61C55715-68EB-4524-BC5A-682F7B574093}.Release|Win32.Build.0 = Release|Win32
+		{31BA2CB4-008D-4F9C-A115-3BDAC6AAA4AD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{31BA2CB4-008D-4F9C-A115-3BDAC6AAA4AD}.Debug|Win32.Build.0 = Debug|Win32
+		{31BA2CB4-008D-4F9C-A115-3BDAC6AAA4AD}.Release|Win32.ActiveCfg = Release|Win32
+		{31BA2CB4-008D-4F9C-A115-3BDAC6AAA4AD}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

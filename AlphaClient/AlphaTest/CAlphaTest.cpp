@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "CAlphaTest.h"
 #include "AlphaCommon/CAlphaWindow.h"
-
 CAlphaWindow window;
 
 void init()
