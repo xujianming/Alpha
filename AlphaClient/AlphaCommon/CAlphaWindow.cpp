@@ -55,22 +55,22 @@ void CAlphaWindow::Initialize( void* pContext, uint16 width, uint16 height, char
 	int32 posX = (cx - width) / 2;
 	int32 posY = (cy - height) / 2;
 
-	MoveWindow((HWND)GetHandle(), posX, posY, width, height, false);
+	MoveWindow(GetHandle(), posX, posY, width, height, false);
 
-	ShowWindow((HWND)GetHandle(), SW_SHOW);
+	ShowWindow(GetHandle(), SW_SHOW);
 
-	UpdateWindow((HWND)GetHandle());
+	UpdateWindow(GetHandle());
 
-	SetTimer((HWND)GetHandle(), uint32(this), 50, m_Context.TimeProp);
+	SetTimer(GetHandle(), uint32(this), 50, m_Context.TimeProp);
 
 	OnCreated();
 }
 
 
 
-void* CAlphaWindow::GetHandle()
+HWND CAlphaWindow::GetHandle()
 {
-	return m_Context.m_pContext;
+	return (HWND)m_Context.m_pHandle;
 }
 
 void CAlphaWindow::OnCreated()
@@ -81,4 +81,11 @@ void CAlphaWindow::OnCreated()
 void CAlphaWindow::Destroy()
 {
 
+}
+
+RECT CAlphaWindow::GetClientRect()
+{
+	RECT rect;
+	::GetClientRect(GetHandle(), &rect);
+	return rect;
 }

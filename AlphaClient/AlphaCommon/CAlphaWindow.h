@@ -17,8 +17,8 @@ public:
 	CAlphaWindow();
 	~CAlphaWindow();
 
-	void* GetHandle();
-
+	HWND GetHandle();
+	RECT GetClientRect();
 	void Initialize(void* pContext, uint16 width, uint16 height, char *szTitle, uint16 iconID);
 	virtual void Destroy();
 

@@ -1,6 +1,9 @@
 #pragma once
 
 
+#define SAFE_DELETE(p) {if (p) delete (p); (p) = NULL;}
+#define SAFE_RELEASE(p) {if (p) (p)->Release(); (p) = NULL;}
+
 #ifdef _WIN32
 	
 typedef __int8 int8;
