@@ -10,7 +10,7 @@
 
 CAlphaWindow *g_pWindow;
 CRenderer	 *g_pRenderer;
-void init()
+bool init()
 {
 	g_pWindow = new CAlphaWindow;
 	g_pWindow->Initialize(NULL, 800, 600, "MyTestTitle", 0);
@@ -27,7 +27,7 @@ void destroy()
 int main()
 {
 	init();
-	while (g_pWindow->Messagepump() >= 0)
+	while (g_pWindow->Messagepump() > 0)
 	{
 		g_pRenderer->EnterOneFrame();
 	}
