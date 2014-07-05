@@ -69,7 +69,7 @@ bool CGraphicD3D9::CreateSuitableDevice()
 	if (FAILED(result))
 		return false;
 
-	result = m_pDevice->GetDeviceCaps(m_pCaps);
+	result = m_pDevice->GetDeviceCaps(&m_Caps);
 	if (FAILED(result))
 		return false;
 
@@ -79,28 +79,21 @@ bool CGraphicD3D9::CreateSuitableDevice()
 
 bool CGraphicD3D9::RenderBegin()
 {
-	LRESULT result = CheckDevice();
+	HRESULT result = CheckDevice();
 	if (FAILED(result))
 	{
 		//if (result == D3DERR_DEVICELOST)
 		return false;
 	}
 	result = m_pDevice->BeginScene();
+	m_pDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x000000ff, 1.0f, 0);
 	return !FAILED(result);
 }
 
 void CGraphicD3D9::RenderEnd()
 {
 	m_pDevice->EndScene();
-}
-
-void CGraphicD3D9::Update(uint32 deltTime)
-{
-	if (m_pDevice)
-	{
-		m_pDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x000000ff, 1.0f, 0);
-		m_pDevice->Present(0, 0, 0, 0);
-	}
+	m_pDevice->Present(0, 0, 0, 0);
 }
 
 IDirect3DDevice9* CGraphicD3D9::GetDevice()
@@ -108,13 +101,19 @@ IDirect3DDevice9* CGraphicD3D9::GetDevice()
 	return m_pDevice;
 }
 
-int8 CGraphicD3D9::CheckDevice()
+HRESULT CGraphicD3D9::CheckDevice()
 {
-	LRESULT result = m_pDevice->TestCooperativeLevel();
+	HRESULT result = m_pDevice->TestCooperativeLevel();
 	if (FAILED(result))
 		return result;
 	RECT rect = m_pWnd->GetClientRect();
 	if (!rect.right || !rect.bottom)
 		return -1;
-	return 1;
+	return D3D_OK;
+}
+
+bool CGraphicD3D9::CreateBackBuffer()
+{
+	m_pDevice->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &m_pBackBuffer);
+	return true;
 }

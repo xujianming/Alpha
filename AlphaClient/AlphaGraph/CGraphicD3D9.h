@@ -14,12 +14,14 @@ public:
 	void RenderEnd();
 	void Update(uint32 deltTime);
 	IDirect3DDevice9* GetDevice();
-	int8 CheckDevice();
+	HRESULT CheckDevice();
+	bool CreateBackBuffer();
 protected:
 	bool CreateSuitableDevice();
 	CAlphaWindow* m_pWnd;
 	IDirect3D9* m_pD3D9;
 	IDirect3DDevice9* m_pDevice;
-	D3DCAPS9* m_pCaps;
+	D3DCAPS9 m_Caps;
 	D3DPRESENT_PARAMETERS m_D3D9Param;
+	IDirect3DSurface9* m_pBackBuffer;
 };

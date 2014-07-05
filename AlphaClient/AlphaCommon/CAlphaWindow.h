@@ -23,6 +23,7 @@ public:
 	virtual void Destroy();
 
 	virtual void OnCreated();
+	int32 Messagepump();
 private:
 	SWindowContext m_Context;
 };

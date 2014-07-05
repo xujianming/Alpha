@@ -4,49 +4,33 @@
 #include "stdafx.h"
 #include "CAlphaTest.h"
 #include "AlphaCommon/CAlphaWindow.h"
-#include "AlphaGraph/CGraphicD3D9.h"
+#include "AlphaGraph/CRenderer.h"
 #include <Mmsystem.h>
 #pragma comment( lib,"winmm.lib" )
 
 CAlphaWindow *g_pWindow;
-CGraphicD3D9 *g_pGraph;
-bool init()
+CRenderer	 *g_pRenderer;
+void init()
 {
 	g_pWindow = new CAlphaWindow;
 	g_pWindow->Initialize(NULL, 800, 600, "MyTestTitle", 0);
-	g_pGraph = new CGraphicD3D9(g_pWindow);
-	return g_pGraph->Create();
+	g_pRenderer = new CRenderer;
+	g_pRenderer->Initialize(g_pWindow);
 }
 
 void destroy()
 {
-	SAFE_DELETE(g_pGraph);
+	SAFE_DELETE(g_pRenderer);
 	SAFE_DELETE(g_pWindow);
 }
 
 int main()
 {
 	init();
-
-	static float lastTime = (float)timeGetTime();
-	MSG msg;
-	ZeroMemory(&msg, sizeof(MSG));
-	while(msg.message != WM_QUIT)
+	while (g_pWindow->Messagepump() >= 0)
 	{
-		if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-		else
-		{
-			float currTime = (float)timeGetTime();
-			float deltTime = (currTime - lastTime) * 0.001f;
-			g_pGraph->Update(deltTime);
-			lastTime = currTime;
-		}
+		g_pRenderer->EnterOneFrame();
 	}
-
 	destroy();
 	return 0;
 }

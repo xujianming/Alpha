@@ -89,3 +89,19 @@ RECT CAlphaWindow::GetClientRect()
 	::GetClientRect(GetHandle(), &rect);
 	return rect;
 }
+
+int32 CAlphaWindow::Messagepump()
+{
+	MSG msg;
+	ZeroMemory(&msg, sizeof(MSG));
+	int32 messageCnt = 0;
+	while(PeekMessage(&msg, 0, 0, 0, PM_NOREMOVE))
+	{
+		messageCnt ++;
+		if (!GetMessage(&msg, 0, 0, 0))
+			return -1;
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+	return messageCnt;
+}
