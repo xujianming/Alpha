@@ -27,3 +27,8 @@ void CRenderer::EnterOneFrame()
 
 	m_pGraphic->RenderEnd();
 }
+
+void CRenderer::SetMainScene( CScene *pScene )
+{
+	m_pMainScene = pScene;
+}

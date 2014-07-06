@@ -22,8 +22,8 @@ bool CGraphicD3D9::Create()
 	m_pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
 	RECT rect;
 	GetClientRect(m_pWnd->GetHandle(), &rect);
-	m_D3D9Param.BackBufferWidth = rect.right - rect.left;
-	m_D3D9Param.BackBufferHeight = rect.bottom - rect.top;
+	m_D3D9Param.BackBufferWidth = 16;
+	m_D3D9Param.BackBufferHeight = 16;
 	m_D3D9Param.BackBufferFormat = D3DFMT_A8R8G8B8;
 	m_D3D9Param.BackBufferCount = 1;
 	m_D3D9Param.MultiSampleType = D3DMULTISAMPLE_NONE;
@@ -64,6 +64,12 @@ bool CGraphicD3D9::CreateSuitableDevice()
 	if (i >= 4)
 		return false;
 
+	RECT rect;
+	GetClientRect(m_pWnd->GetHandle(), &rect);
+	m_D3D9Param.BackBufferWidth = rect.right - rect.left;
+	m_D3D9Param.BackBufferHeight = rect.bottom - rect.top;
+	m_pDevice->CreateAdditionalSwapChain(&m_D3D9Param, &m_pMainSwapChain);
+
 	D3DDISPLAYMODE mode;
 	result = m_pDevice->GetDisplayMode(eAdapter, &mode);
 	if (FAILED(result))
@@ -85,7 +91,9 @@ bool CGraphicD3D9::RenderBegin()
 		//if (result == D3DERR_DEVICELOST)
 		return false;
 	}
+	CreateBackBuffer();
 	result = m_pDevice->BeginScene();
+	m_pDevice->ColorFill(m_pBackBuffer, 0, 0x000000ff);
 	m_pDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x000000ff, 1.0f, 0);
 	return !FAILED(result);
 }
@@ -93,7 +101,7 @@ bool CGraphicD3D9::RenderBegin()
 void CGraphicD3D9::RenderEnd()
 {
 	m_pDevice->EndScene();
-	m_pDevice->Present(0, 0, 0, 0);
+	m_pMainSwapChain->Present(0, 0, 0, 0, 0);
 }
 
 IDirect3DDevice9* CGraphicD3D9::GetDevice()
@@ -114,6 +122,6 @@ HRESULT CGraphicD3D9::CheckDevice()
 
 bool CGraphicD3D9::CreateBackBuffer()
 {
-	m_pDevice->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &m_pBackBuffer);
+	m_pMainSwapChain->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &m_pBackBuffer);
 	return true;
 }

@@ -24,4 +24,5 @@ protected:
 	D3DCAPS9 m_Caps;
 	D3DPRESENT_PARAMETERS m_D3D9Param;
 	IDirect3DSurface9* m_pBackBuffer;
+	IDirect3DSwapChain9* m_pMainSwapChain;
 };
