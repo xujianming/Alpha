@@ -71,15 +71,19 @@
   <ItemGroup>
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CGraphicD3D9.h" />
+    <ClInclude Include="CModel.h" />
     <ClInclude Include="CRenderer.h" />
     <ClInclude Include="CScene.h" />
+    <ClInclude Include="CTexture.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CGraphicD3D9.cpp" />
+    <ClCompile Include="CModel.cpp" />
     <ClCompile Include="CRenderer.cpp" />
     <ClCompile Include="CScene.cpp" />
+    <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
