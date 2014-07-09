@@ -2,7 +2,7 @@
 
 #include <d3d9.h>
 #include <d3dx9.h>
-
+#include "AlphaCommon\CAlphaCommonType.h"
 class CTexture;
 
 class CModel
@@ -22,14 +22,16 @@ private:
 	};
 public:
 	CModel();
+	CModel(const CModel& other);
 	~CModel();
 
 	bool Initialize(IDirect3DDevice9* pDevice, char* szModelFile, char* szTextureFile);
 	void Shutdown();
-	void Render(IDirect3DDevice9*);
 
-	int GetIndexCount();
+	uint16 GetIndexCount();
 	IDirect3DTexture9* GetTexture();
+	IDirect3DVertexBuffer9* GetVertexBuffer();
+	uint16 GetVertexType();
 private:
 	bool InitializeBuffers(IDirect3DDevice9* pDevice);
 	void ShutdownBuffers();

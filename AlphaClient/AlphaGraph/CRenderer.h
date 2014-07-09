@@ -6,6 +6,7 @@
 class CAlphaWindow;
 class CGraphicD3D9;
 class CScene;
+class CModel;
 
 class CRenderer
 {
@@ -21,4 +22,6 @@ private:
 	CAlphaWindow* m_pWnd;
 	CGraphicD3D9* m_pGraphic;
 	CScene* m_pMainScene;
+
+	CModel* m_pModel;
 };

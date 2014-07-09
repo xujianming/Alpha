@@ -137,7 +137,9 @@ bool CGraphicD3D9::CreateBackBuffer()
 {
 	D3DPRESENT_PARAMETERS param = m_D3D9Param;
 	param.EnableAutoDepthStencil = false;
-	m_pDevice->CreateAdditionalSwapChain(&param, &m_pMainSwapChain);
+	HRESULT result = m_pDevice->CreateAdditionalSwapChain(&param, &m_pMainSwapChain);
+	if (FAILED(result))
+		return false;
 	m_pMainSwapChain->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &m_pBackBuffer);
 	m_pDevice->SetRenderTarget(0, m_pBackBuffer);
 	return true;

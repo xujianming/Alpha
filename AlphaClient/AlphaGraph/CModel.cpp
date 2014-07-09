@@ -2,7 +2,9 @@
 #include "CModel.h"
 #include "CTexture.h"
 #include "AlphaCommon\CAlphaCommonType.h"
-#include <iostream>
+#include <fstream>
+using namespace std;
+
 CModel::CModel()
 {
 	m_vertexBuffer = 0;
@@ -66,17 +68,7 @@ void CModel::Shutdown()
 	return;
 }
 
-
-void CModel::Render(IDirect3DDevice9* device)
-{
-	// Put the vertex and index buffers on the graphics pipeline to prepare them for drawing.
-	RenderBuffers(device);
-
-	return;
-}
-
-
-int CModel::GetIndexCount()
+uint16 CModel::GetIndexCount()
 {
 	return m_indexCount;
 }
@@ -97,7 +89,7 @@ bool CModel::InitializeBuffers(IDirect3DDevice9* device)
 
 	// Now finally create the vertex buffer.
 	result = device->CreateVertexBuffer(sizeof(VertexType) * m_vertexCount, 
-		D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, D3DFVF_XYZ | D3DFVF_TEX0,
+		0, D3DFVF_XYZ | D3DFVF_TEX1,
 		D3DPOOL_MANAGED, &m_vertexBuffer, 0);
 	if(FAILED(result))
 		return false;
@@ -105,7 +97,7 @@ bool CModel::InitializeBuffers(IDirect3DDevice9* device)
 
 	// Create the index buffer.
 	result = device->CreateIndexBuffer(m_indexCount * sizeof(uint16), 
-		D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &m_indexBuffer, 0);
+		0, D3DFMT_INDEX16, D3DPOOL_MANAGED, &m_indexBuffer, 0);
 	if(FAILED(result))
 		return false;
 
@@ -121,14 +113,6 @@ bool CModel::InitializeBuffers(IDirect3DDevice9* device)
 	}
 	m_vertexBuffer->Unlock();
 	m_indexBuffer->Unlock();
-
-
-	// Release the arrays now that the vertex and index buffers have been created and loaded.
-	delete [] vertices;
-	vertices = 0;
-
-	delete [] indices;
-	indices = 0;
 
 	return true;
 }
@@ -152,16 +136,6 @@ void CModel::ShutdownBuffers()
 
 	return;
 }
-
-
-void CModel::RenderBuffers(IDirect3DDevice9* device)
-{
-	device->SetStreamSource(0, m_vertexBuffer, 0, sizeof(VertexType));
-	device->SetFVF(D3DFVF_XYZ | D3DFVF_TEX0);
-	device->SetIndices(m_indexBuffer);
-	return;
-}
-
 
 bool CModel::LoadTexture(IDirect3DDevice9* device, char* filename)
 {
@@ -267,4 +241,14 @@ void CModel::ReleaseModel()
 	}
 
 	return;
+}
+
+IDirect3DVertexBuffer9* CModel::GetVertexBuffer()
+{
+	return m_vertexBuffer;
+}
+
+uint16 CModel::GetVertexType()
+{
+	return D3DFVF_XYZ | D3DFVF_TEX1;
 }
