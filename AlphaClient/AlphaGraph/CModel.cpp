@@ -2,7 +2,7 @@
 #include "CModel.h"
 #include "CTexture.h"
 #include "AlphaCommon\CAlphaCommonType.h"
-
+#include <iostream>
 CModel::CModel()
 {
 	m_vertexBuffer = 0;
@@ -96,33 +96,19 @@ bool CModel::InitializeBuffers(IDirect3DDevice9* device)
 	HRESULT result;
 
 	// Now finally create the vertex buffer.
-	result = device->CreateVertexBuffer(sizeof(VertexType) * m_vertexCount, 0, D3DFVF_XYZ | D3DFVF_TEX0,
+	result = device->CreateVertexBuffer(sizeof(VertexType) * m_vertexCount, 
+		D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, D3DFVF_XYZ | D3DFVF_TEX0,
 		D3DPOOL_MANAGED, &m_vertexBuffer, 0);
 	if(FAILED(result))
-	{
 		return false;
-	}
+
 
 	// Create the index buffer.
-	result = device->CreateIndexBuffer(m_indexCount * sizeof(uint16), 0, D3DFMT_INDEX16, D3DPOOL_MANAGED, &m_indexBuffer, 0);
+	result = device->CreateIndexBuffer(m_indexCount * sizeof(uint16), 
+		D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &m_indexBuffer, 0);
 	if(FAILED(result))
-	{
 		return false;
-	}
 
-	// Create the vertex array.
-	vertices = new VertexType[m_vertexCount];
-	if(!vertices)
-	{
-		return false;
-	}
-
-	// Create the index array.
-	indices = new uint16[m_indexCount];
-	if(!indices)
-	{
-		return false;
-	}
 
 	m_vertexBuffer->Lock(0, 0, (void**)&vertices, 0);
 	m_indexBuffer->Lock(0, 0, (void**)&indices, 0);
@@ -170,34 +156,20 @@ void CModel::ShutdownBuffers()
 
 void CModel::RenderBuffers(IDirect3DDevice9* device)
 {
-	unsigned int stride;
-	unsigned int offset;
-
-
-	// Set vertex buffer stride and offset.
-	stride = sizeof(VertexType); 
-	offset = 0;
-
-	// Set the vertex buffer to active in the input assembler so it can be rendered.
-	device->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
-
-	// Set the index buffer to active in the input assembler so it can be rendered.
-	device->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
-	// Set the type of primitive that should be rendered from this vertex buffer, in this case triangles.
-	device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
+	device->SetStreamSource(0, m_vertexBuffer, 0, sizeof(VertexType));
+	device->SetFVF(D3DFVF_XYZ | D3DFVF_TEX0);
+	device->SetIndices(m_indexBuffer);
 	return;
 }
 
 
-bool CModel::LoadTexture(ID3D10Device* device, WCHAR* filename)
+bool CModel::LoadTexture(IDirect3DDevice9* device, char* filename)
 {
 	bool result;
 
 
 	// Create the texture object.
-	m_Texture = new TextureClass;
+	m_Texture = new CTexture;
 	if(!m_Texture)
 	{
 		return false;

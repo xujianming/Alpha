@@ -6,7 +6,11 @@
 #pragma comment(lib, "d3d9.lib")
 
 CGraphicD3D9::CGraphicD3D9( CAlphaWindow* pWindow ):
-	m_pWnd(pWindow)
+	m_pWnd(pWindow),
+	m_pMainSwapChain(NULL),
+	m_pD3D9(NULL),
+	m_pDevice(NULL),
+	m_pBackBuffer(NULL)
 {
 
 }
@@ -22,8 +26,8 @@ bool CGraphicD3D9::Create()
 	m_pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
 	RECT rect;
 	GetClientRect(m_pWnd->GetHandle(), &rect);
-	m_D3D9Param.BackBufferWidth = 16;
-	m_D3D9Param.BackBufferHeight = 16;
+	m_D3D9Param.BackBufferWidth = rect.right - rect.left;
+	m_D3D9Param.BackBufferHeight = rect.bottom - rect.top;
 	m_D3D9Param.BackBufferFormat = D3DFMT_A8R8G8B8;
 	m_D3D9Param.BackBufferCount = 1;
 	m_D3D9Param.MultiSampleType = D3DMULTISAMPLE_NONE;
@@ -54,22 +58,19 @@ bool CGraphicD3D9::CreateSuitableDevice()
 	};
 	uint8 i;
 	HRESULT result;
+	D3DPRESENT_PARAMETERS param = m_D3D9Param;
+	param.BackBufferHeight = 16;
+	param.BackBufferWidth = 16;
 	for (i = 0; i < 4; i ++)
 	{
 		result = m_pD3D9->CreateDevice(eAdapter, eDeviceType, m_pWnd->GetHandle(), 
-			vectexType[i], &m_D3D9Param, &m_pDevice);
+			vectexType[i], &param, &m_pDevice);
 		if (!FAILED(result))
 			break;
 	}
 	if (i >= 4)
 		return false;
-
-	RECT rect;
-	GetClientRect(m_pWnd->GetHandle(), &rect);
-	m_D3D9Param.BackBufferWidth = rect.right - rect.left;
-	m_D3D9Param.BackBufferHeight = rect.bottom - rect.top;
-	m_pDevice->CreateAdditionalSwapChain(&m_D3D9Param, &m_pMainSwapChain);
-
+	
 	D3DDISPLAYMODE mode;
 	result = m_pDevice->GetDisplayMode(eAdapter, &mode);
 	if (FAILED(result))
@@ -79,7 +80,6 @@ bool CGraphicD3D9::CreateSuitableDevice()
 	if (FAILED(result))
 		return false;
 
-
 	return true;
 }
 
@@ -88,7 +88,13 @@ bool CGraphicD3D9::RenderBegin()
 	HRESULT result = CheckDevice();
 	if (FAILED(result))
 	{
-		//if (result == D3DERR_DEVICELOST)
+		if (result == D3DERR_DEVICENOTRESET)
+		{
+			D3DPRESENT_PARAMETERS param = m_D3D9Param;
+			param.BackBufferHeight = 16;
+			param.BackBufferWidth = 16;
+			m_pDevice->Reset(&param);
+		}
 		return false;
 	}
 	CreateBackBuffer();
@@ -101,7 +107,7 @@ bool CGraphicD3D9::RenderBegin()
 void CGraphicD3D9::RenderEnd()
 {
 	m_pDevice->EndScene();
-	m_pMainSwapChain->Present(0, 0, 0, 0, 0);
+	m_pMainSwapChain->Present(0, 0, 0, 0, D3DPRESENT_DONOTWAIT);
 }
 
 IDirect3DDevice9* CGraphicD3D9::GetDevice()
@@ -115,13 +121,24 @@ HRESULT CGraphicD3D9::CheckDevice()
 	if (FAILED(result))
 		return result;
 	RECT rect = m_pWnd->GetClientRect();
-	if (!rect.right || !rect.bottom)
-		return -1;
+	if (rect.right - rect.left != m_D3D9Param.BackBufferWidth || 
+		rect.bottom - rect.top != m_D3D9Param.BackBufferHeight ||
+		m_pMainSwapChain == NULL)
+	{
+		m_D3D9Param.BackBufferWidth = rect.right - rect.left;
+		m_D3D9Param.BackBufferHeight = rect.bottom - rect.top;
+		if (!CreateBackBuffer())
+			return -1;
+	}
 	return D3D_OK;
 }
 
 bool CGraphicD3D9::CreateBackBuffer()
 {
+	D3DPRESENT_PARAMETERS param = m_D3D9Param;
+	param.EnableAutoDepthStencil = false;
+	m_pDevice->CreateAdditionalSwapChain(&param, &m_pMainSwapChain);
 	m_pMainSwapChain->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &m_pBackBuffer);
+	m_pDevice->SetRenderTarget(0, m_pBackBuffer);
 	return true;
 }
