@@ -97,7 +97,6 @@ bool CGraphicD3D9::RenderBegin()
 		}
 		return false;
 	}
-	CreateBackBuffer();
 	result = m_pDevice->BeginScene();
 	m_pDevice->ColorFill(m_pBackBuffer, 0, 0x000000ff);
 	m_pDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x000000ff, 1.0f, 0);

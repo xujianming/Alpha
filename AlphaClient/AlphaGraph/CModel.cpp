@@ -85,34 +85,15 @@ bool CModel::InitializeBuffers(IDirect3DDevice9* device)
 	VertexType* vertices;
 	uint16* indices;
 
-	HRESULT result;
+	m_vertexBuffer = new VertexType[m_vertexCount];
+	m_indexBuffer = new uint16[m_indexCount];
 
-	// Now finally create the vertex buffer.
-	result = device->CreateVertexBuffer(sizeof(VertexType) * m_vertexCount, 
-		0, D3DFVF_XYZ | D3DFVF_TEX1,
-		D3DPOOL_MANAGED, &m_vertexBuffer, 0);
-	if(FAILED(result))
-		return false;
-
-
-	// Create the index buffer.
-	result = device->CreateIndexBuffer(m_indexCount * sizeof(uint16), 
-		0, D3DFMT_INDEX16, D3DPOOL_MANAGED, &m_indexBuffer, 0);
-	if(FAILED(result))
-		return false;
-
-
-	m_vertexBuffer->Lock(0, 0, (void**)&vertices, 0);
-	m_indexBuffer->Lock(0, 0, (void**)&indices, 0);
-	// Load the vertex array and index array with data.
 	for(uint16 i=0; i< m_vertexCount; i++)
 	{
-		vertices[i].position = D3DXVECTOR3(m_model[i].x, m_model[i].y, m_model[i].z);
-		vertices[i].texture = D3DXVECTOR2(m_model[i].tu, m_model[i].tv);
-		indices[i] = i;
+		m_vertexBuffer[i].position = D3DXVECTOR3(m_model[i].x, m_model[i].y, m_model[i].z);
+		m_vertexBuffer[i].texture = D3DXVECTOR2(m_model[i].tu, m_model[i].tv);
+		m_indexBuffer[i] = i;
 	}
-	m_vertexBuffer->Unlock();
-	m_indexBuffer->Unlock();
 
 	return true;
 }
@@ -120,27 +101,14 @@ bool CModel::InitializeBuffers(IDirect3DDevice9* device)
 
 void CModel::ShutdownBuffers()
 {
-	// Release the index buffer.
-	if(m_indexBuffer)
-	{
-		m_indexBuffer->Release();
-		m_indexBuffer = 0;
-	}
-
-	// Release the vertex buffer.
-	if(m_vertexBuffer)
-	{
-		m_vertexBuffer->Release();
-		m_vertexBuffer = 0;
-	}
-
+	delete[] m_vertexBuffer;
+	delete[] m_indexBuffer;
 	return;
 }
 
 bool CModel::LoadTexture(IDirect3DDevice9* device, char* filename)
 {
 	bool result;
-
 
 	// Create the texture object.
 	m_Texture = new CTexture;

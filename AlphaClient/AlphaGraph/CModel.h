@@ -28,10 +28,13 @@ public:
 	bool Initialize(IDirect3DDevice9* pDevice, char* szModelFile, char* szTextureFile);
 	void Shutdown();
 
-	uint16 GetIndexCount();
+	
 	IDirect3DTexture9* GetTexture();
-	IDirect3DVertexBuffer9* GetVertexBuffer();
+	float* GetVertexBuffer();
 	uint16 GetVertexType();
+	uint16 GetVertexCount();
+	VertexType* GetIndexBuffer();
+	uint16 GetIndexCount();
 private:
 	bool InitializeBuffers(IDirect3DDevice9* pDevice);
 	void ShutdownBuffers();
@@ -44,9 +47,9 @@ private:
 	void ReleaseModel();
 
 private:
-	IDirect3DVertexBuffer9 *m_vertexBuffer;
-	IDirect3DIndexBuffer9* m_indexBuffer;
-	int m_vertexCount, m_indexCount;
+	VertexType* m_vertexBuffer;
+	uint16* m_indexBuffer;
+	uint16 m_vertexCount, m_indexCount;
 	CTexture* m_Texture;
 	ModelType* m_model;
 };
