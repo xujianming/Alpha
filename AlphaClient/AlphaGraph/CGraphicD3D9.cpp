@@ -6,7 +6,7 @@
 #pragma comment(lib, "d3d9.lib")
 
 CGraphicD3D9::CGraphicD3D9( CAlphaWindow* pWindow ):
-	m_pWnd(pWindow),
+	CGraphic(pWindow),
 	m_pMainSwapChain(NULL),
 	m_pD3D9(NULL),
 	m_pDevice(NULL),
@@ -41,7 +41,7 @@ bool CGraphicD3D9::Create()
 	m_D3D9Param.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
 	m_D3D9Param.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
-	return CreateSuitableDevice();
+	return CGraphic::Create();
 }
 
 bool CGraphicD3D9::CreateSuitableDevice()
@@ -80,6 +80,9 @@ bool CGraphicD3D9::CreateSuitableDevice()
 	if (FAILED(result))
 		return false;
 
+	m_fHWVertexShaderVersion = (uint8)D3DSHADER_VERSION_MAJOR(m_Caps.VertexShaderVersion);
+	m_fHWPixelShaderVersion = (uint8)D3DSHADER_VERSION_MAJOR(m_Caps.PixelShaderVersion);
+	m_nMaxSupportRenderTargetCnt = m_Caps.NumSimultaneousRTs;
 	return true;
 }
 
@@ -142,4 +145,9 @@ bool CGraphicD3D9::CreateBackBuffer()
 	m_pMainSwapChain->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &m_pBackBuffer);
 	m_pDevice->SetRenderTarget(0, m_pBackBuffer);
 	return true;
+}
+
+void CGraphicD3D9::Destroy()
+{
+
 }

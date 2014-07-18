@@ -105,3 +105,8 @@ int32 CAlphaWindow::Messagepump()
 	}
 	return messageCnt;
 }
+
+bool CAlphaWindow::IsShow()
+{
+	return ::IsWindowVisible(GetHandle());
+}

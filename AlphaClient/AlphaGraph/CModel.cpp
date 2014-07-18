@@ -82,10 +82,7 @@ IDirect3DTexture9* CModel::GetTexture()
 
 bool CModel::InitializeBuffers(IDirect3DDevice9* device)
 {
-	VertexType* vertices;
-	uint16* indices;
-
-	m_vertexBuffer = new VertexType[m_vertexCount];
+	m_vertexBuffer = new SVertexType[m_vertexCount];
 	m_indexBuffer = new uint16[m_indexCount];
 
 	for(uint16 i=0; i< m_vertexCount; i++)
@@ -211,7 +208,7 @@ void CModel::ReleaseModel()
 	return;
 }
 
-IDirect3DVertexBuffer9* CModel::GetVertexBuffer()
+SVertexType* CModel::GetVertexBuffer()
 {
 	return m_vertexBuffer;
 }

@@ -1,5 +1,5 @@
 #pragma once
-
+#include <windows.h>
 #include "CAlphaCommonType.h"
 
 struct SWindowContext
@@ -24,6 +24,8 @@ public:
 
 	virtual void OnCreated();
 	int32 Messagepump();
+
+	bool IsShow();
 private:
 	SWindowContext m_Context;
 };
