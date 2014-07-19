@@ -20,7 +20,6 @@ public:
 	HRESULT CheckDevice();
 	bool CreateBackBuffer();
 	void Destroy();
-	void DrawPrimitive(uint16 verCnt, const void* arrV, const void* arrI);
 protected:
 	bool CreateSuitableDevice();
 	IDirect3D9* m_pD3D9;
