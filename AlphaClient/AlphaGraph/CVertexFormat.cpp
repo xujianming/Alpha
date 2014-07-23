@@ -3,7 +3,7 @@
 #include "CVertexFormat.h"
 
 
-CVertexFormat::CVertexFormat()
+CVertexFormat::CVertexFormat(CGraphic* pGraphic):m_pGraphic(pGraphic)
 {
 
 }

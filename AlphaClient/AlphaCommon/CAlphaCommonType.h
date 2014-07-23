@@ -18,4 +18,9 @@ typedef unsigned __int64 uint64;
 
 typedef unsigned char tByte;
 
+const uint8  INVALID_8BIT  = uint8(-1); 
+const uint16 INVALID_16BIT = uint16(-1);
+const uint32 INVALID_32BIT = uint32(-1);
+const uint64 INVALID_64BIT = uint64(-1);
+
 #endif
