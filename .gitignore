@@ -1,6 +1,5 @@
 *.sdf
 *.lastbuildstate
-*.filters
 *.tlog
 *.idb
 *.ipch
