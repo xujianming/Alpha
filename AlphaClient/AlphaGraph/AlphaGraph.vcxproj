@@ -73,12 +73,14 @@
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CGraphic.h" />
     <ClInclude Include="CGraphicD3D9.h" />
+    <ClInclude Include="CGraphicFactory.h" />
     <ClInclude Include="CModel.h" />
     <ClInclude Include="CRenderCommandMgr.h" />
     <ClInclude Include="CRenderer.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CVertexFormat.h" />
+    <ClInclude Include="CVertexFormatD3D9.h" />
     <ClInclude Include="CVertexFormatMgr.h" />
     <ClInclude Include="GraphicHelp.h" />
     <ClInclude Include="SMaterial.h" />
@@ -88,12 +90,14 @@
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CGraphic.cpp" />
     <ClCompile Include="CGraphicD3D9.cpp" />
+    <ClCompile Include="CGraphicFactory.cpp" />
     <ClCompile Include="CModel.cpp" />
     <ClCompile Include="CRenderCommandMgr.cpp" />
     <ClCompile Include="CRenderer.cpp" />
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CVertexFormat.cpp" />
+    <ClCompile Include="CVertexFormatD3D9.cpp" />
     <ClCompile Include="CVertexFormatMgr.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

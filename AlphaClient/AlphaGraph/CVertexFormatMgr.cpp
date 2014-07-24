@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "CVertexFormatMgr.h"
 #include "CVertexFormat.h"
-#include "AlphaCommon\CAlphaCommonType.h"
 #include <assert.h>
 
 CVertexFormatMgr::CVertexFormatMgr( CGraphic* pGraphic )

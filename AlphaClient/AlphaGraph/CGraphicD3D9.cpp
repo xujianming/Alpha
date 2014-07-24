@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "CGraphicD3D9.h"
 #include "AlphaCommon/CAlphaWindow.h"
-#include "AlphaCommon/CAlphaCommonType.h"
 #include <iostream>
 #pragma comment(lib, "d3d9.lib")
 
