@@ -7,4 +7,7 @@ class CGraphicRes
 public:
 	CGraphicRes(CGraphic* pGraphic);
 	virtual ~CGraphicRes();
+
+
+
 };

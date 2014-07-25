@@ -62,6 +62,12 @@
     <ClInclude Include="CVertexFormatD3D9.h">
       <Filter>D3D9\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="CGraphicRes.h">
+      <Filter>Base\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CGraphicResMgr.h">
+      <Filter>Base\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp" />
@@ -100,6 +106,12 @@
     </ClCompile>
     <ClCompile Include="CVertexFormatD3D9.cpp">
       <Filter>D3D9\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CGraphicRes.cpp">
+      <Filter>Base\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CGraphicMgr.cpp">
+      <Filter>Base\Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

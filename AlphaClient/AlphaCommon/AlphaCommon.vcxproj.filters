@@ -24,12 +24,27 @@
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="TMatrix.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TVector.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="IAlphaUnknown.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TInvasiveList.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAlphaWindow.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TInvasiveList.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
