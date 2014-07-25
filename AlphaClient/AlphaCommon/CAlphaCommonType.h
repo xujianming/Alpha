@@ -1,5 +1,7 @@
 #pragma once
 
+#include "TMatrix.h"
+#include "TVector.h"
 
 #define SAFE_DELETE(p) {if (p) delete (p); (p) = NULL;}
 #define SAFE_RELEASE(p) {if (p) (p)->Release(); (p) = NULL;}
@@ -22,5 +24,12 @@ const uint8  INVALID_8BIT  = uint8(-1);
 const uint16 INVALID_16BIT = uint16(-1);
 const uint32 INVALID_32BIT = uint32(-1);
 const uint64 INVALID_64BIT = uint64(-1);
+
+#define vector2f TVector2<float>
+#define vector3f TVector3<float>
+#define vector4f TVector4<float>
+
+#define matrix3x3f TMatrix3<float>
+#define matrix4x4f TMatrix4<float>
 
 #endif

@@ -7,7 +7,7 @@ class CGraphicD3D9;
 
 struct SRenderEnvir
 {
-
+	
 };
 
 class CRenderCommandMgr
