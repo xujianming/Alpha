@@ -18,14 +18,30 @@ TInvasiveNode<T>::TInvasiveNode():
 template<class T>
 void TInvasiveNode<T>::Remove()
 {
+	if (!IsInlist())
+		return;
+	m_pPre->m_pNext = m_pNext;
+	m_pNext->m_pPre = m_pPre;
+}
 
+template<class T>
+bool TInvasiveNode<T>::IsInlist()
+{
+	return m_pPre || m_pNext;
 }
 
 template<class T>
 T* TInvasiveNode<T>::Next()
 {
-	return m_pNext;
+	return STATIC_CAST<T*>(m_pNext);
 }
+
+template<class T>
+T* TInvasiveNode<T>::Pre()
+{
+	return STATIC_CAST<T*>(m_pPre);
+}
+
 
 template<class T>
 TInvasiveList<T>::~TInvasiveList()
@@ -34,38 +50,56 @@ TInvasiveList<T>::~TInvasiveList()
 }
 
 template<class T>
-TInvasiveList<T>::TInvasiveList():
-	m_pHead(nullptr),
-	m_pTail(nullptr)
+TInvasiveList<T>::TInvasiveList()
 {
-
+	m_Head.m_pPre = nullptr;
+	m_Tail..m_pNext = nullptr;
+	m_Head.m_pNext = &m_pTail;
+	m_Tail.m_pPre = &m_pHead;
 }
 
 template<class T>
-void TInvasiveList<T>::Push( T* pNode )
+void TInvasiveList<T>::InsertAfter(TInvasiveNode<T>& NodePos, TInvasiveNode<T>& Node)
 {
-	InsertAfter(m_pTail, pNode);
+	Node.m_pPre = &NodePos;
+	Node.m_pNext = NodePos.m_pNext;
+	NodePos.m_pNext->m_pPre = &Node;
+	NodePos->m_pNext = &Node;
 }
 
 template<class T>
-void TInvasiveList<T>::InsertAfter(T* pCurNode,  T* pNode )
+void TInvasiveList<T>::InsertBefore(TInvasiveNode<T>& NodePos, TInvasiveNode<T>& Node)
 {
-	if (pCurNode == nullptr)
-	{
-		m_pHead = m_pTail = pNode;
-		return;
-	}
-	pNode->m_pPre = pCurNode;
-	pNode->m_pNext = pCurNode->m_pNext;
-	if (pCurNode->m_pNext)
-		pCurNode->m_pNext->m_pPre = pNode;
-	pCurNode->m_pNext = pNode;
-	if (!pCurNode->m_pNext)
-		m_pTail = pCurNode;
+	Node.m_pPre = NodePos.m_pPre;
+	Node.m_pNext = &NodePos;
+	NodePos.m_pPre->m_pNext = &Node;
+	Node.m_pPre = &Node;
+}
+
+template<class T>
+void TInvasiveList<T>::PushBack( TInvasiveNode<T>& Node)
+{
+	InsertBefore(m_pTail, Node);
+}
+
+template<class T>
+void PushFront(TInvasiveNode<T>& Node)
+{
+	InsertAfter(m_Head, Node);
 }
 
 template<class T>
 T* TInvasiveList<T>::GetFirst()
 {
-	return m_pHead;
+	if (m_Head.m_pNext == &m_pTail)
+		return nullptr;
+	return STATIC_CAST<T*>(m_Head.m_pNext);
+}
+
+template<class T>
+T* TInvasiveList<T>::GetLast()
+{
+	if (m_Head.m_pNext == &m_pTail)
+		return nullptr;
+	return STATIC_CAST<T*>(m_Tail.m_pPre);
 }

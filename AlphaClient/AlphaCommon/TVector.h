@@ -512,7 +512,7 @@ struct TVector4
 	}
 
 	//unit vector
-	const struct TVector3 unit() const
+	const struct TVector4 unit() const
 	{
 		return (*this) / this->length();
 	}
