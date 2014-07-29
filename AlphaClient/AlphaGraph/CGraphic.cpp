@@ -8,7 +8,8 @@ CGraphic::CGraphic( CAlphaWindow* pWnd ):
 	m_pRenderCommandMgr(nullptr),
 	m_fHWPixelShaderVersion(0),
 	m_fHWVertexShaderVersion(0),
-	m_nMaxSupportRenderTargetCnt(1)
+	m_nMaxSupportRenderTargetCnt(1),
+	m_ref(1)
 {
 
 }
@@ -62,4 +63,16 @@ void CGraphic::Destroy()
 void CGraphic::DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex )
 {
 	m_pRenderCommandMgr->DrawPrimitive(material, primitiveType, vertexCnt, primitiveCnt, vertexType, vertexStride, arrVertex, arrIndex );
+}
+
+void CGraphic::AddRef()
+{
+	m_ref ++;
+}
+
+void CGraphic::Release()
+{
+	m_ref --;
+	if (!m_ref)
+		delete this;
 }

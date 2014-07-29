@@ -2,11 +2,13 @@
 #include "SMaterial.h"
 #include "GraphicHelp.h"
 #include "AlphaCommon\CAlphaCommonType.h"
+#include "AlphaCommon\IAlphaUnknown.h"
+
 
 class CAlphaWindow;
 class CRenderCommandMgr;
 class CVertexFormatMgr;
-class CGraphic
+class CGraphic: public IAlphaUnknown
 {
 public:
 	CGraphic(CAlphaWindow* pWnd);
@@ -26,6 +28,10 @@ public:
 
 	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
 
+	void AddRef();
+
+	void Release();
+
 protected:	
 	virtual bool CreateSuitableDevice();
 
@@ -35,4 +41,5 @@ protected:
 	float m_fHWVertexShaderVersion;
 	float m_fHWPixelShaderVersion;
 	uint8 m_nMaxSupportRenderTargetCnt;
+	uint16 m_ref;
 };
