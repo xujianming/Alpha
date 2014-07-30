@@ -41,7 +41,7 @@ bool CGraphic::RenderBegin()
 
 void CGraphic::RenderEnd()
 {
-
+	m_nCurFrame ++;
 }
 
 bool CGraphic::CreateBackBuffer()
@@ -61,5 +61,10 @@ void CGraphic::Destroy()
 
 void CGraphic::DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex )
 {
-	m_pRenderCommandMgr->DrawPrimitive(material, primitiveType, vertexCnt, primitiveCnt, vertexType, vertexStride, arrVertex, arrIndex );
+	m_RenderCommandMgr.DrawPrimitive(material, primitiveType, vertexCnt, primitiveCnt, vertexType, vertexStride, arrVertex, arrIndex );
+}
+
+uint32 CGraphic::GetCurFrame()
+{
+	return m_nCurFrame;
 }

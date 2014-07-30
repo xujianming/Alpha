@@ -1,7 +1,7 @@
 #pragma once
 #include "SMaterial.h"
 #include "GraphicHelp.h"
-#include "AlphaCommon\CAlphaCommonType.h"
+#include "AlphaCommon\AlphaCommonType.h"
 #include <vector>
 class CGraphicD3D9;
 

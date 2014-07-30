@@ -22,7 +22,7 @@ public:
 	void Remove();
 	bool IsInlist();
 
-protected:
+private:
 	TInvasiveNode* m_pNext;
 	TInvasiveNode* m_pPre;
 };
@@ -43,7 +43,7 @@ public:
 	void PushFront(TInvasiveNode<T>& Node);
 	T* GetFirst();
 	T* GetLast();
-protected:
+private:
 	TInvasiveNode<T> m_Head;
 	TInvasiveNode<T> m_Tail;
 };
