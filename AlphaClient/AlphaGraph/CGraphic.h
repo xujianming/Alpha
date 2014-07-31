@@ -9,7 +9,7 @@
 class CAlphaWindow;
 class CGraphicResMgr;
 
-class CGraphic
+class CGraphic: public IAlphaUnknown
 {
 public:
 	CGraphic(CAlphaWindow* pWnd);
@@ -36,6 +36,12 @@ public:
 	CVertexFormatMgr& GetVertexFormatMgr();
 
 	CGraphicResMgr& GetResMgr();
+
+	void AddRef();
+
+	void Release();
+
+	void GetRef();
 
 protected:	
 	virtual bool CreateSuitableDevice();

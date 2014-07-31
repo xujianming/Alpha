@@ -15,7 +15,8 @@ CGraphicRes::CGraphicRes( CGraphic* pGraphic ):
 
 CGraphicRes::~CGraphicRes()
 {
-
+	SetVedioMemSize(0);
+	Remove();
 }
 
 CGraphicResMgr* CGraphicRes::GetResMgr()
@@ -54,4 +55,19 @@ void CGraphicRes::Use()
 	m_nUseFrame = m_pGraph->GetCurFrame();
 	Remove();
 	m_pGraph->GetResMgr().m_ResList.PushBack(*this);
+}
+
+void CGraphicRes::OnRestore()
+{
+
+}
+
+void CGraphicRes::OnLostDevice()
+{
+	OnFreeMemory();
+}
+
+void CGraphicRes::OnFreeMemory()
+{
+
 }

@@ -34,13 +34,13 @@ public:
 
 	uint32 GetUseFrame();
 
-	void Use();
+	virtual void Use();
 
-	void OnRestore();
+	virtual void OnRestore();
 
-	void OnLostDevice();
+	virtual void OnLostDevice();
 
-	void OnFreeMemory();
+	virtual void OnFreeMemory();
 
 private:
 	uint32 m_nVedioMemSize;

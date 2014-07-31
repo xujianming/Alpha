@@ -65,7 +65,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CAlphaCommonType.h" />
+    <ClInclude Include="AlphaCommonType.h" />
     <ClInclude Include="IAlphaUnknown.h" />
     <ClInclude Include="CAlphaWindow.h" />
     <ClInclude Include="stdafx.h" />

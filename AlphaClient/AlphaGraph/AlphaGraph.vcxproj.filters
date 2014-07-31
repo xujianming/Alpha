@@ -110,7 +110,7 @@
     <ClCompile Include="CGraphicRes.cpp">
       <Filter>Base\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="CGraphicMgr.cpp">
+    <ClCompile Include="CGraphicResMgr.cpp">
       <Filter>Base\Resource</Filter>
     </ClCompile>
   </ItemGroup>

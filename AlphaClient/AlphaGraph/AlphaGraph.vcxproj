@@ -93,7 +93,7 @@
     <ClCompile Include="CGraphic.cpp" />
     <ClCompile Include="CGraphicD3D9.cpp" />
     <ClCompile Include="CGraphicFactory.cpp" />
-    <ClCompile Include="CGraphicMgr.cpp" />
+    <ClCompile Include="CGraphicResMgr.cpp" />
     <ClCompile Include="CGraphicRes.cpp" />
     <ClCompile Include="CModel.cpp" />
     <ClCompile Include="CRenderCommandMgr.cpp" />
