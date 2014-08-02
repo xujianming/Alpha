@@ -33,13 +33,13 @@ bool TInvasiveNode<T>::IsInlist()
 template<class T>
 T* TInvasiveNode<T>::Next()
 {
-	return STATIC_CAST<T*>(m_pNext);
+	return static_cast<T*>(m_pNext);
 }
 
 template<class T>
 T* TInvasiveNode<T>::Pre()
 {
-	return STATIC_CAST<T*>(m_pPre);
+	return static_cast<T*>(m_pPre);
 }
 
 
@@ -93,7 +93,7 @@ T* TInvasiveList<T>::GetFirst()
 {
 	if (m_Head.m_pNext == &m_pTail)
 		return nullptr;
-	return STATIC_CAST<T*>(m_Head.m_pNext);
+	return static_cast<T*>(m_Head.m_pNext);
 }
 
 template<class T>
@@ -101,5 +101,5 @@ T* TInvasiveList<T>::GetLast()
 {
 	if (m_Head.m_pNext == &m_pTail)
 		return nullptr;
-	return STATIC_CAST<T*>(m_Tail.m_pPre);
+	return static_cast<T*>(m_Tail.m_pPre);
 }

@@ -3,7 +3,7 @@
 #include "GraphicHelp.h"
 #include "AlphaCommon\AlphaCommonType.h"
 #include <vector>
-class CGraphicD3D9;
+class CGraphic;
 
 struct SRenderEnvir
 {
@@ -13,7 +13,7 @@ struct SRenderEnvir
 class CRenderCommandMgr
 {
 public:
-	CRenderCommandMgr(CGraphicD3D9* pGraph);
+	CRenderCommandMgr(CGraphic* pGraph);
 	~CRenderCommandMgr();
 	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
 	void pushEnvir(SRenderEnvir envirState);

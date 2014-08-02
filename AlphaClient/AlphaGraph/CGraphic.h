@@ -5,6 +5,7 @@
 #include "CGraphicResMgr.h"
 #include "CRenderCommandMgr.h"
 #include "CVertexFormatMgr.h"
+#include "AlphaCommon\IAlphaUnknown.h"
 
 class CAlphaWindow;
 class CGraphicResMgr;
@@ -41,7 +42,7 @@ public:
 
 	void Release();
 
-	void GetRef();
+	uint32 GetRef();
 
 protected:	
 	virtual bool CreateSuitableDevice();
@@ -55,4 +56,6 @@ protected:
 	float m_fHWPixelShaderVersion;
 	uint8 m_nMaxSupportRenderTargetCnt;
 	uint32 m_nCurFrame;
+
+	uint32 m_nRef;
 };

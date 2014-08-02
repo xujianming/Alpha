@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AlphaCommon/CAlphaCommonType.h"
+#include "AlphaCommon/AlphaCommonType.h"
 #include "CGraphic.h"
 
 #include <d3d9.h>

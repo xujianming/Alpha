@@ -21,7 +21,7 @@ class CGraphicRes: public TInvasiveNode<CGraphicRes>,
 					public IAlphaUnknown
 {
 public:
-	CGraphicRes(CGraphic* pGraphic);
+	CGraphicRes(CGraphic* pGraphic, EResourceType eResType);
 	virtual ~CGraphicRes();
 
 	CGraphicResMgr* GetResMgr();
@@ -42,7 +42,7 @@ public:
 
 	virtual void OnFreeMemory();
 
-private:
+protected:
 	uint32 m_nVedioMemSize;
 	uint32 m_nUseFrame;
 	EResourceType m_eResType;

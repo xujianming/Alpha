@@ -66,7 +66,13 @@
       <Filter>Base\Resource</Filter>
     </ClInclude>
     <ClInclude Include="CGraphicResMgr.h">
+      <Filter>Base\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="CGeometryBuffer.h">
       <Filter>Base\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CGeometryBufferD3D9.h">
+      <Filter>D3D9\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -111,7 +117,13 @@
       <Filter>Base\Resource</Filter>
     </ClCompile>
     <ClCompile Include="CGraphicResMgr.cpp">
+      <Filter>Base\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="CGeometryBuffer.cpp">
       <Filter>Base\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CGeometryBufferD3D9.cpp">
+      <Filter>D3D9\Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
