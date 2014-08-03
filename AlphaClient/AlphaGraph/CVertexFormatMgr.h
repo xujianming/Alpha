@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AlphaCommon\AlphaCommonType.h"
 #include <vector>
 #include "GraphicHelp.h"
 

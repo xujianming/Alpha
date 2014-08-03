@@ -1,28 +1,50 @@
 #pragma once
 
 #include "AlphaCommon\TInvasiveList.h"
-#include "AlphaCommon\CAlphaCommonType.h"
+#include "AlphaCommon\AlphaCommonType.h"
 #include "AlphaCommon\IAlphaUnknown.h"
 
 class CGraphic;
+class CGraphicResMgr;
+
+enum EResourceType
+{
+	ERT_VertexBuffer,
+	ERT_IndexBuffer,
+	ERT_Texture,
+	ERT_Shader,
+	ERT_RenderTarget,
+	ERT_Invalid,
+};
 
 class CGraphicRes: public TInvasiveNode<CGraphicRes>,
 					public IAlphaUnknown
 {
 public:
-	CGraphicRes(CGraphic* pGraphic);
+	CGraphicRes(CGraphic* pGraphic, EResourceType eResType);
 	virtual ~CGraphicRes();
 
-	void SetVedioMemSize(uint32 memSize);
+	CGraphicResMgr* GetResMgr();
 
-	void AddRef();
+	void SetVedioMemSize(uint32 nMemSize);
 
-	void Release();
+	void AddVedioMemSize(uint32 nMemSize);
 
-private:
+	EResourceType GetResType();
 
-	void AddVedioMemSize();
+	uint32 GetUseFrame();
 
+	virtual void Use();
+
+	virtual void OnRestore();
+
+	virtual void OnLostDevice();
+
+	virtual void OnFreeMemory();
+
+protected:
 	uint32 m_nVedioMemSize;
-
+	uint32 m_nUseFrame;
+	EResourceType m_eResType;
+	CGraphic* m_pGraph;
 };

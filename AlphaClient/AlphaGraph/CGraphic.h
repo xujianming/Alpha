@@ -1,13 +1,15 @@
 #pragma once
 #include "SMaterial.h"
 #include "GraphicHelp.h"
-#include "AlphaCommon\CAlphaCommonType.h"
+#include "AlphaCommon\AlphaCommonType.h"
+#include "CGraphicResMgr.h"
+#include "CRenderCommandMgr.h"
+#include "CVertexFormatMgr.h"
 #include "AlphaCommon\IAlphaUnknown.h"
 
-
 class CAlphaWindow;
-class CRenderCommandMgr;
-class CVertexFormatMgr;
+class CGraphicResMgr;
+
 class CGraphic: public IAlphaUnknown
 {
 public:
@@ -28,18 +30,32 @@ public:
 
 	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
 
+	uint32 GetCurFrame();
+
+	CRenderCommandMgr& GetRenderCommandMgr();
+
+	CVertexFormatMgr& GetVertexFormatMgr();
+
+	CGraphicResMgr& GetResMgr();
+
 	void AddRef();
 
 	void Release();
 
+	uint32 GetRef();
+
 protected:	
 	virtual bool CreateSuitableDevice();
 
-	CRenderCommandMgr* m_pRenderCommandMgr;
-	CVertexFormatMgr* m_pVertexFormatMgr;
+	CRenderCommandMgr m_RenderCommandMgr;
+	CVertexFormatMgr m_VertexFormatMgr;
+	CGraphicResMgr m_ResMgr;
+
 	CAlphaWindow* m_pWnd;
 	float m_fHWVertexShaderVersion;
 	float m_fHWPixelShaderVersion;
 	uint8 m_nMaxSupportRenderTargetCnt;
-	uint16 m_ref;
+	uint32 m_nCurFrame;
+
+	uint32 m_nRef;
 };
