@@ -1,15 +1,8 @@
 #pragma once
 
-//////////////
-// INCLUDES //
-//////////////
-#include <d3d9.h>
+#include "CGraphicRes.h"
 
-
-////////////////////////////////////////////////////////////////////////////////
-// Class name: TextureClass
-////////////////////////////////////////////////////////////////////////////////
-class CTexture
+class CTexture: public CGraphicRes
 {
 public:
 	CTexture();
@@ -23,5 +16,9 @@ public:
 
 private:
 	IDirect3DTexture9* m_texture;
+	uint32 m_nWidth;
+	uint32 m_nHeight;
+	uint32 m_nDepth;
+	uint32 m_nFormat;
 };
 

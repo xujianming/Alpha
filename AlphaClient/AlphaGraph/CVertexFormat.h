@@ -1,5 +1,5 @@
 #pragma once
-
+#include "AlphaCommon\AlphaCommonType.h"
 #include "GraphicHelp.h"
 class CGraphic;
 class CVertexFormat
@@ -10,7 +10,7 @@ public:
 
 	bool IsVertexFormat(SVertexElem* arrElem, uint8 elemCnt);
 
-	void CreateVertexFormat(SVertexElem* arrElem, uint8 elemCnt);
+	virtual bool CreateVertexFormat(SVertexElem* arrElem, uint8 elemCnt);
 
 	const SVertexElem* GetVertexElemInfo();
 

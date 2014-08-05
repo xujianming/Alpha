@@ -74,6 +74,9 @@
     <ClInclude Include="CGeometryBufferD3D9.h">
       <Filter>D3D9\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="CTextureD3D9.h">
+      <Filter>D3D9\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp" />
@@ -123,6 +126,9 @@
       <Filter>Base\Resource</Filter>
     </ClCompile>
     <ClCompile Include="CGeometryBufferD3D9.cpp">
+      <Filter>D3D9\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CTextureD3D9.cpp">
       <Filter>D3D9\Resource</Filter>
     </ClCompile>
   </ItemGroup>
