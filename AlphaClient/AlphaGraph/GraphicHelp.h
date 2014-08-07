@@ -1,15 +1,15 @@
 #pragma once
 
-#include "AlphaCommon\CAlphaCommonType.h"
+#include "AlphaCommon\AlphaCommonType.h"
 
 enum EPrimitiveType
 {
-	EPT_PointList,
-	EPT_LineList,
-	EPT_LineStrip,
-	EPT_TriangleList,
-	EPT_TriangleStrip,
-	EPT_TriangleFan,
+	ePT_PointList,
+	ePT_LineList,
+	ePT_LineStrip,
+	ePT_TriangleList,
+	ePT_TriangleStrip,
+	ePT_TriangleFan,
 };	
 
 struct SVertexElem
@@ -21,37 +21,39 @@ struct SVertexElem
 
 enum EDeclareType
 {
-	EDT_1Float,
-	EDT_2Float,
-	EDT_3Float,
-	EDT_4Float,
-	EDT_4uint8N,
-	EDT_4uint8,
-	EDT_Cnt,
+	eDT_1Float,
+	eDT_2Float,
+	eDT_3Float,
+	eDT_4Float,
+	eDT_4uint8N,
+	eDT_4uint8,
+	eDT_Cnt,
 };
 
 enum EDeclareUsage
 {
-	EDU_Position,
-	EDU_Color0,
-	EDU_Color1,
-	EDU_Normal,
-	EDU_Texcoord0,
-	EDU_Texcoord1,
-	EDU_Texcoord2,
-	EDU_Texcoord3,
-	EDU_Texcoord4,
-	EDU_Texcoord5,
-	EDU_Texcoord6,
-	EDU_Texcoord7,
-	EDU_Cnt,
+	eDU_Position,
+	eDU_Color0,
+	eDU_Color1,
+	eDU_Normal,
+	eDU_Texcoord0,
+	eDU_Texcoord1,
+	eDU_Texcoord2,
+	eDU_Texcoord3,
+	eDU_Texcoord4,
+	eDU_Texcoord5,
+	eDU_Texcoord6,
+	eDU_Texcoord7,
+	eDU_Cnt,
 };
 
 enum ETextureFormat
 {
-	ETF_DXT1 = 0,
-	ETF_DXT5 = 0,
-	
+	eTF_DXT1 = 0,
+	eTF_DXT5 = 1,
+	eTF_RBG24 = 2,
+	eTF_ARGB32 = 3,
+	eTF_R5G6B5 = 4,
 
 	D3DFMT_UNKNOWN              =  0,
 
