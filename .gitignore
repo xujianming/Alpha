@@ -5,3 +5,4 @@
 *.ipch
 AlphaClient/AlphaTest/Debug/
 *.opensdf
+AlphaClient/AlphaCommon/Debug/AlphaCommon.unsuccessfulbuild
