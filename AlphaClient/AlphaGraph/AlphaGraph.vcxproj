@@ -76,6 +76,7 @@
     <ClInclude Include="CGraphic.h" />
     <ClInclude Include="CGraphicD3D9.h" />
     <ClInclude Include="CGraphicFactory.h" />
+    <ClInclude Include="CGraphicFactoryD3D9.h" />
     <ClInclude Include="CGraphicRes.h" />
     <ClInclude Include="CGraphicResMgr.h" />
     <ClInclude Include="CModel.h" />
@@ -98,6 +99,7 @@
     <ClCompile Include="CGraphic.cpp" />
     <ClCompile Include="CGraphicD3D9.cpp" />
     <ClCompile Include="CGraphicFactory.cpp" />
+    <ClCompile Include="CGraphicFactoryD3D9.cpp" />
     <ClCompile Include="CGraphicResMgr.cpp" />
     <ClCompile Include="CGraphicRes.cpp" />
     <ClCompile Include="CModel.cpp" />

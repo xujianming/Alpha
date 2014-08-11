@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "CModel.h"
 #include "CTexture.h"
-#include "AlphaCommon\CAlphaCommonType.h"
+#include "AlphaCommon\AlphaCommonType.h"
 #include <fstream>
+#include "CGraphicD3D9.h"
 using namespace std;
 
-CModel::CModel()
+CModel::CModel(CGraphic *pGraphic):
+	m_pGraphic?(pGraphic)
 {
 	m_vertexBuffer = 0;
 	m_indexBuffer = 0;
@@ -24,11 +26,10 @@ CModel::~CModel()
 }
 
 
-bool CModel::Initialize(IDirect3DDevice9* device, char* modelFilename, char* textureFilename)
+bool CModel::Initialize(char* modelFilename, char* textureFilename)
 {
+	CGraphicD3D9* pGraphicD3D9 = static_cast<CGraphicD3D9*>(m_pGraphic);
 	bool result;
-
-
 	// Load in the model data.
 	result = LoadModel(modelFilename);
 	if(!result)
@@ -37,14 +38,14 @@ bool CModel::Initialize(IDirect3DDevice9* device, char* modelFilename, char* tex
 	}
 
 	// Initialize the vertex and index buffer that hold the geometry for the model.
-	result = InitializeBuffers(device);
+	result = InitializeBuffers(pGraphicD3D9->GetDevice());
 	if(!result)
 	{
 		return false;
 	}
 
 	// Load the texture for this model.
-	result = LoadTexture(device, textureFilename);
+	result = LoadTexture(pGraphicD3D9->GetDevice(), textureFilename);
 	if(!result)
 	{
 		return false;
@@ -76,7 +77,7 @@ uint16 CModel::GetIndexCount()
 
 IDirect3DTexture9* CModel::GetTexture()
 {
-	return m_Texture->GetTexture();
+	return m_Texture->GetD3DTexture();
 }
 
 
@@ -115,7 +116,7 @@ bool CModel::LoadTexture(IDirect3DDevice9* device, char* filename)
 	}
 
 	// Initialize the texture object.
-	result = m_Texture->Initialize(device, filename);
+	result = m_Texture->create(device, filename);
 	if(!result)
 	{
 		return false;

@@ -4,51 +4,19 @@
 #include "CTexture.h"
 #include <d3dx9.h>
 
-CTexture::CTexture()
-{
-	m_texture = 0;
-}
 
-
-CTexture::CTexture(const CTexture& other)
+CTexture::CTexture( CGraphic* pGraphic, EResourceType eResType ):
+	CGraphicRes(pGraphic, eResType),
+	m_nWidth(0),
+	m_nHeight(0),
+	m_nDepth(0),
+	m_nFormat(eTF_ARGB32),
+	m_nMipmaps(1)
 {
+
 }
 
 
 CTexture::~CTexture()
 {
-}
-
-
-bool CTexture::Initialize(IDirect3DDevice9* pDevice, char* filename)
-{
-	HRESULT result;
-
-	// Load the texture in.
-	result = D3DXCreateTextureFromFile(pDevice, filename, &m_texture);
-	if(FAILED(result))
-	{
-		return false;
-	}
-
-	return true;
-}
-
-
-void CTexture::Shutdown()
-{
-	// Release the texture resource.
-	if(m_texture)
-	{
-		m_texture->Release();
-		m_texture = 0;
-	}
-
-	return;
-}
-
-
-IDirect3DTexture9* CTexture::GetTexture()
-{
-	return m_texture;
 }

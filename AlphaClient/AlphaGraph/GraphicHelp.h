@@ -59,7 +59,7 @@ enum ETextureFormat
 	eTF_EAC = 7,
 	eTF_BGR24 = 8,
 	eTF_ABGR32 = 9,
-	eTF_b5G6R5 = 10,
+	eTF_B5G6R5 = 10,
 	eTF_A4B4G4R4 = 11,
 	eTF_R4G4B4A4 = 12,
 	eTF_A8 = 13,
@@ -79,3 +79,14 @@ enum ETextureFormat
 	eTF_Cnt = 27,
 	eTF_UNKNOWN = 28,
 };
+
+uint32 GetBitPerPixel(ETextureFormat eFormat)
+{
+	uint32 size[] = { 4, 8, 24, 32, 16, 16, 4, 8, 24, 32, 16, 16, 16, 8, 16, 16, 32, 32, 32, 32, 64, 64, 128, 0, 16, 32, 32 };
+	return size[eFormat];
+}
+
+bool IsDepthFormat(ETextureFormat eFormat)
+{
+	return eFormat == eTF_D16 || eFormat == eTF_D24S8 || eFormat == eTF_INTZ;
+}

@@ -27,6 +27,10 @@ public:
 	bool CreateBackBuffer();
 
 	void Destroy();
+
+	D3DFORMAT ToD3DFmt(ETextureFormat eFormat);
+
+	D3DFORMAT ToTextureFmt(ETextureFormat eFormat);
 	
 protected:
 	bool CreateSuitableDevice();
@@ -44,4 +48,6 @@ protected:
 	IDirect3DSurface9* m_pBackBuffer;
 
 	IDirect3DSwapChain9* m_pMainSwapChain;
+
+	D3DFORMAT m_eSupportFormat[eTF_Cnt];
 };

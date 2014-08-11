@@ -53,9 +53,6 @@
     <ClInclude Include="SMaterial.h">
       <Filter>Base\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="CModel.h">
-      <Filter>Base\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="CGraphicD3D9.h">
       <Filter>D3D9\Frame</Filter>
     </ClInclude>
@@ -76,6 +73,12 @@
     </ClInclude>
     <ClInclude Include="CTextureD3D9.h">
       <Filter>D3D9\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CModel.h">
+      <Filter>Base\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CGraphicFactoryD3D9.h">
+      <Filter>D3D9\Frame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -107,9 +110,6 @@
     <ClCompile Include="CTexture.cpp">
       <Filter>Base\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="CModel.cpp">
-      <Filter>Base\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="CGraphicD3D9.cpp">
       <Filter>D3D9\Frame</Filter>
     </ClCompile>
@@ -130,6 +130,12 @@
     </ClCompile>
     <ClCompile Include="CTextureD3D9.cpp">
       <Filter>D3D9\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CModel.cpp">
+      <Filter>Base\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CGraphicFactoryD3D9.cpp">
+      <Filter>D3D9\Frame</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

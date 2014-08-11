@@ -5,7 +5,7 @@
 #include "CGraphic.h"
 
 CGraphicRes::CGraphicRes( CGraphic* pGraphic ):
-	m_pGraph(pGraphic),
+	m_pGraphic(pGraphic),
 	m_nUseFrame(0),
 	m_eResType(ERT_Invalid),
 	m_nVedioMemSize(0)
@@ -21,7 +21,7 @@ CGraphicRes::~CGraphicRes()
 
 CGraphicResMgr* CGraphicRes::GetResMgr()
 {
-	return &m_pGraph->GetResMgr();
+	return &m_pGraphic->GetResMgr();
 }
 
 void CGraphicRes::SetVedioMemSize( uint32 nMemSize )
@@ -52,9 +52,9 @@ uint32 CGraphicRes::GetUseFrame()
 
 void CGraphicRes::Use()
 {
-	m_nUseFrame = m_pGraph->GetCurFrame();
+	m_nUseFrame = m_pGraphic->GetCurFrame();
 	Remove();
-	m_pGraph->GetResMgr().m_ResList.PushBack(*this);
+	m_pGraphic->GetResMgr().m_ResList.PushBack(*this);
 }
 
 void CGraphicRes::OnRestore()

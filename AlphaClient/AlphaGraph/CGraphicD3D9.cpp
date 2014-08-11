@@ -186,3 +186,17 @@ bool CGraphicD3D9::EnumSupportTextureFormat()
 {
 
 }
+
+D3DFORMAT CGraphicD3D9::ToD3DFmt( ETextureFormat eFormat )
+{
+	if (eFormat >= eTF_Cnt)
+		return D3DFMT_UNKNOWN;
+	return g_eTextureD3D9Format[eFormat];
+}
+
+D3DFORMAT CGraphicD3D9::ToTextureFmt( ETextureFormat eFormat )
+{
+	if (eFormat >= eTF_Cnt)
+		return D3DFMT_UNKNOWN;
+	return m_eSupportFormat[eFormat];
+}

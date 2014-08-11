@@ -3,7 +3,9 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "AlphaCommon\AlphaCommonType.h"
+
 class CTexture;
+class CGraphic;
 struct SVertexType
 {
 	D3DXVECTOR3 position;
@@ -21,8 +23,7 @@ class CModel
 private:
 	
 public:
-	CModel();
-	CModel(const CModel& other);
+	CModel(CGraphic* pGraphic);
 	~CModel();
 
 	bool Initialize(IDirect3DDevice9* pDevice, char* szModelFile, char* szTextureFile);
@@ -52,4 +53,5 @@ private:
 	uint16 m_vertexCount, m_indexCount;
 	CTexture* m_Texture;
 	ModelType* m_model;
+	CGraphic* m_pGraphic;
 };

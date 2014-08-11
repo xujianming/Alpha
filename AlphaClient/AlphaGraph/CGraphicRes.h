@@ -46,5 +46,5 @@ protected:
 	uint32 m_nVedioMemSize;
 	uint32 m_nUseFrame;
 	EResourceType m_eResType;
-	CGraphic* m_pGraph;
+	CGraphic* m_pGraphic;
 };
