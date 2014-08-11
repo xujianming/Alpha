@@ -6,9 +6,11 @@
 #include "CRenderCommandMgr.h"
 #include "CVertexFormatMgr.h"
 #include "AlphaCommon\IAlphaUnknown.h"
+#include "CGeometryBuffer.h"
 
 class CAlphaWindow;
 class CGraphicResMgr;
+class CGraphicFactory;
 
 class CGraphic: public IAlphaUnknown
 {
@@ -30,6 +32,8 @@ public:
 
 	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
 
+	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, CGeometryBuffer* vertexBuffer, CGeometryBuffer* indexBuffer);
+
 	uint32 GetCurFrame();
 
 	CRenderCommandMgr& GetRenderCommandMgr();
@@ -44,12 +48,15 @@ public:
 
 	uint32 GetRef();
 
+	CTexture* CreateTextureFromFile(char* szFileName);
+
 protected:	
 	virtual bool CreateSuitableDevice();
 
 	CRenderCommandMgr m_RenderCommandMgr;
 	CVertexFormatMgr m_VertexFormatMgr;
 	CGraphicResMgr m_ResMgr;
+	CGraphicFactory* m_pGraphicFactory;
 
 	CAlphaWindow* m_pWnd;
 	float m_fHWVertexShaderVersion;

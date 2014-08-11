@@ -2,6 +2,7 @@
 #include "CGraphic.h"
 #include "AlphaCommon/CAlphaWindow.h"
 #include "CRenderCommandMgr.h"
+#include "CGraphicFactory.h"
 
 CGraphic::CGraphic( CAlphaWindow* pWnd ):
 	m_pWnd(pWnd),
@@ -11,6 +12,7 @@ CGraphic::CGraphic( CAlphaWindow* pWnd ):
 	m_fHWPixelShaderVersion(0),
 	m_fHWVertexShaderVersion(0),
 	m_nMaxSupportRenderTargetCnt(1),
+	m_pGraphicFactory(nullptr),
 	m_nRef(1)
 {
 
@@ -89,4 +91,11 @@ void CGraphic::Release()
 uint32 CGraphic::GetRef()
 {
 	return m_nRef;
+}
+
+CTexture* CGraphic::CreateTextureFromFile( char* szFileName )
+{
+	CTexture* pTexture = m_pGraphicFactory->CreateTexture();
+	pTexture->CreateTextureFromFile(szFileName);
+	return  pTexture;
 }

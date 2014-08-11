@@ -10,7 +10,7 @@ CTexture::CTexture( CGraphic* pGraphic, EResourceType eResType ):
 	m_nWidth(0),
 	m_nHeight(0),
 	m_nDepth(0),
-	m_nFormat(eTF_ARGB32),
+	m_eFormat(eTF_ARGB32),
 	m_nMipmaps(1)
 {
 

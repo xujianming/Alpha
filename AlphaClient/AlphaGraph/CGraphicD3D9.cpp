@@ -4,7 +4,7 @@
 #include <iostream>
 #pragma comment(lib, "d3d9.lib")
 
-D3DFORMAT g_eTextureD3D9Format[eTF_Cnt]
+D3DFORMAT g_eTextureD3D9Format[eTF_Cnt] = 
 {
 	D3DFMT_DXT1,
 	D3DFMT_DXT5,
@@ -22,7 +22,7 @@ D3DFORMAT g_eTextureD3D9Format[eTF_Cnt]
 	D3DFMT_A8,
 	D3DFMT_V8U8,
 	D3DFMT_R16F,
-	D3DFMT_R32F
+	D3DFMT_R32F,
 	D3DFMT_A2R10G10B10,
 	D3DFMT_G16R16,
 	D3DFMT_G16R16F,
@@ -42,7 +42,7 @@ CGraphicD3D9::CGraphicD3D9( CAlphaWindow* pWindow ):
 	m_pDevice(NULL),
 	m_pBackBuffer(NULL)
 {
-
+	m_pGraphicFactory = new CGraphicFactoryD3D9(this);
 }
 
 CGraphicD3D9::~CGraphicD3D9()

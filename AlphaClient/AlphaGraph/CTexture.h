@@ -12,6 +12,8 @@ public:
 
 	virtual bool CreateTexture(uint32 nWidht, uint32 nHeight, uint32 nDepth, ETextureFormat eFormat, int32 nMipMap, bool bPoolManager){ return false; }
 
+	virtual bool CreateTextureFromFile(char* szFileName);
+
 //	bool CreateRenderTarget( uint32 nWidth, uint32 nHeight, uint32 nDepth, ETextureFormat eRecommandFormat, int32 nMipMap, bool bPoolManager) { return false; }
 
 	uint32 GetWidth() 					{ return m_nWidth; }

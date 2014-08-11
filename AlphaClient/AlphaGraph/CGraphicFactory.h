@@ -19,4 +19,6 @@ public:
 
 	virtual CGeometryBuffer* CreateIndexBuffer() = 0;
 
+protected:
+	CGraphic* m_pGraphic;
 };
