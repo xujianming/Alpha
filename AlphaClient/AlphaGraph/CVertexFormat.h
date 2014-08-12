@@ -8,7 +8,7 @@ public:
 	CVertexFormat(CGraphic* pGraphic);
 	virtual ~CVertexFormat();
 
-	bool IsVertexFormat(SVertexElem* arrElem, uint8 elemCnt);
+	bool IsVertexFormat(SVertexElem* arrElem, uint16 elemCnt);
 
 	virtual bool CreateVertexFormat(SVertexElem* arrElem, uint8 elemCnt);
 

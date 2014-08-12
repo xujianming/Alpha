@@ -27,11 +27,11 @@ CTexture* CGraphicFactoryD3D9::CreateTexture()
 
 CGeometryBuffer* CGraphicFactoryD3D9::CreateVertexBuffer()
 {
-
+	return new CVertexBufferD3D9(m_pGraphic);
 }
 
 CGeometryBuffer* CGraphicFactoryD3D9::CreateIndexBuffer()
 {
-
+	return new CIndexBufferD3D9(m_pGraphic);
 }
 

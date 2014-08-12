@@ -13,7 +13,7 @@ CVertexFormat::~CVertexFormat()
 
 }
 
-bool CVertexFormat::IsVertexFormat( SVertexElem* arrElem, uint8 elemCnt )
+bool CVertexFormat::IsVertexFormat( SVertexElem* arrElem, uint16 elemCnt )
 {
 	if (m_nElemCnt != elemCnt)
 		return false;

@@ -17,7 +17,7 @@ CVertexFormatD3D9::~CVertexFormatD3D9()
 
 bool CVertexFormatD3D9::CreateVertexFormat( SVertexElem* arrElem, uint8 elemCnt )
 {
-	uint8 arrDeclareUsg[EDU_Cnt][2] = 
+	uint8 arrDeclareUsg[eDU_Cnt][2] = 
 	{
 		{ D3DDECLUSAGE_POSITION	,	0 },
 		{ D3DDECLUSAGE_COLOR	,	0 },
@@ -33,7 +33,7 @@ bool CVertexFormatD3D9::CreateVertexFormat( SVertexElem* arrElem, uint8 elemCnt 
 		{ D3DDECLUSAGE_TEXCOORD	,	7 }
 	};
 
-	uint8 arrDeclareType[EDT_Cnt] =
+	uint8 arrDeclareType[eDT_Cnt] =
 	{
 		D3DDECLTYPE_FLOAT1,
 		D3DDECLTYPE_FLOAT2,

@@ -5,7 +5,7 @@
 
 #define MAX_MIPMAP 4
 
-class CTextureD3D9:CTexture
+class CTextureD3D9: public CTexture
 {
 public:
 	CTextureD3D9(CGraphic* pGraphic, EResourceType eResType = ERT_Texture);

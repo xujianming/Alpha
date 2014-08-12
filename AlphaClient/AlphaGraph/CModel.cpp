@@ -4,20 +4,16 @@
 #include "AlphaCommon\AlphaCommonType.h"
 #include <fstream>
 #include "CGraphicD3D9.h"
+#include "CTextureD3D9.h"
 using namespace std;
 
 CModel::CModel(CGraphic *pGraphic):
-	m_pGraphic?(pGraphic)
+	m_pGraphic(pGraphic)
 {
 	m_vertexBuffer = 0;
 	m_indexBuffer = 0;
 	m_Texture = 0;
 	m_model = 0;
-}
-
-
-CModel::CModel(const CModel& other)
-{
 }
 
 
@@ -75,9 +71,9 @@ uint16 CModel::GetIndexCount()
 }
 
 
-IDirect3DTexture9* CModel::GetTexture()
+IDirect3DBaseTexture9* CModel::GetTexture()
 {
-	return m_Texture->GetD3DTexture();
+	return static_cast<CTextureD3D9*>(m_Texture)->GetD3DTexture();
 }
 
 
@@ -106,37 +102,20 @@ void CModel::ShutdownBuffers()
 
 bool CModel::LoadTexture(IDirect3DDevice9* device, char* filename)
 {
-	bool result;
-
+	CGraphicD3D9* pGraphic = static_cast<CGraphicD3D9*>(m_pGraphic);
 	// Create the texture object.
-	m_Texture = new CTexture;
+	m_Texture = pGraphic->CreateTextureFromFile(filename);
 	if(!m_Texture)
 	{
 		return false;
 	}
-
-	// Initialize the texture object.
-	result = m_Texture->create(device, filename);
-	if(!result)
-	{
-		return false;
-	}
-
 	return true;
 }
 
 
 void CModel::ReleaseTexture()
 {
-	// Release the texture object.
-	if(m_Texture)
-	{
-		m_Texture->Shutdown();
-		delete m_Texture;
-		m_Texture = 0;
-	}
-
-	return;
+	SAFE_RELEASE(m_Texture);
 }
 
 
@@ -145,7 +124,6 @@ bool CModel::LoadModel(char* filename)
 	ifstream fin;
 	char input;
 	int i;
-
 
 	// Open the model file.  If it could not open the file then exit.
 	fin.open(filename);

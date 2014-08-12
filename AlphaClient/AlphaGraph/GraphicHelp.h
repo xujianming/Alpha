@@ -80,13 +80,13 @@ enum ETextureFormat
 	eTF_UNKNOWN = 28,
 };
 
-uint32 GetBitPerPixel(ETextureFormat eFormat)
+inline uint32 GetBitPerPixel(ETextureFormat eFormat)
 {
 	uint32 size[] = { 4, 8, 24, 32, 16, 16, 4, 8, 24, 32, 16, 16, 16, 8, 16, 16, 32, 32, 32, 32, 64, 64, 128, 0, 16, 32, 32 };
 	return size[eFormat];
 }
 
-bool IsDepthFormat(ETextureFormat eFormat)
+inline bool IsDepthFormat(ETextureFormat eFormat)
 {
 	return eFormat == eTF_D16 || eFormat == eTF_D24S8 || eFormat == eTF_INTZ;
 }

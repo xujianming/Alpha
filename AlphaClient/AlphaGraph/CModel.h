@@ -26,11 +26,11 @@ public:
 	CModel(CGraphic* pGraphic);
 	~CModel();
 
-	bool Initialize(IDirect3DDevice9* pDevice, char* szModelFile, char* szTextureFile);
+	bool Initialize(char* szModelFile, char* szTextureFile);
 	void Shutdown();
 
 	
-	IDirect3DTexture9* GetTexture();
+	IDirect3DBaseTexture9* GetTexture();
 	SVertexType* GetVertexBuffer();
 	uint16 GetVertexType();
 	uint16 GetVertexCount();

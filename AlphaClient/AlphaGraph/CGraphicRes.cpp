@@ -33,7 +33,7 @@ void CGraphicRes::SetVedioMemSize( uint32 nMemSize )
 	AddVedioMemSize(dif);
 }
 
-void CGraphicRes::AddVedioMemSize( uint32 nMemSize )
+void CGraphicRes::AddVedioMemSize( int32 nMemSize )
 {
 	assert( m_nVedioMemSize + nMemSize >= 0);
 	m_nVedioMemSize = m_nVedioMemSize + nMemSize;

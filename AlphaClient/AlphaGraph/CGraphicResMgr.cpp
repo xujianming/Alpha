@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CGraphicResMgr.h"
-#include "CGraphicRes.h"
 #include <vector>
 #include "CGraphic.h"
+
 
 CGraphicResMgr::CGraphicResMgr(CGraphic* pGraphic): 
 	m_pGraphic(pGraphic),
@@ -21,6 +21,7 @@ void CGraphicResMgr::AddVedioMemSize( uint32 nMemSize )
 {
 	m_nCurVedioMemSize += nMemSize;
 
+	//显存不够，释放十帧前分配的资源
 	for (CGraphicRes* res = m_ResList.GetFirst(); res; res = res->Next())
 	{
 		if (m_nCurVedioMemSize < m_nMaxVedioMemSize)

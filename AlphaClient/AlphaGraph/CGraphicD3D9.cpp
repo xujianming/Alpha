@@ -13,13 +13,13 @@ D3DFORMAT g_eTextureD3D9Format[eTF_Cnt] =
 	D3DFMT_A8R8G8B8,
 	D3DFMT_R5G6B5,
 	D3DFMT_A4R4G4B4,
-	MAKEFOURCC('E', 'T', 'C', '2'),
-	MAKEFOURCC('E', 'A', 'C', 'A'),
+	(D3DFORMAT)MAKEFOURCC('E', 'T', 'C', '2'),
+	(D3DFORMAT)MAKEFOURCC('E', 'A', 'C', 'A'),
 	D3DFMT_X8B8G8R8,
 	D3DFMT_A8B8G8R8,
-	MAKEFOURCC('5', '6', '5', 'R'),
-	MAKEFOURCC('4', 'x', '4', 'R'),
-	MAKEFOURCC('4', 'x', '4', 'N'),
+	(D3DFORMAT)MAKEFOURCC('5', '6', '5', 'R'),
+	(D3DFORMAT)MAKEFOURCC('4', 'x', '4', 'R'),
+	(D3DFORMAT)MAKEFOURCC('4', 'x', '4', 'N'),
 	D3DFMT_A8,
 	D3DFMT_V8U8,
 	D3DFMT_R16F,
@@ -30,10 +30,10 @@ D3DFORMAT g_eTextureD3D9Format[eTF_Cnt] =
 	D3DFMT_A16B16G16R16F,
 	D3DFMT_G32R32F,
 	D3DFMT_A32B32G32R32F,
-	MAKEFOURCC('N', 'U', 'L', 'L'),
+	(D3DFORMAT)MAKEFOURCC('N', 'U', 'L', 'L'),
 	D3DFMT_D16,
 	D3DFMT_D24S8,
-	MAKEFOURCC('I', 'N', 'T', 'Z')
+	(D3DFORMAT)MAKEFOURCC('I', 'N', 'T', 'Z')
 };
 
 CGraphicD3D9::CGraphicD3D9( CAlphaWindow* pWindow ):
@@ -200,6 +200,11 @@ bool CGraphicD3D9::EnumSupportTextureFormat()
 			m_eSupportFormat[i] = g_eTextureD3D9Format[i];
 	}
 
+	return (m_eSupportFormat[eTF_DXT1] && 
+			m_eSupportFormat[eTF_DXT5] &&
+			m_eSupportFormat[eTF_RBG24] && 
+			m_eSupportFormat[eTF_ARGB32] &&
+			m_eSupportFormat[eTF_R5G6B5]);
 
 }
 

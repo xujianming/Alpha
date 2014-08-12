@@ -28,7 +28,7 @@ public:
 
 	void SetVedioMemSize(uint32 nMemSize);
 
-	void AddVedioMemSize(uint32 nMemSize);
+	void AddVedioMemSize(int32 nMemSize);
 
 	EResourceType GetResType();
 

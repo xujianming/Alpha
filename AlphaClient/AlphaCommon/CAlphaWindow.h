@@ -1,6 +1,6 @@
 #pragma once
 #include <windows.h>
-#include "CAlphaCommonType.h"
+#include "AlphaCommonType.h"
 
 struct SWindowContext
 {

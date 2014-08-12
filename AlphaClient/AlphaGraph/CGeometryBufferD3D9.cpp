@@ -24,8 +24,6 @@ void CGeometryBufferD3D9::OnFreeMemory()
 	SAFE_RELEASE(m_pD3DBuffer);
 }
 
-
-
 CVertexBufferD3D9::CVertexBufferD3D9( CGraphic* pGraphic ):
 	CGeometryBufferD3D9(pGraphic, ERT_VertexBuffer)
 {
@@ -59,7 +57,7 @@ bool CVertexBufferD3D9::CheckBuffer()
 {
 	if (m_pD3DBuffer)
 		return true;
-	CGraphicD3D9* pGraphicD3D = static_cast<CGraphic*>(m_pGraphic);
+	CGraphicD3D9* pGraphicD3D = static_cast<CGraphicD3D9*>(m_pGraphic);
 	HRESULT result = pGraphicD3D->GetDevice()->CreateVertexBuffer(m_nBufferSize, 
 		D3DUSAGE_WRITEONLY | (m_bStatic ? 0 : D3DUSAGE_DYNAMIC), 0, D3DPOOL_DEFAULT,
 		(IDirect3DVertexBuffer9**)&m_pD3DBuffer, nullptr);
@@ -103,10 +101,10 @@ bool CIndexBufferD3D9::CheckBuffer()
 {
 	if (m_pD3DBuffer)
 		return true;
-	CGraphicD3D9* pGraphicD3D = static_cast<CGraphic*>(m_pGraphic);
+	CGraphicD3D9* pGraphicD3D = static_cast<CGraphicD3D9*>(m_pGraphic);
 	HRESULT result = pGraphicD3D->GetDevice()->CreateIndexBuffer(m_nBufferSize, 
 		D3DUSAGE_WRITEONLY | (m_bStatic ? 0 : D3DUSAGE_DYNAMIC), D3DFMT_INDEX16, D3DPOOL_DEFAULT,
-		(IDirect3DVertexBuffer9**)&m_pD3DBuffer, nullptr);
+		(IDirect3DIndexBuffer9**)&m_pD3DBuffer, nullptr);
 	if (FAILED(result))
 		return false;
 	AddVedioMemSize(m_nBufferSize);

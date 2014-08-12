@@ -21,8 +21,8 @@ void CRenderer::Initialize( CAlphaWindow* pWnd )
 	m_pGraphic = new CGraphicD3D9(m_pWnd);
 	m_pGraphic->Create();
 	
-	m_pModel = new CModel;
-	bool result = m_pModel->Initialize(m_pGraphic->GetDevice(), "../data/cube.txt", "../data/seafloor.dds");
+	m_pModel = new CModel(m_pGraphic);
+	bool result = m_pModel->Initialize("../data/cube.txt", "../data/seafloor.dds");
 	if(!result)
 	{
 		MessageBox(m_pWnd->GetHandle(), "Could not initialize the model object.", "Error", MB_OK);

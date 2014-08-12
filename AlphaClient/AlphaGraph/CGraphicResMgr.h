@@ -1,7 +1,8 @@
 #pragma once
 #include "AlphaCommon\TInvasiveList.h"
 #include "AlphaCommon\AlphaCommonType.h"
-class CGraphicRes;
+#include "CGraphicRes.h"
+
 class CGraphic;
 
 class CGraphicResMgr
