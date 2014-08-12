@@ -4,11 +4,12 @@
 #include "CGraphicResMgr.h"
 #include "CGraphic.h"
 
-CGraphicRes::CGraphicRes( CGraphic* pGraphic ):
+CGraphicRes::CGraphicRes( CGraphic* pGraphic, EResourceType eResType ):
 	m_pGraphic(pGraphic),
 	m_nUseFrame(0),
 	m_eResType(ERT_Invalid),
-	m_nVedioMemSize(0)
+	m_nVedioMemSize(0), 
+	m_nRef(1)
 {
 
 }
@@ -70,4 +71,25 @@ void CGraphicRes::OnLostDevice()
 void CGraphicRes::OnFreeMemory()
 {
 
+}
+
+void CGraphicRes::AddRef()
+{
+	Use();
+	m_nRef ++;
+}
+
+void CGraphicRes::Release()
+{
+	assert(m_nRef > 0);
+	if (m_nRef --)
+	{
+		Remove();
+		delete this;
+	}
+}
+
+uint32 CGraphicRes::GetRef()
+{
+	return m_nRef;
 }

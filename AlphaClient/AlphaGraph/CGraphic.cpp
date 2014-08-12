@@ -3,6 +3,7 @@
 #include "AlphaCommon/CAlphaWindow.h"
 #include "CRenderCommandMgr.h"
 #include "CGraphicFactory.h"
+#include "CTexture.h"
 
 CGraphic::CGraphic( CAlphaWindow* pWnd ):
 	m_pWnd(pWnd),

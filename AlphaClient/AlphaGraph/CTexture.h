@@ -12,7 +12,7 @@ public:
 
 	virtual bool CreateTexture(uint32 nWidht, uint32 nHeight, uint32 nDepth, ETextureFormat eFormat, int32 nMipMap, bool bPoolManager){ return false; }
 
-	virtual bool CreateTextureFromFile(char* szFileName);
+	virtual bool CreateTextureFromFile(char* szFileName) { return false; };
 
 //	bool CreateRenderTarget( uint32 nWidth, uint32 nHeight, uint32 nDepth, ETextureFormat eRecommandFormat, int32 nMipMap, bool bPoolManager) { return false; }
 
@@ -34,7 +34,6 @@ public:
 
 
 protected:
-	IDirect3DTexture9* m_texture;
 	uint32 m_nWidth;
 	uint32 m_nHeight;
 	uint32 m_nDepth;

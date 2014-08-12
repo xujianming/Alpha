@@ -42,9 +42,16 @@ public:
 
 	virtual void OnFreeMemory();
 
+	void AddRef();
+
+	void Release();
+
+	uint32 GetRef();
+
 protected:
 	uint32 m_nVedioMemSize;
 	uint32 m_nUseFrame;
 	EResourceType m_eResType;
 	CGraphic* m_pGraphic;
+	uint32 m_nRef;
 };

@@ -2,6 +2,7 @@
 #include "CGraphicD3D9.h"
 #include "AlphaCommon/CAlphaWindow.h"
 #include <iostream>
+#include "CGraphicFactoryD3D9.h"
 #pragma comment(lib, "d3d9.lib")
 
 D3DFORMAT g_eTextureD3D9Format[eTF_Cnt] = 
@@ -113,7 +114,8 @@ bool CGraphicD3D9::CreateSuitableDevice()
 	m_fHWVertexShaderVersion = (uint8)D3DSHADER_VERSION_MAJOR(m_Caps.VertexShaderVersion);
 	m_fHWPixelShaderVersion = (uint8)D3DSHADER_VERSION_MAJOR(m_Caps.PixelShaderVersion);
 	m_nMaxSupportRenderTargetCnt = m_Caps.NumSimultaneousRTs;
-	return true;
+
+	return EnumSupportTextureFormat();
 }
 
 bool CGraphicD3D9::RenderBegin()
@@ -179,11 +181,25 @@ bool CGraphicD3D9::CreateBackBuffer()
 
 void CGraphicD3D9::Destroy()
 {
-
+	CGraphic::Destroy();
+	SAFE_RELEASE(m_pD3D9);
+	SAFE_RELEASE(m_pDevice);
 }
 
 bool CGraphicD3D9::EnumSupportTextureFormat()
 {
+	memset (m_eSupportFormat, D3DFMT_UNKNOWN, sizeof(m_eSupportFormat));
+
+	D3DDISPLAYMODE displayModel;
+	if (m_pD3D9->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &displayModel))
+		return false;
+
+	for (uint8 i = 0; i < eDT_Cnt; i ++)
+	{
+		if (m_pD3D9->CheckDeviceFormat(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, displayModel.Format, 0, D3DRTYPE_TEXTURE, g_eTextureD3D9Format[i]) == D3D_OK)
+			m_eSupportFormat[i] = g_eTextureD3D9Format[i];
+	}
+
 
 }
 

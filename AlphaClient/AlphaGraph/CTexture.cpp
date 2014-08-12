@@ -2,8 +2,6 @@
 // Filename: textureclass.cpp
 #include "stdafx.h"
 #include "CTexture.h"
-#include <d3dx9.h>
-
 
 CTexture::CTexture( CGraphic* pGraphic, EResourceType eResType ):
 	CGraphicRes(pGraphic, eResType),
