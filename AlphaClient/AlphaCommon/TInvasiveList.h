@@ -13,14 +13,22 @@ class TInvasiveNode
 public:
 	friend class TInvasiveList<T>;
 
-	TInvasiveNode();
-	virtual ~TInvasiveNode();
+	TInvasiveNode():m_pPre(nullptr),m_pNext(nullptr){};
+	virtual ~TInvasiveNode(){}
 
-	T* Next();
-	T* Pre();
+	T* Next(){	return (m_pNext && m_pNext->Next()) ? static_cast<T*>(m_pNext) : nullptr; }
 
-	void Remove();
-	bool IsInlist();
+	T* Pre(){	return (m_pNext && m_pNext->Pre()) ? static_cast<T*>(m_pPre) : nullptr; }
+
+	bool IsInlist(){ return m_pPre || m_pNext;}
+
+	void Remove()
+	{
+		if (!IsInlist())
+			return;
+		m_pPre->m_pNext = m_pNext;
+		m_pNext->m_pPre = m_pPre;
+	}
 
 private:
 	TInvasiveNode* m_pNext;
@@ -34,15 +42,57 @@ class TInvasiveList
 	TInvasiveList(const TInvasiveList&);
 	const TInvasiveList& operator = (const TInvasiveList&);
 public:
-	TInvasiveList();
-	virtual ~TInvasiveList();
+	TInvasiveList()
+	{
+		m_Head.m_pPre = nullptr;
+		m_Tail.m_pNext = nullptr;
+		m_Head.m_pNext = &m_Tail;
+		m_Tail.m_pPre = &m_Head;
+	}
 
-	void InsertAfter(TInvasiveNode<T>& NodePos, TInvasiveNode<T>& Node);
-	void InsertBefore(TInvasiveNode<T>& NodePos, TInvasiveNode<T>& Node);
-	void PushBack(TInvasiveNode<T>& Node);
-	void PushFront(TInvasiveNode<T>& Node);
-	T* GetFirst();
-	T* GetLast();
+	virtual ~TInvasiveList() {}
+
+	void InsertAfter(TInvasiveNode<T>& NodePos, TInvasiveNode<T>& Node)
+	{
+		Node.m_pPre = &NodePos;
+		Node.m_pNext = NodePos.m_pNext;
+		NodePos.m_pNext->m_pPre = &Node;
+		NodePos->m_pNext = &Node;
+	}
+
+	void InsertBefore(TInvasiveNode<T>& NodePos, TInvasiveNode<T>& Node)
+	{
+		Node.m_pPre = NodePos.m_pPre;
+		Node.m_pNext = &NodePos;
+		NodePos.m_pPre->m_pNext = &Node;
+		Node.m_pPre = &Node;
+	}
+
+	void PushBack(TInvasiveNode<T>& Node)
+	{
+		InsertBefore(m_Tail, Node);
+	}
+
+	void PushFront(TInvasiveNode<T>& Node)
+	{
+		InsertAfter(m_Head, Node);
+	}
+
+	T* GetFirst()
+	{
+		if (IsEmpty())
+			return nullptr;
+		return static_cast<T*>(m_Head.m_pNext);
+	}
+	T* GetLast()
+	{
+		if (IsEmpty())
+			return nullptr;
+		return static_cast<T*>(m_Tail.m_pPre);
+	}
+
+	bool IsEmpty(){ return m_Head.m_pNext == &m_Tail; }
+
 private:
 	TInvasiveNode<T> m_Head;
 	TInvasiveNode<T> m_Tail;

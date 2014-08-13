@@ -46,7 +46,7 @@ void CGeometryBuffer::OnFreeMemory()
 {
 	UnLock();
 	assert (m_nBufferSize == m_nVedioMemSize);
-	AddVedioMemSize(-m_nBufferSize);
+	AddVedioMemSize(-(int32)m_nBufferSize);
 	m_pLockBuffer = (tByte*)INVALID_32BIT;
 }
 

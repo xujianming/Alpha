@@ -25,7 +25,7 @@ bool CTextureD3D9::CreateTexture( uint32 nWidth, uint32 nHeight, uint32 nDepth, 
 	m_nDepth = nDepth;
 	m_eFormat = eFormat;
 	m_nMipmaps = min(MAX_MIPMAP, uint32(nMipMap));
-	m_nMipmaps = min(nMipMap, log(max(m_nWidth, m_nHeight)));
+	m_nMipmaps = min(m_nMipmaps, (uint32)log(max(m_nWidth, m_nHeight)));
 	if (bPoolManager)
 		m_pSysTexture = CreateTexture(true, true);
 	else

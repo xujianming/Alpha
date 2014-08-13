@@ -100,3 +100,8 @@ CTexture* CGraphic::CreateTextureFromFile( char* szFileName )
 	pTexture->CreateTextureFromFile(szFileName);
 	return  pTexture;
 }
+
+CGraphicResMgr& CGraphic::GetResMgr()
+{
+	return m_ResMgr;
+}

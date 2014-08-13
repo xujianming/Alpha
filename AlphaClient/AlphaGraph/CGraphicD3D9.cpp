@@ -113,7 +113,7 @@ bool CGraphicD3D9::CreateSuitableDevice()
 
 	m_fHWVertexShaderVersion = (uint8)D3DSHADER_VERSION_MAJOR(m_Caps.VertexShaderVersion);
 	m_fHWPixelShaderVersion = (uint8)D3DSHADER_VERSION_MAJOR(m_Caps.PixelShaderVersion);
-	m_nMaxSupportRenderTargetCnt = m_Caps.NumSimultaneousRTs;
+	m_nMaxSupportRenderTargetCnt = (uint8)m_Caps.NumSimultaneousRTs;
 
 	return EnumSupportTextureFormat();
 }

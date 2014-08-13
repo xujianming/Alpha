@@ -1,5 +1,4 @@
 #pragma once
-#include "AlphaCommon\TInvasiveList.h"
 #include "AlphaCommon\AlphaCommonType.h"
 #include "CGraphicRes.h"
 
