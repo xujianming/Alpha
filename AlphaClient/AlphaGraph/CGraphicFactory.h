@@ -4,6 +4,7 @@ class CGraphic;
 class CVertexFormat;
 class CTexture;
 class CGeometryBuffer;
+class CShader;
 
 class CGraphicFactory
 {
@@ -18,6 +19,8 @@ public:
 	virtual CGeometryBuffer* CreateVertexBuffer() = 0;
 
 	virtual CGeometryBuffer* CreateIndexBuffer() = 0;
+
+	virtual CShader* CreateShader() = 0;
 
 protected:
 	CGraphic* m_pGraphic;

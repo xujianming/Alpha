@@ -14,3 +14,18 @@ void CRenderCommandMgr::DrawPrimitive( const SMaterial& material, EPrimitiveType
 {
 
 }
+
+void CRenderCommandMgr::pushEnvir( SRenderEnvir envirState )
+{
+	m_envirStack.push_back(envirState);
+}
+
+void CRenderCommandMgr::popEnvir()
+{
+	m_envirStack.pop_back();
+}
+
+bool CRenderCommandMgr::isEmpty()
+{
+	return m_envirStack.size() == 0;
+}

@@ -82,7 +82,10 @@
     <ClInclude Include="CModel.h" />
     <ClInclude Include="CRenderCommandMgr.h" />
     <ClInclude Include="CRenderer.h" />
+    <ClInclude Include="CRenderStateMgr.h" />
     <ClInclude Include="CScene.h" />
+    <ClInclude Include="CShader.h" />
+    <ClInclude Include="CShaderD3D9.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTextureD3D9.h" />
     <ClInclude Include="CVertexFormat.h" />
@@ -105,7 +108,10 @@
     <ClCompile Include="CModel.cpp" />
     <ClCompile Include="CRenderCommandMgr.cpp" />
     <ClCompile Include="CRenderer.cpp" />
+    <ClCompile Include="CRenderStateMgr.cpp" />
     <ClCompile Include="CScene.cpp" />
+    <ClCompile Include="CShader.cpp" />
+    <ClCompile Include="CShaderD3D9.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTextureD3D9.cpp" />
     <ClCompile Include="CVertexFormat.cpp" />

@@ -3,6 +3,7 @@
 #include "CVertexFormatD3D9.h"
 #include "CTextureD3D9.h"
 #include "CGeometryBufferD3D9.h"
+#include "CShaderD3D9.h"
 
 CGraphicFactoryD3D9::CGraphicFactoryD3D9( CGraphic* pGraphic ):
 	CGraphicFactory(pGraphic)
@@ -33,5 +34,10 @@ CGeometryBuffer* CGraphicFactoryD3D9::CreateVertexBuffer()
 CGeometryBuffer* CGraphicFactoryD3D9::CreateIndexBuffer()
 {
 	return new CIndexBufferD3D9(m_pGraphic);
+}
+
+CShader* CGraphicFactoryD3D9::CreateShader()
+{
+	return new CShaderD3D9(m_pGraphic);
 }
 

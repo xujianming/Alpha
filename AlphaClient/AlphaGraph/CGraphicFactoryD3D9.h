@@ -16,4 +16,5 @@ public:
 
 	virtual CGeometryBuffer* CreateIndexBuffer();
 
+	virtual CShader* CreateShader();
 };

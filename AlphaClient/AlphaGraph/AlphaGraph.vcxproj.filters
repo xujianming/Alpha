@@ -80,6 +80,15 @@
     <ClInclude Include="CGraphicFactoryD3D9.h">
       <Filter>D3D9\Frame</Filter>
     </ClInclude>
+    <ClInclude Include="CShader.h">
+      <Filter>Base\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderStateMgr.h">
+      <Filter>Base\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="CShaderD3D9.h">
+      <Filter>D3D9\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp" />
@@ -136,6 +145,15 @@
     </ClCompile>
     <ClCompile Include="CGraphicFactoryD3D9.cpp">
       <Filter>D3D9\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="CShader.cpp">
+      <Filter>Base\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderStateMgr.cpp">
+      <Filter>Base\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="CShaderD3D9.cpp">
+      <Filter>D3D9\Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
