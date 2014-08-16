@@ -200,11 +200,11 @@ bool CGraphicD3D9::EnumSupportTextureFormat()
 			m_eSupportFormat[i] = g_eTextureD3D9Format[i];
 	}
 
-	return (m_eSupportFormat[eTF_DXT1] && 
-			m_eSupportFormat[eTF_DXT5] &&
-			m_eSupportFormat[eTF_RBG24] && 
-			m_eSupportFormat[eTF_ARGB32] &&
-			m_eSupportFormat[eTF_R5G6B5]);
+	return (m_eSupportFormat[eTF_DXT1] != D3DFMT_UNKNOWN &&  
+			m_eSupportFormat[eTF_DXT5] != D3DFMT_UNKNOWN  &&
+			m_eSupportFormat[eTF_RBG24] != D3DFMT_UNKNOWN  && 
+			m_eSupportFormat[eTF_ARGB32] != D3DFMT_UNKNOWN  &&
+			m_eSupportFormat[eTF_R5G6B5] != D3DFMT_UNKNOWN );
 
 }
 

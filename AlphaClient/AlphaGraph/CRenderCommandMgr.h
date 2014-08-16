@@ -10,17 +10,18 @@ struct SFogInfo
 {
 	float fFar;
 	float fNear;
-	vector4f color;
+	uint32 nColor;
 };
 
 struct SRenderEnvir
 {
+	enum { MAX_LIGHT = 8 };
 	uint8	 nMaxLight;
 	vector4f ambient;
-	vector4f matView;
-	vector4f matViewInvert;
-	vector4f matProject;
-	vector4f matProjectInvert;
+	matrix4x4f matView;
+	matrix4x4f matViewInvert;
+	matrix4x4f matProject;
+	matrix4x4f matProjectInvert;
 	vector4f viewPort;
 	bool	 bFogEnable;
 	SFogInfo fogInfo;
@@ -30,7 +31,7 @@ struct SRenderEnvir
 	vector4f scissor;
 	vector4f baseBrightness;
 	uint8	 nLighCnt;
-	//SLight	 aryLight[];
+	//SLight	 aryLight[MAX_LIGHT];
 	CTexture* CurShadowMap;
 };
 

@@ -29,7 +29,7 @@ const uint64 INVALID_64BIT = uint64(-1);
 #define vector3f TVector3<float>
 #define vector4f TVector4<float>
 
-#define matrix3x3f TMatrix3<float>
-#define matrix4x4f TMatrix4<float>
+#define matrix3x3f TMatrix3<float, float>
+#define matrix4x4f TMatrix4<float, float>
 
 #endif

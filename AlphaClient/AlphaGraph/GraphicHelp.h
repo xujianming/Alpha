@@ -2,6 +2,8 @@
 
 #include "AlphaCommon\AlphaCommonType.h"
 
+#define MAX_TEXTURE_STAGE 8
+
 enum EPrimitiveType
 {
 	ePT_PointList,
