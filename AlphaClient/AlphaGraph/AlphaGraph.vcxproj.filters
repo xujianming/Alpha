@@ -119,9 +119,6 @@
     <ClCompile Include="CTexture.cpp">
       <Filter>Base\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="CGraphicD3D9.cpp">
-      <Filter>D3D9\Frame</Filter>
-    </ClCompile>
     <ClCompile Include="CVertexFormatD3D9.cpp">
       <Filter>D3D9\Resource</Filter>
     </ClCompile>

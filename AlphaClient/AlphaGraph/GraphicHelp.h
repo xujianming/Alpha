@@ -82,6 +82,32 @@ enum ETextureFormat
 	eTF_UNKNOWN = 28,
 };
 
+enum ETextureAddress
+{
+	eTA_Wrap,
+	eTA_Border,
+	eTA_Clamp,
+	eTA_Mirror,
+	eTA_Cnt
+};
+
+enum ESampleState
+{
+	eSS_MipFilter,
+	eSS_MinFilter,
+	eSS_MagFilter,
+	eSS_AddressU,
+	eSS_AddressV,
+	eSS_AddressW,
+	eSS_BordeColor,
+	eSS_Cnt
+};
+
+struct SSampleState
+{
+	uint32 m_eSampleState[eSS_Cnt];
+};
+
 inline uint32 GetBitPerPixel(ETextureFormat eFormat)
 {
 	uint32 size[] = { 4, 8, 24, 32, 16, 16, 4, 8, 24, 32, 16, 16, 16, 8, 16, 16, 32, 32, 32, 32, 64, 64, 128, 0, 16, 32, 32 };
