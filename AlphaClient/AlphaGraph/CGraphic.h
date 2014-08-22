@@ -50,6 +50,10 @@ public:
 
 	CTexture* CreateTextureFromFile(char* szFileName);
 
+	std::string GetVertexShaderVersion();
+
+	std::string GetPixelShaderVersion();
+
 protected:	
 	virtual bool CreateSuitableDevice();
 

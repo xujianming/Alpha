@@ -100,6 +100,7 @@ enum ESampleState
 	eSS_AddressV,
 	eSS_AddressW,
 	eSS_BordeColor,
+	eSS_MipmapLodBias,
 	eSS_Cnt
 };
 
