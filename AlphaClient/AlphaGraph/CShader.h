@@ -29,20 +29,18 @@ struct SShaderParam
 {
 	string m_strName;
 	string m_strBuffer;
-	uint8 m_nElemCnt;
-	uint8 m_nRegPerElem;
+	uint32 m_nElemCnt;
+	uint32 m_nRegPerElem;
 	EShaderDataType m_eDataType;
 };
 
-struct SShaderActiveParam
+struct SShaderActiveParam: public SShaderParam
 {
-	SShaderParam* m_pParam;
 	uint32 m_nVertexRegisterIndex;
 	uint32 m_nVertexRegisterCnt;
 	uint32 m_nPixelRegisterIndex;
 	uint32 m_nPixelRegisterCnt;
 	SShaderActiveParam():
-		m_pParam(NULL),
 		m_nVertexRegisterIndex(INVALID_32BIT),
 		m_nVertexRegisterCnt(0),
 		m_nPixelRegisterIndex(INVALID_32BIT),
@@ -64,15 +62,17 @@ public:
 
 	virtual bool CreateShaderFromFile(const char* szFileName) { return false; };
 
-	void SetParamData(const char* szName, const void* data, size_t size, EShaderDataType eDataType);
+	void SetParamData(uint8 nIndex, const void* data, size_t size, EShaderDataType eDataType);
+
+	uint8 GetParamIndex(const char* szParamName);
 
 protected:
 	template<class dataType>
-	void SetParamVector4(SShaderParam* pParam, TVector4<dataType> data, size_t size, EShaderDataType eDataType);
+	void SetParamVector4(SShaderActiveParam& sParam, const TVector4<dataType>* data, uint32 count);
 	
-	void SetParamMatrix(SShaderParam* pParam, matrix4x4f matrix);
+	void SetParamMatrix(SShaderActiveParam& sParam, const CMatrix* matrix, uint32 nElemCnt);
 
-	void SetParamTexture(SShaderParam* pParam, CTexture* texture);
+	void SetParamTexture(SShaderActiveParam& sParam, CTexture* texture);
 	
 	void AddParam(bool bVertexShader, const char* strName, uint32 nRegisterIndex, uint32 nRegisterCnt, EShaderDataType eDataType, const void* pDefaultValue, 
 		uint32 nCntPerReg, uint32 nRegPerElem, uint32 nElemCnt );
@@ -80,8 +80,19 @@ protected:
 	vector<SShaderActiveParam> m_vecShaderParams;
 };
 
-template<class dataType>
-void CShader::SetParamVector4( SShaderParam* pParam, TVector4<dataType> data, size_t size, EShaderDataType eDataType )
+template<>
+void CShader::SetParamVector4( SShaderActiveParam& sParam, const TVector4<float>* data, uint32 nElemCnt )
 {
+	nElemCnt = min(nElemCnt, sParam.m_nElemCnt);
+	memcpy(&sParam.m_strBuffer[0], data, sizeof(TVector4<float>) * nElemCnt);
+}
 
+
+template<class dataType>
+void CShader::SetParamVector4( SShaderActiveParam& sParam, const TVector4<dataType>* data, uint32 nElemCnt )
+{
+	nElemCnt = min(nElemCnt, sParam.m_nElemCnt);
+	CVector4f* pDes = (CVector4f* )&sParam.m_strBuffer[0];
+	for (uint32 i = 0; i < nElemCnt; i ++)
+		pDes[i] = (CVector4f*)data[i];
 }

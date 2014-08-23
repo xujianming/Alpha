@@ -368,6 +368,12 @@ struct TVector4
 			w (d)
 	{}
 
+	template<class another>
+	explicit TVector4( const another& ot)
+		:x(T(ot.x)), y(T(ot.y)), z(T(ot.z)), w(T(ot.w))
+	{
+
+	}
 	//indexing, read
 	const T& operator [] ( const long i ) const
 	{

@@ -25,11 +25,10 @@ const uint16 INVALID_16BIT = uint16(-1);
 const uint32 INVALID_32BIT = uint32(-1);
 const uint64 INVALID_64BIT = uint64(-1);
 
-#define vector2f TVector2<float>
-#define vector3f TVector3<float>
-#define vector4f TVector4<float>
+#define CVector2f TVector2<float>
+#define CVector3f TVector3<float>
+#define CVector4f TVector4<float>
 
-#define matrix3x3f TMatrix3<float, float>
-#define matrix4x4f TMatrix4<float, float>
+#define CMatrix TMatrix4<float, float>
 
 #endif
