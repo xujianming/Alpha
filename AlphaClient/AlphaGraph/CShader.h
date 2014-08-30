@@ -6,6 +6,9 @@
 #include "CGraphicRes.h"
 #include "GraphicHelp.h"
 #include "AlphaCommon\AlphaCommonType.h"
+#include "SMaterial.h"
+#include "CRenderCommandMgr.h"
+
 using namespace std;
 
 class CTexture;
@@ -60,11 +63,15 @@ public:
 
 	~CShader();
 
-	virtual bool CreateShaderFromFile(const char* szFileName) { return false; };
+	virtual bool CreateShaderFromFile(const char* szFileName, bool isVertexShader) { return false; };
 
 	void SetParamData(uint8 nIndex, const void* data, size_t size, EShaderDataType eDataType);
 
+	void SetParamData(const char* szParamName, const void* data, size_t size, EShaderDataType eDataType);
+
 	uint8 GetParamIndex(const char* szParamName);
+
+	void SetShaderParam(SMaterial& sMaterial, SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint8 nMatrixCnt);
 
 protected:
 	template<class dataType>
@@ -94,5 +101,5 @@ void CShader::SetParamVector4( SShaderActiveParam& sParam, const TVector4<dataTy
 	nElemCnt = min(nElemCnt, sParam.m_nElemCnt);
 	CVector4f* pDes = (CVector4f* )&sParam.m_strBuffer[0];
 	for (uint32 i = 0; i < nElemCnt; i ++)
-		pDes[i] = (CVector4f*)data[i];
+		pDes[i] = (CVector4f)data[i];
 }

@@ -17,19 +17,20 @@ struct SRenderEnvir
 {
 	enum { MAX_LIGHT = 8 };
 	uint8	 nMaxLight;
-	vector4f ambient;
-	matrix4x4f matView;
-	matrix4x4f matViewInvert;
-	matrix4x4f matProject;
-	matrix4x4f matProjectInvert;
-	vector4f viewPort;
+	CVector4f ambient;
+	CMatrix matView;
+	CMatrix matViewInvert;
+	CMatrix matProject;
+	CMatrix matProjectInvert;
+	CMatrix matViewProject;
+	CVector4f viewPort;
 	bool	 bFogEnable;
 	SFogInfo fogInfo;
 	bool	 bShadowMaskEnable;
 	CTexture* pCurPeferredTarget;
 	CTexture* CurRenderTarget;
-	vector4f scissor;
-	vector4f baseBrightness;
+	CVector4f scissor;
+	CVector4f baseBrightness;
 	uint8	 nLighCnt;
 	//SLight	 aryLight[MAX_LIGHT];
 	CTexture* CurShadowMap;

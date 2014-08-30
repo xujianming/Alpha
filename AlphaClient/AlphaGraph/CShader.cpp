@@ -41,6 +41,13 @@ void CShader::SetParamData( uint8 nIndex, const void* data, size_t size, EShader
 	}
 }
 
+void CShader::SetParamData( const char* szParamName, const void* data, size_t size, EShaderDataType eDataType )
+{
+	uint8 index = GetParamIndex(szParamName);
+	if (index != INVALID_8BIT)
+		SetParamData(index, data, size, eDataType);
+}
+
 void CShader::SetParamMatrix(SShaderActiveParam& sParam, const CMatrix* matrix, uint32 nElemCnt)
 {
 	assert(sParam.m_nRegPerElem > 1);
@@ -129,5 +136,42 @@ uint8 CShader::GetParamIndex( const char* szParamName )
 		if (m_vecShaderParams[i].m_strName == szParamName)
 			return i;
 	return INVALID_8BIT;
+}
+
+void CShader::SetShaderParam( SMaterial& sMaterial, SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint8 nMatrixCnt )
+{
+	CMatrix matWorld;
+	if (arrMatrix)
+		SetParamData("matWorld", arrMatrix, nMatrixCnt, eSDT_Matrix);
+	else
+		SetParamData("matWorld", &matWorld, 1, eSDT_Matrix);
+
+	const CMatrix& matView= sEnvir.matView;
+	if (arrMatrix)
+	{
+		CMatrix matWorldView[256];
+		for (uint8 i = 0; i < nMatrixCnt; i ++)
+			matWorldView[i] = arrMatrix[i] * matView;
+		SetParamData("matWorldView", arrMatrix, nMatrixCnt, eSDT_Matrix);
+	}
+	else
+		SetParamData("matWorldView", &matView, 1, eSDT_Matrix);
+
+	const CMatrix& matViewProject = sEnvir.matViewProject;
+	if (arrMatrix)
+	{
+		CMatrix matWorldViewProject[256];
+		for (uint8 i = 0; i < nMatrixCnt; i ++)
+			matWorldViewProject[i] = arrMatrix[i] * matViewProject;
+		SetParamData("matWorldViewProject", arrMatrix, nMatrixCnt, eSDT_Matrix);
+	}
+	else
+		SetParamData("matWorldViewProject", &matViewProject, 1, eSDT_Matrix);
+
+	SetParamData("matView", &matView, 1, eSDT_Matrix);
+	SetParamData("matViewInv", &matView, 1, eSDT_Matrix);
+	SetParamData("matProject", &sEnvir.matProject, 1, eSDT_Matrix);
+	SetParamData("matProject", &sEnvir.matProject, 1, eSDT_Matrix);
+
 }
 

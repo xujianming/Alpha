@@ -11,7 +11,7 @@ public:
 
 	virtual ~CShaderD3D9();
 
-	bool CreateShaderFromFile(const char* szFileName);
+	bool CreateShaderFromFile(const char* szFileName, bool isVertexShader);
 	
 protected:
 

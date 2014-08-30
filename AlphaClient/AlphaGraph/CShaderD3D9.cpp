@@ -13,13 +13,17 @@ CShaderD3D9::~CShaderD3D9()
 
 }
 
-bool CShaderD3D9::CreateShaderFromFile( const char* szFileName )
+bool CShaderD3D9::CreateShaderFromFile( const char* szFileName, bool isVertexShader )
 {
 	ID3DXBuffer* pErrorBuffer = 0;
 	ID3DXConstantTable* pConstantTable = nullptr;
 	CGraphicD3D9* pGraphicD3D9 = static_cast<CGraphicD3D9*>(m_pGraphic);
+	HRESULT hr;
+	if (isVertexShader)
+		hr = D3DXCompileShaderFromFile(szFileName, NULL, NULL, NULL, D3DXGetVertexShaderProfile(pGraphicD3D9->GetDevice()), 0, &m_pShaderBuffer, &pErrorBuffer, &pConstantTable);
+	else
+		hr = D3DXCompileShaderFromFile(szFileName, NULL, NULL, NULL, D3DXGetPixelShaderProfile(pGraphicD3D9->GetDevice()), 0, &m_pShaderBuffer, &pErrorBuffer, &pConstantTable);
 	
-	HRESULT hr = D3DXCompileShaderFromFile(szFileName, NULL, NULL, NULL, D3DXGetVertexShaderProfile(pGraphicD3D9->GetDevice()), 0, &m_pShaderBuffer, &pErrorBuffer, &pConstantTable);
 	if (pErrorBuffer)
 	{
 		::MessageBox(0, (char*)pErrorBuffer->GetBufferPointer(), 0, 0);
@@ -27,19 +31,10 @@ bool CShaderD3D9::CreateShaderFromFile( const char* szFileName )
 	}
 	if (hr != D3D_OK)
 		return false;
-	SetUpParamList(pConstantTable, true);
+
+	SetUpParamList(pConstantTable, isVertexShader);
 	SAFE_RELEASE(pConstantTable);
 
-	HRESULT hr = D3DXCompileShaderFromFile(szFileName, NULL, NULL, NULL, D3DXGetPixelShaderProfile(pGraphicD3D9->GetDevice()), 0, &m_pShaderBuffer, &pErrorBuffer, &pConstantTable);
-	if (pErrorBuffer)
-	{
-		::MessageBox(0, (char*)pErrorBuffer->GetBufferPointer(), 0, 0);
-		SAFE_RELEASE(pErrorBuffer);
-	}
-	if (hr != D3D_OK)
-		return false;
-	SetUpParamList(pConstantTable, false);
-	SAFE_RELEASE(pConstantTable);
 	return true;
 }
 
@@ -52,7 +47,7 @@ void CShaderD3D9::SetUpParamList(ID3DXConstantTable* pConstantTable, bool bVerte
 	for (uint32 i = 0; i < desc.Constants; i ++)
 	{
 		D3DXHANDLE handle;
-		pConstantTable->GetConstant(handle, i);
+		handle = pConstantTable->GetConstant(NULL, i);
 		D3DXCONSTANT_DESC constDesc[256];
 		uint32 Cnt = 256;
 		pConstantTable->GetConstantDesc(handle, constDesc, &Cnt);
