@@ -194,7 +194,7 @@ bool CGraphicD3D9::EnumSupportTextureFormat()
 	if (m_pD3D9->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &displayModel))
 		return false;
 
-	for (uint8 i = 0; i < eDT_Cnt; i ++)
+	for (uint8 i = 0; i < eTF_Cnt; i ++)
 	{
 		if (m_pD3D9->CheckDeviceFormat(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, displayModel.Format, 0, D3DRTYPE_TEXTURE, g_eTextureD3D9Format[i]) == D3D_OK)
 			m_eSupportFormat[i] = g_eTextureD3D9Format[i];
@@ -202,7 +202,7 @@ bool CGraphicD3D9::EnumSupportTextureFormat()
 
 	return (m_eSupportFormat[eTF_DXT1] != D3DFMT_UNKNOWN &&  
 			m_eSupportFormat[eTF_DXT5] != D3DFMT_UNKNOWN  &&
-			m_eSupportFormat[eTF_RBG24] != D3DFMT_UNKNOWN  && 
+			//m_eSupportFormat[eTF_RBG24] != D3DFMT_UNKNOWN  && 
 			m_eSupportFormat[eTF_ARGB32] != D3DFMT_UNKNOWN  &&
 			m_eSupportFormat[eTF_R5G6B5] != D3DFMT_UNKNOWN );
 

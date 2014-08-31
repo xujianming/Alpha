@@ -45,7 +45,7 @@ struct SPrimiveInfo
 class CRenderCommandMgr
 {
 public:
-	CRenderCommandMgr(CGraphic* pGraph);
+	CRenderCommandMgr(CGraphic* pGraphic);
 	~CRenderCommandMgr();
 	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
 	void pushEnvir(SRenderEnvir envirState);
@@ -54,5 +54,6 @@ public:
 protected:
 	SRenderEnvir m_curEnvir;
 	std::vector<SRenderEnvir> m_envirStack;
+	CGraphic* m_pGraphic;
 };
 

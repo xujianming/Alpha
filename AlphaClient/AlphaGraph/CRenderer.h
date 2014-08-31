@@ -3,7 +3,7 @@
 #include <d3d9.h>
 
 class CAlphaWindow;
-class CGraphicD3D9;
+class CGraphic;
 class CScene;
 class CModel;
 
@@ -17,9 +17,11 @@ public:
 	void EnterOneFrame();
 	void SetMainScene(CScene *pScene);
 
+	CGraphic* GetGraphic(){ return m_pGraphic; }
+
 private:
 	CAlphaWindow* m_pWnd;
-	CGraphicD3D9* m_pGraphic;
+	CGraphic* m_pGraphic;
 	CScene* m_pMainScene;
 
 	CModel* m_pModel;

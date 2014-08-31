@@ -24,9 +24,6 @@
     <ClInclude Include="CCamera.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="CRenderer.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="CScene.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -89,13 +86,13 @@
     <ClInclude Include="CShaderD3D9.h">
       <Filter>D3D9\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="CRenderer.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp" />
     <ClCompile Include="CScene.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
-    <ClCompile Include="CRenderer.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="CCamera.cpp">
@@ -151,6 +148,12 @@
     </ClCompile>
     <ClCompile Include="CShaderD3D9.cpp">
       <Filter>D3D9\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CGraphicD3D9.cpp">
+      <Filter>D3D9\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderer.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

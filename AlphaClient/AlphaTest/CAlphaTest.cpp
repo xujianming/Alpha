@@ -5,6 +5,8 @@
 #include "CAlphaTest.h"
 #include "AlphaCommon/CAlphaWindow.h"
 #include "AlphaGraph/CRenderer.h"
+#include "AlphaGraph/CGraphic.h"
+
 #include <Mmsystem.h>
 #pragma comment( lib,"winmm.lib" )
 
@@ -16,6 +18,7 @@ void init()
 	g_pWindow->Initialize(NULL, 800, 600, "MyTestTitle", 0);
 	g_pRenderer = new CRenderer;
 	g_pRenderer->Initialize(g_pWindow);
+	g_pRenderer->GetGraphic()->CreateShaderFromFile("../AlphaShader/shadow.fx", false);
 }
 
 void destroy()

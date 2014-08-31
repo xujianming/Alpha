@@ -5,6 +5,7 @@
 #include "CModel.h"
 #include "AlphaCommon\CAlphaWindow.h"
 #pragma comment(lib, "d3dx9.lib")
+
 CRenderer::CRenderer()
 {
 	m_pModel = 0;

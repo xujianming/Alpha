@@ -1,17 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlphaCommon", "AlphaCommon\AlphaCommon.vcxproj", "{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlphaTest", "AlphaTest\AlphaTest.vcxproj", "{61C55715-68EB-4524-BC5A-682F7B574093}"
-	ProjectSection(ProjectDependencies) = postProject
-		{31BA2CB4-008D-4F9C-A115-3BDAC6AAA4AD} = {31BA2CB4-008D-4F9C-A115-3BDAC6AAA4AD}
-		{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0} = {3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}
-	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlphaCommon", "AlphaCommon\AlphaCommon.vcxproj", "{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlphaGraph", "AlphaGraph\AlphaGraph.vcxproj", "{31BA2CB4-008D-4F9C-A115-3BDAC6AAA4AD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlphaNetwork", "AlphaNetwork\AlphaNetwork.vcxproj", "{BE82819B-7B28-49BE-B8D4-B54AAE696A1C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlphaShader", "AlphaShader\AlphaShader.vcxproj", "{5B3C50C1-B18C-4344-A146-7913285D0212}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +17,14 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}.Debug|Win32.ActiveCfg = Debug|Win32
-		{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}.Debug|Win32.Build.0 = Debug|Win32
-		{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}.Release|Win32.ActiveCfg = Release|Win32
-		{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}.Release|Win32.Build.0 = Release|Win32
 		{61C55715-68EB-4524-BC5A-682F7B574093}.Debug|Win32.ActiveCfg = Debug|Win32
 		{61C55715-68EB-4524-BC5A-682F7B574093}.Debug|Win32.Build.0 = Debug|Win32
 		{61C55715-68EB-4524-BC5A-682F7B574093}.Release|Win32.ActiveCfg = Release|Win32
 		{61C55715-68EB-4524-BC5A-682F7B574093}.Release|Win32.Build.0 = Release|Win32
+		{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}.Debug|Win32.Build.0 = Debug|Win32
+		{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}.Release|Win32.ActiveCfg = Release|Win32
+		{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}.Release|Win32.Build.0 = Release|Win32
 		{31BA2CB4-008D-4F9C-A115-3BDAC6AAA4AD}.Debug|Win32.ActiveCfg = Debug|Win32
 		{31BA2CB4-008D-4F9C-A115-3BDAC6AAA4AD}.Debug|Win32.Build.0 = Debug|Win32
 		{31BA2CB4-008D-4F9C-A115-3BDAC6AAA4AD}.Release|Win32.ActiveCfg = Release|Win32
@@ -35,6 +33,10 @@ Global
 		{BE82819B-7B28-49BE-B8D4-B54AAE696A1C}.Debug|Win32.Build.0 = Debug|Win32
 		{BE82819B-7B28-49BE-B8D4-B54AAE696A1C}.Release|Win32.ActiveCfg = Release|Win32
 		{BE82819B-7B28-49BE-B8D4-B54AAE696A1C}.Release|Win32.Build.0 = Release|Win32
+		{5B3C50C1-B18C-4344-A146-7913285D0212}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5B3C50C1-B18C-4344-A146-7913285D0212}.Debug|Win32.Build.0 = Debug|Win32
+		{5B3C50C1-B18C-4344-A146-7913285D0212}.Release|Win32.ActiveCfg = Release|Win32
+		{5B3C50C1-B18C-4344-A146-7913285D0212}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,6 +4,7 @@
 #include "CRenderCommandMgr.h"
 #include "CGraphicFactory.h"
 #include "CTexture.h"
+#include "CShader.h"
 
 CGraphic::CGraphic( CAlphaWindow* pWnd ):
 	m_pWnd(pWnd),
@@ -104,4 +105,11 @@ CTexture* CGraphic::CreateTextureFromFile( char* szFileName )
 CGraphicResMgr& CGraphic::GetResMgr()
 {
 	return m_ResMgr;
+}
+
+CShader* CGraphic::CreateShaderFromFile( const char* szFileName,  bool bVertexShader )
+{
+	CShader* pShader = m_pGraphicFactory->CreateShader();
+	pShader->CreateShaderFromFile(szFileName, bVertexShader);
+	return pShader;
 }

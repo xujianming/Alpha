@@ -100,6 +100,7 @@
     <ClCompile Include="CGeometryBuffer.cpp" />
     <ClCompile Include="CGeometryBufferD3D9.cpp" />
     <ClCompile Include="CGraphic.cpp" />
+    <ClCompile Include="CGraphicD3D9.cpp" />
     <ClCompile Include="CGraphicFactory.cpp" />
     <ClCompile Include="CGraphicFactoryD3D9.cpp" />
     <ClCompile Include="CGraphicResMgr.cpp" />

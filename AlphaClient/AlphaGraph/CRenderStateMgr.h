@@ -12,7 +12,7 @@ public:
 
 	void SetProgram(CProgram* pProgram);
 
-	void SetAlphaBlean();
+	void SetAlphaBlend();
 
 	void SetZTest(bool bTest);
 

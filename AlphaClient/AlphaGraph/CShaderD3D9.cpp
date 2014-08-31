@@ -3,14 +3,15 @@
 #include "CGraphicD3D9.h"
 
 CShaderD3D9::CShaderD3D9( CGraphic* pGraphic ):
-	CShader(pGraphic)
+	CShader(pGraphic),
+	m_pShaderBuffer(nullptr)
 {
 
 }
 
 CShaderD3D9::~CShaderD3D9()
 {
-
+	SAFE_RELEASE(m_pShaderBuffer);
 }
 
 bool CShaderD3D9::CreateShaderFromFile( const char* szFileName, bool isVertexShader )
@@ -18,11 +19,12 @@ bool CShaderD3D9::CreateShaderFromFile( const char* szFileName, bool isVertexSha
 	ID3DXBuffer* pErrorBuffer = 0;
 	ID3DXConstantTable* pConstantTable = nullptr;
 	CGraphicD3D9* pGraphicD3D9 = static_cast<CGraphicD3D9*>(m_pGraphic);
+
 	HRESULT hr;
 	if (isVertexShader)
-		hr = D3DXCompileShaderFromFile(szFileName, NULL, NULL, NULL, D3DXGetVertexShaderProfile(pGraphicD3D9->GetDevice()), 0, &m_pShaderBuffer, &pErrorBuffer, &pConstantTable);
+		hr = D3DXCompileShaderFromFile(szFileName, NULL, NULL, "VertexMain", D3DXGetVertexShaderProfile(pGraphicD3D9->GetDevice()), 0, &m_pShaderBuffer, &pErrorBuffer, &pConstantTable);
 	else
-		hr = D3DXCompileShaderFromFile(szFileName, NULL, NULL, NULL, D3DXGetPixelShaderProfile(pGraphicD3D9->GetDevice()), 0, &m_pShaderBuffer, &pErrorBuffer, &pConstantTable);
+		hr = D3DXCompileShaderFromFile(szFileName, NULL, NULL, "PixelMain", D3DXGetPixelShaderProfile(pGraphicD3D9->GetDevice()), 0, &m_pShaderBuffer, &pErrorBuffer, &pConstantTable);
 	
 	if (pErrorBuffer)
 	{
@@ -42,7 +44,6 @@ void CShaderD3D9::SetUpParamList(ID3DXConstantTable* pConstantTable, bool bVerte
 {
 	D3DXCONSTANTTABLE_DESC desc;
 	pConstantTable->GetDesc(&desc);
-	m_vecShaderParams.resize(desc.Constants);
 
 	for (uint32 i = 0; i < desc.Constants; i ++)
 	{
@@ -68,6 +69,5 @@ void CShaderD3D9::SetUpParamList(ID3DXConstantTable* pConstantTable, bool bVerte
 			EShaderDataType(constDesc[0].RegisterSet), constDesc[0].DefaultValue, constDesc[0].Columns, constDesc[0].Rows, constDesc[0].Elements);
 
 	}
-	SAFE_RELEASE(pConstantTable);
 }
 

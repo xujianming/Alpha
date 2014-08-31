@@ -51,11 +51,6 @@ struct SShaderActiveParam: public SShaderParam
 	{}
 };
 
-class CProgram
-{
-
-};
-
 class CShader: public CGraphicRes
 {
 public:
@@ -75,7 +70,7 @@ public:
 
 protected:
 	template<class dataType>
-	void SetParamVector4(SShaderActiveParam& sParam, const TVector4<dataType>* data, uint32 count);
+	void SetParamVector4(SShaderActiveParam& sParam, const TVector4<dataType>* data, uint32 nElemCnt);
 	
 	void SetParamMatrix(SShaderActiveParam& sParam, const CMatrix* matrix, uint32 nElemCnt);
 
@@ -87,14 +82,6 @@ protected:
 	vector<SShaderActiveParam> m_vecShaderParams;
 };
 
-template<>
-void CShader::SetParamVector4( SShaderActiveParam& sParam, const TVector4<float>* data, uint32 nElemCnt )
-{
-	nElemCnt = min(nElemCnt, sParam.m_nElemCnt);
-	memcpy(&sParam.m_strBuffer[0], data, sizeof(TVector4<float>) * nElemCnt);
-}
-
-
 template<class dataType>
 void CShader::SetParamVector4( SShaderActiveParam& sParam, const TVector4<dataType>* data, uint32 nElemCnt )
 {
@@ -103,3 +90,12 @@ void CShader::SetParamVector4( SShaderActiveParam& sParam, const TVector4<dataTy
 	for (uint32 i = 0; i < nElemCnt; i ++)
 		pDes[i] = (CVector4f)data[i];
 }
+/*
+template<>
+void CShader::SetParamVector4( SShaderActiveParam& sParam, const TVector4<float>* data, uint32 nElemCnt )
+{
+	nElemCnt = min(nElemCnt, sParam.m_nElemCnt);
+	memcpy(&sParam.m_strBuffer[0], data, sizeof(TVector4<float>) * nElemCnt);
+}
+
+*/
