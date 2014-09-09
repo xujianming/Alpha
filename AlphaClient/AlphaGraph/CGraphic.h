@@ -11,6 +11,7 @@
 class CAlphaWindow;
 class CGraphicResMgr;
 class CGraphicFactory;
+class CRenderStateMgr;
 
 class CGraphic: public IAlphaUnknown
 {
@@ -41,6 +42,10 @@ public:
 	CVertexFormatMgr& GetVertexFormatMgr();
 
 	CGraphicResMgr& GetResMgr();
+	
+	CGraphicFactory& GetCraphicFactor();
+
+	CRenderStateMgr& GetRenderStateMgr();
 
 	void AddRef();
 
@@ -59,10 +64,11 @@ public:
 protected:	
 	virtual bool CreateSuitableDevice();
 
-	CRenderCommandMgr m_RenderCommandMgr;
-	CVertexFormatMgr m_VertexFormatMgr;
+	CRenderCommandMgr m_cRenderCommandMgr;
+	CVertexFormatMgr m_cVertexFormatMgr;
 	CGraphicResMgr m_ResMgr;
 	CGraphicFactory* m_pGraphicFactory;
+	CRenderStateMgr* m_pRenderStateMgr;
 
 	CAlphaWindow* m_pWnd;
 	float m_fHWVertexShaderVersion;

@@ -16,8 +16,8 @@ matrix lightProjectionMatrix;
 //////////////
 // TEXTURES //
 //////////////
-Texture2D shaderTexture;
-Texture2D depthMapTexture;
+
+
 
 /////////////
 // GLOBALS //
@@ -30,14 +30,15 @@ float3 lightPosition;
 ///////////////////
 // SAMPLE STATES //
 ///////////////////
-SamplerState SampleTypeClamp
+sampler2D depthMapTexture = 
+sampler_state 
 {
     Filter = MIN_MAG_MIP_LINEAR;
     AddressU = Clamp;
     AddressV = Clamp;
 };
-
-SamplerState SampleTypeWrap
+sampler2D shaderTexture = 
+sampler_state 
 {
     Filter = MIN_MAG_MIP_LINEAR;
     AddressU = Wrap;
@@ -137,7 +138,7 @@ float4 PixelMain(PixelInputType input) : SV_Target
 	if((saturate(projectTexCoord.x) == projectTexCoord.x) && (saturate(projectTexCoord.y) == projectTexCoord.y))
 	{
 		// Sample the shadow map depth value from the depth texture using the sampler at the projected texture coordinate location.
-		depthValue = depthMapTexture.Sample(SampleTypeClamp, projectTexCoord).r;
+		depthValue = tex2D(depthMapTexture, projectTexCoord).r;
 
 		// Calculate the depth of the light.
 		lightDepthValue = input.lightViewPosition.z / input.lightViewPosition.w;
@@ -164,7 +165,7 @@ float4 PixelMain(PixelInputType input) : SV_Target
 	}
 
 	// Sample the pixel color from the texture using the sampler at this texture coordinate location.
-	textureColor = shaderTexture.Sample(SampleTypeWrap, input.tex);
+	textureColor = tex2D(shaderTexture, input.tex);
 
 	// Combine the light and texture color.
 	color = color * textureColor;

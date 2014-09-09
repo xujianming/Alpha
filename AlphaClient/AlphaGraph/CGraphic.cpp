@@ -68,7 +68,7 @@ void CGraphic::Destroy()
 
 void CGraphic::DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex )
 {
-	m_RenderCommandMgr.DrawPrimitive(material, primitiveType, vertexCnt, primitiveCnt, vertexType, vertexStride, arrVertex, arrIndex );
+	m_cRenderCommandMgr.DrawPrimitive(material, primitiveType, vertexCnt, primitiveCnt, vertexType, vertexStride, arrVertex, arrIndex );
 }
 
 uint32 CGraphic::GetCurFrame()
@@ -102,10 +102,32 @@ CTexture* CGraphic::CreateTextureFromFile( char* szFileName )
 	return  pTexture;
 }
 
+CRenderCommandMgr& CGraphic::GetRenderCommandMgr()
+{
+	return m_cRenderCommandMgr;
+}
+
+CVertexFormatMgr& CGraphic::GetVertexFormatMgr()
+{
+	return m_cVertexFormatMgr;
+}
+
 CGraphicResMgr& CGraphic::GetResMgr()
 {
 	return m_ResMgr;
 }
+
+
+CGraphicFactory& CGraphic::GetCraphicFactor()
+{
+	return *m_pGraphicFactory;
+}
+
+CRenderStateMgr& CGraphic::GetRenderStateMgr()
+{
+	return *m_pRenderStateMgr;
+}
+
 
 CShader* CGraphic::CreateShaderFromFile( const char* szFileName,  bool bVertexShader )
 {

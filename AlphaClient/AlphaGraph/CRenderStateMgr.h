@@ -1,7 +1,12 @@
 #pragma once
 
-class CProgram;
+#include "SMaterial.h"
+#include "GraphicHelp.h"
+#include "AlphaCommon\AlphaCommonType.h"
+
+class CShader;;
 class CGraphic;
+class CGeometryBuffer;
 
 class CRenderStateMgr
 {
@@ -10,7 +15,7 @@ public:
 	
 	virtual ~CRenderStateMgr();
 
-	void SetProgram(CProgram* pProgram);
+	void SetShader(CShader* pProgram);
 
 	void SetAlphaBlend();
 
@@ -29,6 +34,11 @@ public:
 	void ApplyRenderTargetParam();
 
 	void Reset();
+
+	void Apply( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
+	
+	void Apply( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
+
 
 protected:
 	CGraphic* m_pGraphic;

@@ -44,6 +44,7 @@ CGraphicD3D9::CGraphicD3D9( CAlphaWindow* pWindow ):
 	m_pBackBuffer(NULL)
 {
 	m_pGraphicFactory = new CGraphicFactoryD3D9(this);
+	m_pRenderStateMgr = new CRenderStateMgrD3D9(this);
 }
 
 CGraphicD3D9::~CGraphicD3D9()

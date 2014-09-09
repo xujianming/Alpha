@@ -52,9 +52,13 @@ void CShaderD3D9::SetUpParamList(ID3DXConstantTable* pConstantTable, bool bVerte
 		D3DXCONSTANT_DESC constDesc[256];
 		uint32 Cnt = 256;
 		pConstantTable->GetConstantDesc(handle, constDesc, &Cnt);
+	
 		if (constDesc[0].RegisterSet == D3DXRS_SAMPLER)
+		{
+			assert (constDesc[0].Type >= D3DXPT_SAMPLER1D);
 			AddParam(bVertexShader, constDesc[0].Name, constDesc[0].RegisterIndex, constDesc[0].RegisterCount, 
 			EShaderDataType(constDesc[0].Type - D3DXPT_SAMPLER1D + eSDT_Texture), constDesc[0].DefaultValue, 1, 1, 1);
+		}
 		else if (constDesc[0].Class == D3DXPC_MATRIX_COLUMNS)
 			AddParam(bVertexShader, constDesc[0].Name, constDesc[0].RegisterIndex, constDesc[0].RegisterCount,
 			EShaderDataType(constDesc[0].RegisterSet), constDesc[0].DefaultValue, 4, constDesc[0].Columns, constDesc[0].Elements);

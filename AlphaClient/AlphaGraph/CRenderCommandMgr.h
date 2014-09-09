@@ -4,13 +4,20 @@
 #include "AlphaCommon\AlphaCommonType.h"
 #include <vector>
 #include "CTexture.h"
+
 class CGraphic;
+class CGeometryBuffer;
 
 struct SFogInfo
 {
 	float fFar;
 	float fNear;
 	uint32 nColor;
+};
+
+struct SLight
+{
+
 };
 
 struct SRenderEnvir
@@ -32,14 +39,15 @@ struct SRenderEnvir
 	CVector4f scissor;
 	CVector4f baseBrightness;
 	uint8	 nLighCnt;
-	//SLight	 aryLight[MAX_LIGHT];
+	SLight	 aryLight[MAX_LIGHT];
 	CTexture* CurShadowMap;
 };
 
 struct SPrimiveInfo
 {
-	uint32 nPrimiveCnt;
-	uint32 nTriangleCnt;
+	uint32 nPrimitiveCnt;
+	uint32 nVertexCnt;
+	uint32 nPrimitiveGroupCnt;
 };
 
 class CRenderCommandMgr
@@ -48,12 +56,14 @@ public:
 	CRenderCommandMgr(CGraphic* pGraphic);
 	~CRenderCommandMgr();
 	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
+	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
 	void pushEnvir(SRenderEnvir envirState);
 	void popEnvir();
 	bool isEmpty();
 protected:
 	SRenderEnvir m_curEnvir;
 	std::vector<SRenderEnvir> m_envirStack;
-	CGraphic* m_pGraphic;
+	CGraphic* m_pGraphic; 
+	SPrimiveInfo m_sPrimiveInfo;
 };
 
