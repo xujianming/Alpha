@@ -11,11 +11,12 @@ public:
 
 	virtual ~CShaderD3D9();
 
-	bool CreateShaderFromFile(const char* szFileName, bool isVertexShader);
+	bool CreateShaderFromFile(const char* szFileName);
 	
 protected:
 
 	void SetUpParamList(ID3DXConstantTable* pConstantTable, bool bVertexShader);
 
-	ID3DXBuffer*		m_pShaderBuffer;
+	ID3DXBuffer*		m_pShaderVertexBuffer;
+	ID3DXBuffer*		m_pShaderPixelBuffer;
 };

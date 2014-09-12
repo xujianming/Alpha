@@ -15,31 +15,36 @@ public:
 	
 	virtual ~CRenderStateMgr();
 
-	void SetShader(CShader* pProgram);
+	void Apply( const SMaterial& sMaterial, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
 
-	void SetAlphaBlend();
+	void Apply( const SMaterial& sMaterial, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
 
-	void SetZTest(bool bTest);
+protected:
 
-	void SetFillModel();
+	void SetShader(CShader* pShader);
 
-	void SetRenderTargetParam();
+	virtual void SetRenderTargetParam();
 
-	void SetStencilParam();
+	virtual void SetStencilParam();
 
-	void SetScissorRect();
-
-	void ApplyMaterialParam();
+	virtual void SetScissorRect();
 
 	void ApplyRenderTargetParam();
 
+
+	virtual void SetAlphaBlend(uint8 nSrcBlend, uint8 nDesBlend) = 0;
+
+	virtual void SetZTest(uint8 nZTestFun, bool bZWR) = 0;
+
+	virtual void SetFillModel(uint8 nRGBWriteFlag, uint8 nCullType) = 0;
+
+	void ApplyMaterialParam(const SMaterial& material);
+
 	void Reset();
 
-	void Apply( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
-	
-	void Apply( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
+	virtual void Draw(EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex) = 0;
 
+	virtual void Draw(EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf) = 0;
 
-protected:
 	CGraphic* m_pGraphic;
 };

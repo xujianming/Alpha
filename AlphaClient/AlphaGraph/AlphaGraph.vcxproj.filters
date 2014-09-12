@@ -89,6 +89,9 @@
     <ClInclude Include="CRenderer.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="CRenderStateMgrD3D9.h">
+      <Filter>D3D9\Frame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp" />
@@ -154,6 +157,9 @@
     </ClCompile>
     <ClCompile Include="CRenderer.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderStateMgrD3D9.cpp">
+      <Filter>D3D9\Frame</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

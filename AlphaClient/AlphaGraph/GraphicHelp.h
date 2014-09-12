@@ -104,6 +104,13 @@ enum ESampleState
 	eSS_Cnt
 };
 
+enum EMaterialCullType
+{
+	eMCT_None,
+	eMCT_CW, 
+	eMCT_CCW
+};
+
 struct SSampleState
 {
 	uint32 m_eSampleState[eSS_Cnt];
