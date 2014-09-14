@@ -1,6 +1,7 @@
 #include "stdafx.h"
-#include "CRenderCommandMgr.h"
 #include "CGraphic.h"
+#include "CRenderCommandMgr.h"
+
 
 CRenderCommandMgr::CRenderCommandMgr(CGraphic* pGraphic):
 	m_pGraphic(pGraphic)

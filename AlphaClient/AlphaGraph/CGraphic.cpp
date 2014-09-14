@@ -8,8 +8,8 @@
 
 CGraphic::CGraphic( CAlphaWindow* pWnd ):
 	m_pWnd(pWnd),
-	m_RenderCommandMgr(this),
-	m_VertexFormatMgr(this),
+	m_cRenderCommandMgr(this),
+	m_cVertexFormatMgr(this),
 	m_ResMgr(this),
 	m_fHWPixelShaderVersion(0),
 	m_fHWVertexShaderVersion(0),
@@ -129,9 +129,9 @@ CRenderStateMgr& CGraphic::GetRenderStateMgr()
 }
 
 
-CShader* CGraphic::CreateShaderFromFile( const char* szFileName,  bool bVertexShader )
+CShader* CGraphic::CreateShaderFromFile( const char* szFileName )
 {
 	CShader* pShader = m_pGraphicFactory->CreateShader();
-	pShader->CreateShaderFromFile(szFileName, bVertexShader);
+	pShader->CreateShaderFromFile(szFileName);
 	return pShader;
 }

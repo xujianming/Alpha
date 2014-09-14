@@ -23,7 +23,6 @@ struct SLight
 struct SRenderEnvir
 {
 	enum { MAX_LIGHT = 8 };
-	uint8	 nMaxLight;
 	CVector4f ambient;
 	CMatrix matView;
 	CMatrix matViewInvert;
@@ -55,6 +54,7 @@ class CRenderCommandMgr
 public:
 	CRenderCommandMgr(CGraphic* pGraphic);
 	~CRenderCommandMgr();
+	const SRenderEnvir& GetCurEnvir() { return m_curEnvir; }
 	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
 	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
 	void pushEnvir(SRenderEnvir envirState);

@@ -31,6 +31,8 @@ public:
 
 	uint32 GetSzie();
 
+	uint32 GetStride()	{ return m_nStride; }
+
 protected:
 	virtual bool CheckBuffer() = 0;
 	

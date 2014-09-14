@@ -59,7 +59,7 @@ public:
 
 	std::string GetPixelShaderVersion();
 
-	CShader* CreateShaderFromFile(const char* szFileName, bool bVertexShader);
+	CShader* CreateShaderFromFile(const char* szFileName);
 
 protected:	
 	virtual bool CreateSuitableDevice();

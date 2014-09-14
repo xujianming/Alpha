@@ -21,13 +21,13 @@ public:
 
 protected:
 
-	void SetShader(CShader* pShader);
+	virtual void SetShader(CShader* pShader) = 0;
 
-	virtual void SetRenderTargetParam();
+	virtual void SetRenderTargetParam() = 0;
 
-	virtual void SetStencilParam();
+	virtual void SetStencilParam() = 0;
 
-	virtual void SetScissorRect();
+	virtual void SetScissorRect() = 0;
 
 	void ApplyRenderTargetParam();
 
