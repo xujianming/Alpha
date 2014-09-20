@@ -66,7 +66,7 @@ public:
 
 	uint8 GetParamIndex(const char* szParamName);
 
-	void SetShaderParam(SMaterial& sMaterial, SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint8 nMatrixCnt);
+	void SetShaderParam(const SMaterial& sMaterial, SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint8 nMatrixCnt);
 
 protected:
 	template<class dataType>
@@ -80,22 +80,23 @@ protected:
 		uint32 nCntPerReg, uint32 nRegPerElem, uint32 nElemCnt );
 
 	vector<SShaderActiveParam> m_vecShaderParams;
+	vector<SShaderActiveParam> m_vecVectorParams;
+	vector<SShaderActiveParam> m_vecSampleParams;
 };
 
+template<>
+inline void CShader::SetParamVector4<float>( SShaderActiveParam& sParam, const TVector4<float>* data, uint32 nElemCnt )
+{
+	nElemCnt = min(nElemCnt, sParam.m_nElemCnt);
+	memcpy(&sParam.m_strBuffer[0], data, sizeof(TVector4<float>) * nElemCnt);
+}
+
 template<class dataType>
-void CShader::SetParamVector4( SShaderActiveParam& sParam, const TVector4<dataType>* data, uint32 nElemCnt )
+inline void CShader::SetParamVector4( SShaderActiveParam& sParam, const TVector4<dataType>* data, uint32 nElemCnt )
 {
 	nElemCnt = min(nElemCnt, sParam.m_nElemCnt);
 	CVector4f* pDes = (CVector4f* )&sParam.m_strBuffer[0];
 	for (uint32 i = 0; i < nElemCnt; i ++)
 		pDes[i] = (CVector4f)data[i];
 }
-/*
-template<>
-void CShader::SetParamVector4( SShaderActiveParam& sParam, const TVector4<float>* data, uint32 nElemCnt )
-{
-	nElemCnt = min(nElemCnt, sParam.m_nElemCnt);
-	memcpy(&sParam.m_strBuffer[0], data, sizeof(TVector4<float>) * nElemCnt);
-}
 
-*/

@@ -19,4 +19,6 @@ protected:
 
 	ID3DXBuffer*		m_pShaderVertexBuffer;
 	ID3DXBuffer*		m_pShaderPixelBuffer;
+
+
 };

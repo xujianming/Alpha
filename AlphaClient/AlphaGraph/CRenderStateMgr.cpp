@@ -1,5 +1,9 @@
 #include "stdafx.h"
 #include "CRenderStateMgr.h"
+#include "SMaterial.h"
+#include "CGraphic.h"
+#include "CShader.h"
+#include "CTexture.h"
 
 CRenderStateMgr::CRenderStateMgr( CGraphic* pGraphic ):
 	m_pGraphic(pGraphic)

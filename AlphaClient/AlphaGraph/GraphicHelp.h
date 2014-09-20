@@ -12,6 +12,7 @@ enum EPrimitiveType
 	ePT_TriangleList,
 	ePT_TriangleStrip,
 	ePT_TriangleFan,
+	ePT_Cnt
 };	
 
 struct SVertexElem
@@ -109,6 +110,18 @@ enum EMaterialCullType
 	eMCT_None,
 	eMCT_CW, 
 	eMCT_CCW
+};
+
+enum EMaterialCmpFunc
+{
+	eMCF_Disable,
+	eMCF_Never,
+	eMCF_Equal,
+	eMCF_LessEqual,
+	eMCF_Greater,
+	eMCF_NotEqual,
+	eMCF_GreaterEqual,
+	eMCF_Always,
 };
 
 struct SSampleState

@@ -64,7 +64,7 @@ void CShaderD3D9::SetUpParamList(ID3DXConstantTable* pConstantTable, bool bVerte
 		D3DXCONSTANT_DESC constDesc[256];
 		uint32 Cnt = 256;
 		pConstantTable->GetConstantDesc(handle, constDesc, &Cnt);
-	
+		
 		if (constDesc[0].RegisterSet == D3DXRS_SAMPLER)
 		{
 			assert (constDesc[0].Type >= D3DXPT_SAMPLER1D);

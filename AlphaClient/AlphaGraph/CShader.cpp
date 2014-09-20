@@ -128,6 +128,11 @@ void CShader::AddParam( bool bVertexShader, const char* strName, uint32 nRegiste
 		else
 			param.m_strBuffer.resize(sizeof(SSampleState));
 	}
+
+	if (eDataType < eSDT_Texture)
+		m_vecVectorParams.push_back(param);
+	else
+		m_vecSampleParams.push_back(param);
 }
 
 uint8 CShader::GetParamIndex( const char* szParamName )
@@ -138,7 +143,7 @@ uint8 CShader::GetParamIndex( const char* szParamName )
 	return INVALID_8BIT;
 }
 
-void CShader::SetShaderParam( SMaterial& sMaterial, SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint8 nMatrixCnt )
+void CShader::SetShaderParam( const SMaterial& sMaterial, SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint8 nMatrixCnt )
 {
 	CMatrix matWorld;
 	if (arrMatrix)
