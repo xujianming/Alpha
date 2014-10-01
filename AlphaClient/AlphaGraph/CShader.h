@@ -68,6 +68,10 @@ public:
 
 	void SetShaderParam(const SMaterial& sMaterial, SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint8 nMatrixCnt);
 
+	const vector<SShaderActiveParam*>& GetVectorParams() { return m_vecVectorParams; }
+
+	const vector<SShaderActiveParam*>& GetSampleParams() { return m_vecSampleParams; }
+
 protected:
 	template<class dataType>
 	void SetParamVector4(SShaderActiveParam& sParam, const TVector4<dataType>* data, uint32 nElemCnt);
@@ -79,9 +83,11 @@ protected:
 	void AddParam(bool bVertexShader, const char* strName, uint32 nRegisterIndex, uint32 nRegisterCnt, EShaderDataType eDataType, const void* pDefaultValue, 
 		uint32 nCntPerReg, uint32 nRegPerElem, uint32 nElemCnt );
 
-	vector<SShaderActiveParam> m_vecShaderParams;
-	vector<SShaderActiveParam> m_vecVectorParams;
-	vector<SShaderActiveParam> m_vecSampleParams;
+	void ApplyParam();
+
+	vector<SShaderActiveParam*> m_vecShaderParams;
+	vector<SShaderActiveParam*> m_vecVectorParams;
+	vector<SShaderActiveParam*> m_vecSampleParams;
 };
 
 template<>

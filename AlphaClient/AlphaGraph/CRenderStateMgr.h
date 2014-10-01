@@ -4,6 +4,8 @@
 #include "GraphicHelp.h"
 #include "AlphaCommon\AlphaCommonType.h"
 
+using namespace std;
+
 class CShader;;
 class CGraphic;
 class CGeometryBuffer;
@@ -21,7 +23,7 @@ public:
 
 protected:
 
-	virtual void SetShader(CShader* pShader) = 0;
+	virtual void SetShader(CShader* pShader);
 
 	virtual void SetRenderTargetParam() = 0;
 
@@ -47,4 +49,12 @@ protected:
 	virtual void Draw(EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType,  uint32 nVertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf) = 0;
 
 	CGraphic* m_pGraphic;
+
+	vector< CVector4f > m_vecVertexShaderParam;
+
+	vector< CVector4f > m_vecPixelShaderParam;
+
+	uint32 m_nVertexRegisterCnt;
+	
+	uint32 m_nPixelRegisterCnt;
 };

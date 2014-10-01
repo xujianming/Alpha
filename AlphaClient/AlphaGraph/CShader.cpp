@@ -10,14 +10,15 @@ CShader::CShader( CGraphic* pGraphic ):
 
 CShader::~CShader()
 {
-
+	for (uint32 i = 0; i < m_vecShaderParams.size(); i ++)
+		SAFE_DELETE(m_vecShaderParams[i]);
 }
 
 void CShader::SetParamData( uint8 nIndex, const void* data, size_t size, EShaderDataType eDataType )
 {
 	if (nIndex > m_vecShaderParams.size())
 		return;
-	SShaderActiveParam& param = m_vecShaderParams[nIndex];
+	SShaderActiveParam& param = *m_vecShaderParams[nIndex];
 	assert(eDataType >= eSDT_Cnt);
 	switch (eDataType)
 	{
@@ -70,35 +71,35 @@ void CShader::SetParamTexture(SShaderActiveParam& sParam, CTexture* texture )
 void CShader::AddParam( bool bVertexShader, const char* strName, uint32 nRegisterIndex, uint32 nRegisterCnt, EShaderDataType eDataType, const void* pDefaultValue, uint32 nCntPerReg, uint32 nRegPerElem, uint32 nElemCnt )
 {
 	for (uint32 i = 0; i < m_vecShaderParams.size(); i ++)
-		if (m_vecShaderParams[i].m_strName == strName)
+		if (m_vecShaderParams[i]->m_strName == strName)
 			return;
-	m_vecShaderParams.push_back(SShaderActiveParam());
-	SShaderActiveParam& param = *m_vecShaderParams.rbegin();
+	m_vecShaderParams.push_back(new SShaderActiveParam());
+	SShaderActiveParam* pParam = *m_vecShaderParams.rbegin();
 	if (bVertexShader)
 	{
-		param.m_nVertexRegisterIndex = nRegisterIndex;
-		param.m_nVertexRegisterCnt = nRegisterCnt;
-		param.m_nPixelRegisterIndex = INVALID_32BIT;
-		param.m_nPixelRegisterCnt = 0;
+		pParam->m_nVertexRegisterIndex = nRegisterIndex;
+		pParam->m_nVertexRegisterCnt = nRegisterCnt;
+		pParam->m_nPixelRegisterIndex = INVALID_32BIT;
+		pParam->m_nPixelRegisterCnt = 0;
 	}
 	else
 	{
-		param.m_nVertexRegisterIndex = INVALID_32BIT;
-		param.m_nVertexRegisterCnt = 0;
-		param.m_nPixelRegisterIndex = nRegisterIndex;
-		param.m_nPixelRegisterCnt = nRegisterCnt;
+		pParam->m_nVertexRegisterIndex = INVALID_32BIT;
+		pParam->m_nVertexRegisterCnt = 0;
+		pParam->m_nPixelRegisterIndex = nRegisterIndex;
+		pParam->m_nPixelRegisterCnt = nRegisterCnt;
 	}
 
-	param.m_eDataType = eDataType;
-	param.m_strName = strName;
-	param.m_nRegPerElem = nRegPerElem;
-	param.m_nElemCnt = nElemCnt;
-	param.m_strBuffer.resize(nRegPerElem * nElemCnt * sizeof(TVector4<float>));
+	pParam->m_eDataType = eDataType;
+	pParam->m_strName = strName;
+	pParam->m_nRegPerElem = nRegPerElem;
+	pParam->m_nElemCnt = nElemCnt;
+	pParam->m_strBuffer.resize(nRegPerElem * nElemCnt * sizeof(TVector4<float>));
 
 	if (pDefaultValue && eDataType < eSDT_Texture)
 	{
 		uint32 nStride = eDataType == eSDT_4Bool ? sizeof(bool) : sizeof(float);
-		TVector4<float>* pRegister = (TVector4<float>*)&param.m_strBuffer[0];
+		TVector4<float>* pRegister = (TVector4<float>*)&pParam->m_strBuffer[0];
 		const tByte* pSrc = (const tByte*)pDefaultValue;
 		for (uint32 nDes = 0; nDes < nRegisterCnt; nDes ++, pSrc += nStride * nCntPerReg)
 		{
@@ -124,21 +125,21 @@ void CShader::AddParam( bool bVertexShader, const char* strName, uint32 nRegiste
 	else
 	{
 		if (pDefaultValue)
-			param.m_strBuffer.assign((const char*)pDefaultValue, sizeof(SSampleState));
+			pParam->m_strBuffer.assign((const char*)pDefaultValue, sizeof(SSampleState));
 		else
-			param.m_strBuffer.resize(sizeof(SSampleState));
+			pParam->m_strBuffer.resize(sizeof(SSampleState));
 	}
 
 	if (eDataType < eSDT_Texture)
-		m_vecVectorParams.push_back(param);
+		m_vecVectorParams.push_back(pParam);
 	else
-		m_vecSampleParams.push_back(param);
+		m_vecSampleParams.push_back(pParam);
 }
 
 uint8 CShader::GetParamIndex( const char* szParamName )
 {
 	for (uint32 i = 0; i < m_vecShaderParams.size(); i ++)
-		if (m_vecShaderParams[i].m_strName == szParamName)
+		if (m_vecShaderParams[i]->m_strName == szParamName)
 			return i;
 	return INVALID_8BIT;
 }
@@ -177,6 +178,7 @@ void CShader::SetShaderParam( const SMaterial& sMaterial, SRenderEnvir& sEnvir, 
 	SetParamData("matViewInv", &matView, 1, eSDT_Matrix);
 	SetParamData("matProject", &sEnvir.matProject, 1, eSDT_Matrix);
 	SetParamData("matProject", &sEnvir.matProject, 1, eSDT_Matrix);
+
 
 }
 

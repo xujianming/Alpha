@@ -3,6 +3,8 @@
 #include "CGraphicD3D9.h"
 #include "CGeometryBufferD3D9.h"
 #include "CVertexFormatD3D9.h"
+#include "CShaderD3D9.h"
+#include "CTextureD3D9.h"
 
 D3DPRIMITIVETYPE g_PrimitiyType[ePT_Cnt] = 
 {
@@ -69,7 +71,23 @@ void CRenderStateMgrD3D9::SetScissorRect()
 
 void CRenderStateMgrD3D9::SetShader( CShader* pShader )
 {
+	CRenderStateMgr::SetShader(pShader);
+	const vector<SShaderActiveParam*>& sampleParam = pShader->GetSampleParams();
+	IDirect3DDevice9* pDevice = static_cast<CGraphicD3D9*>(m_pGraphic)->GetDevice();
+	for (uint32 i = 0; i < sampleParam.size(); i ++)
+	{
+		if (!sampleParam[i]->m_nPixelRegisterCnt)
+			continue;
+		SShaderTextureState *pState = (SShaderTextureState*)&sampleParam[i]->m_strBuffer[0];
+		CTexture* pTexture = pState->m_pTexture;
+		if (pTexture)
+		{
+			IDirect3DBaseTexture9 *pTex = (static_cast<CTextureD3D9*>(pTexture))->GetD3DTexture();
+			pDevice->SetTexture(sampleParam[i]->m_nPixelRegisterIndex, pTex);
 
+		}
+
+	}
 }
 
 void CRenderStateMgrD3D9::Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint8 nVertexFormat, uint16 nVertexStride, const void* pArrVertex, const void* pArrIndex)

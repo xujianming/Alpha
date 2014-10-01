@@ -61,6 +61,8 @@ public:
 
 	CShader* CreateShaderFromFile(const char* szFileName);
 
+	CTexture* GetBlankTexture() { return m_pBlankTexture; };
+
 protected:	
 	virtual bool CreateSuitableDevice();
 
@@ -75,6 +77,8 @@ protected:
 	float m_fHWPixelShaderVersion;
 	uint8 m_nMaxSupportRenderTargetCnt;
 	uint32 m_nCurFrame;
+
+	CTexture* m_pBlankTexture;
 
 	uint32 m_nRef;
 };
