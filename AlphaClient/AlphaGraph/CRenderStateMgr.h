@@ -3,10 +3,11 @@
 #include "SMaterial.h"
 #include "GraphicHelp.h"
 #include "AlphaCommon\AlphaCommonType.h"
+#include <vector>
 
 using namespace std;
 
-class CShader;;
+class CShader;
 class CGraphic;
 class CGeometryBuffer;
 
@@ -17,9 +18,9 @@ public:
 	
 	virtual ~CRenderStateMgr();
 
-	void Apply( const SMaterial& sMaterial, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, uint32 nVertexFormat, const void* arrVertex, const void* arrIndex);
+	void Apply( const SMaterial& sMaterial, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
 
-	void Apply( const SMaterial& sMaterial, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint32 nVertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
+	void Apply( const SMaterial& sMaterial, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
 
 protected:
 
@@ -33,7 +34,6 @@ protected:
 
 	void ApplyRenderTargetParam();
 
-
 	virtual void SetAlphaBlend(uint8 nSrcBlend, uint8 nDesBlend) = 0;
 
 	virtual void SetZTest(uint8 nZTestFun, bool bZWR) = 0;
@@ -44,9 +44,9 @@ protected:
 
 	void Reset();
 
-	virtual void Draw(EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType,  uint32 nVertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex) = 0;
+	virtual void Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint8 nVertexFormat, uint16 nVertexStride, const void* pArrVertex, const void* pArrIndex) = 0;
 
-	virtual void Draw(EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType,  uint32 nVertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf) = 0;
+	virtual void Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint8 nVertexFormat, CGeometryBuffer* pVertexBuf, CGeometryBuffer* pIndexBuf) = 0; 
 
 	CGraphic* m_pGraphic;
 

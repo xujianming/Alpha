@@ -72,6 +72,7 @@ void CRenderStateMgrD3D9::SetScissorRect()
 void CRenderStateMgrD3D9::SetShader( CShader* pShader )
 {
 	CRenderStateMgr::SetShader(pShader);
+
 	const vector<SShaderActiveParam*>& sampleParam = pShader->GetSampleParams();
 	IDirect3DDevice9* pDevice = static_cast<CGraphicD3D9*>(m_pGraphic)->GetDevice();
 	for (uint32 i = 0; i < sampleParam.size(); i ++)
@@ -84,30 +85,38 @@ void CRenderStateMgrD3D9::SetShader( CShader* pShader )
 		{
 			IDirect3DBaseTexture9 *pTex = (static_cast<CTextureD3D9*>(pTexture))->GetD3DTexture();
 			uint32 nIndex = sampleParam[i]->m_nPixelRegisterIndex;
-			D3DSAMP_ADDRESSU address[eTA_Cnt] = 
+			DWORD address[eTA_Cnt] = 
 			{
-				D3DWRAP_U,
-				D3DWRAP_V,
-				D3DWRAP_W,
-				D3DSAMP_BORDERCOLOR
-			}
+				D3DTADDRESS_WRAP,
+				D3DTADDRESS_BORDER,
+				D3DTADDRESS_CLAMP,
+				D3DTADDRESS_MIRROR
+			};
 
-			eTA_Wrap,
-				eTA_Border,
-				eTA_Clamp,
-				eTA_Mirror,
+			DWORD filter[eTFL_Cnt] = 
+			{
+				D3DTEXF_POINT,
+				D3DTEXF_LINEAR,
+				D3DTEXF_NONE
+			};
 			pDevice->SetTexture(nIndex, pTex);
-			pDevice->SetSamplerState(nIndex, D3DSAMP_ADDRESSU, pState->m_eSampleState[eSS_AddressU]);
-			pDevice->SetSamplerState(nIndex, D3DSAMP_ADDRESSV, pState->m_eSampleState[eSS_AddressV]);
-			pDevice->SetSamplerState(nIndex, D3DSAMP_ADDRESSW, pState->m_eSampleState[eSS_AddressW]);
-			pDevice->SetSamplerState(nIndex, D3DSAMP_MIPFILTER, pState->m_eSampleState[eSS_MipFilter]);
-			pDevice->SetSamplerState(nIndex, D3DSAMP_MINFILTER, pState->m_eSampleState[eSS_MinFilter]);
-			pDevice->SetSamplerState(nIndex, D3DSAMP_MAGFILTER, pState->m_eSampleState[eSS_MagFilter]);
+			pDevice->SetSamplerState(nIndex, D3DSAMP_ADDRESSU, address[pState->m_eSampleState[eSS_AddressU]]);
+			pDevice->SetSamplerState(nIndex, D3DSAMP_ADDRESSV, address[pState->m_eSampleState[eSS_AddressV]]);
+			pDevice->SetSamplerState(nIndex, D3DSAMP_ADDRESSW, address[pState->m_eSampleState[eSS_AddressW]]);
+			pDevice->SetSamplerState(nIndex, D3DSAMP_MIPFILTER, filter[pState->m_eSampleState[eSS_MipFilter]]);
+			pDevice->SetSamplerState(nIndex, D3DSAMP_MINFILTER, filter[pState->m_eSampleState[eSS_MinFilter]]);
+			pDevice->SetSamplerState(nIndex, D3DSAMP_MAGFILTER, filter[pState->m_eSampleState[eSS_MagFilter]]);
 			pDevice->SetSamplerState(nIndex, D3DSAMP_BORDERCOLOR, pState->m_eSampleState[eSS_BordeColor]);
 			pDevice->SetSamplerState(nIndex, D3DSAMP_MIPMAPLODBIAS, pState->m_eSampleState[eSS_MipmapLodBias]);
 		}
-
 	}
+	pDevice->SetVertexShaderConstantF(0, m_vecVertexShaderParam[0].v, m_nVertexRegisterCnt);
+	pDevice->SetPixelShaderConstantF(0, m_vecPixelShaderParam[0].v, m_nPixelRegisterCnt);
+
+	CShaderD3D9* pShaderD3D9 = static_cast<CShaderD3D9*>(pShader);
+	pDevice->SetVertexShader(pShaderD3D9->GetVertexShader());
+	pDevice->SetPixelShader(pShaderD3D9->GetPixelShader());
+
 }
 
 void CRenderStateMgrD3D9::Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint8 nVertexFormat, uint16 nVertexStride, const void* pArrVertex, const void* pArrIndex)
@@ -132,7 +141,7 @@ void CRenderStateMgrD3D9::Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt,
 	if (pIndexBuffer)
 	{
 		pGraphic->GetDevice()->SetIndices(static_cast<IDirect3DIndexBuffer9*>(pIndexBuffer->GetD3DBuffer()));
-		pGraphic->GetDevice()->DrawIndexedPrimitive(g_PrimitiyType[ePrimitiveType], 0, nVertexCnt, 0, nPrimitiveCnt);
+		pGraphic->GetDevice()->DrawIndexedPrimitive(g_PrimitiyType[ePrimitiveType], 0, 0, nVertexCnt, 0, nPrimitiveCnt);
 	}
 	else
 	{

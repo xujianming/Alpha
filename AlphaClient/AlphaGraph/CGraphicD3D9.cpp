@@ -3,6 +3,8 @@
 #include "AlphaCommon/CAlphaWindow.h"
 #include <iostream>
 #include "CGraphicFactoryD3D9.h"
+#include "CRenderStateMgrD3D9.h"
+
 #pragma comment(lib, "d3d9.lib")
 
 D3DFORMAT g_eTextureD3D9Format[eTF_Cnt] = 

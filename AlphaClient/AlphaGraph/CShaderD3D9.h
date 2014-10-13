@@ -13,12 +13,16 @@ public:
 
 	bool CreateShaderFromFile(const char* szFileName);
 	
+	IDirect3DVertexShader9* GetVertexShader() { return m_pShaderVertexShader; }
+
+	IDirect3DPixelShader9* GetPixelShader() { return m_pShaderPixelShader; }
+
 protected:
 
 	void SetUpParamList(ID3DXConstantTable* pConstantTable, bool bVertexShader);
 
-	ID3DXBuffer*		m_pShaderVertexBuffer;
-	ID3DXBuffer*		m_pShaderPixelBuffer;
+	IDirect3DVertexShader9*		m_pShaderVertexShader;
+	IDirect3DPixelShader9*		m_pShaderPixelShader;
 
 
 };

@@ -4,16 +4,16 @@
 
 CShaderD3D9::CShaderD3D9( CGraphic* pGraphic ):
 	CShader(pGraphic),
-	m_pShaderVertexBuffer(nullptr),
-	m_pShaderPixelBuffer(nullptr)
+	m_pShaderVertexShader(nullptr),
+	m_pShaderPixelShader(nullptr)
 {
 
 }
 
 CShaderD3D9::~CShaderD3D9()
 {
-	SAFE_RELEASE(m_pShaderVertexBuffer);
-	SAFE_RELEASE(m_pShaderPixelBuffer);
+	SAFE_RELEASE(m_pShaderVertexShader);
+	SAFE_RELEASE(m_pShaderPixelShader);
 }
 
 bool CShaderD3D9::CreateShaderFromFile( const char* szFileName )
@@ -21,10 +21,10 @@ bool CShaderD3D9::CreateShaderFromFile( const char* szFileName )
 	ID3DXBuffer* pErrorBuffer = 0;
 	ID3DXConstantTable* pConstantTable = nullptr;
 	CGraphicD3D9* pGraphicD3D9 = static_cast<CGraphicD3D9*>(m_pGraphic);
-
+	ID3DXBuffer* pBuffer = 0;
 	HRESULT hr;
 
-	hr = D3DXCompileShaderFromFile(szFileName, NULL, NULL, "VertexMain", D3DXGetVertexShaderProfile(pGraphicD3D9->GetDevice()), 0, &m_pShaderVertexBuffer, &pErrorBuffer, &pConstantTable);
+	hr = D3DXCompileShaderFromFile(szFileName, NULL, NULL, "VertexMain", D3DXGetVertexShaderProfile(pGraphicD3D9->GetDevice()), 0, &pBuffer, &pErrorBuffer, &pConstantTable);
 
 	if (pErrorBuffer)
 	{
@@ -34,10 +34,15 @@ bool CShaderD3D9::CreateShaderFromFile( const char* szFileName )
 	if (hr != D3D_OK)
 		return false;
 
+	hr = pGraphicD3D9->GetDevice()->CreateVertexShader((DWORD*)pBuffer->GetBufferPointer(), &m_pShaderVertexShader);
+	
+	if (hr != D3D_OK)
+		return false;
+
 	SetUpParamList(pConstantTable, true);
 	SAFE_RELEASE(pConstantTable);
 
-	hr = D3DXCompileShaderFromFile(szFileName, NULL, NULL, "PixelMain", D3DXGetPixelShaderProfile(pGraphicD3D9->GetDevice()), 0, &m_pShaderPixelBuffer, &pErrorBuffer, &pConstantTable);
+	hr = D3DXCompileShaderFromFile(szFileName, NULL, NULL, "PixelMain", D3DXGetPixelShaderProfile(pGraphicD3D9->GetDevice()), 0, &pBuffer, &pErrorBuffer, &pConstantTable);
 	if (pErrorBuffer)
 	{
 		::MessageBox(0, (char*)pErrorBuffer->GetBufferPointer(), 0, 0);
@@ -46,6 +51,11 @@ bool CShaderD3D9::CreateShaderFromFile( const char* szFileName )
 	if (hr != D3D_OK)
 		return false;
 	
+	hr = pGraphicD3D9->GetDevice()->CreatePixelShader((DWORD*)pBuffer->GetBufferPointer(), &m_pShaderPixelShader);
+
+	if (hr != D3D_OK)
+		return false;
+
 	SetUpParamList(pConstantTable, false);
 	SAFE_RELEASE(pConstantTable);
 

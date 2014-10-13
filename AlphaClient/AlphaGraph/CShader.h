@@ -58,7 +58,7 @@ public:
 
 	~CShader();
 
-	virtual bool CreateShaderFromFile(const char* szFileName, bool isVertexShader) { return false; };
+	virtual bool CreateShaderFromFile(const char* szFileName) { return false; };
 
 	void SetParamData(uint8 nIndex, const void* data, size_t size, EShaderDataType eDataType);
 
@@ -66,7 +66,7 @@ public:
 
 	uint8 GetParamIndex(const char* szParamName);
 
-	void SetShaderParam(const SMaterial& sMaterial, SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint8 nMatrixCnt);
+	void SetShaderParam(const SMaterial& sMaterial, const SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint8 nMatrixCnt);
 
 	const vector<SShaderActiveParam*>& GetVectorParams() { return m_vecVectorParams; }
 

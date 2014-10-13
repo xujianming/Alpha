@@ -353,7 +353,15 @@ struct TVector3
 template<class T>
 struct TVector4
 {
-	T x,y,z,w;	//x,y,z,w coordinates
+	union 
+	{
+		T v[4];
+		struct  
+		{
+			T x,y,z,w;	//x,y,z,w coordinates
+		};
+	};
+	
 
 	//default
 	TVector4()

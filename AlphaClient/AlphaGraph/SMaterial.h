@@ -16,7 +16,7 @@ struct SMaterial
 	uint8 m_nAlphaRef;		//alpha测试的参考值
 	//深度测试
 	uint8 m_nZTestFun;		//深度测试函数
-	uint8 m_bZWR;			//深度值写入	
+	bool m_bZWR;			//深度值写入	
 
 	uint8 m_nRGBWriteFlag;
 	uint8 m_nCullType;

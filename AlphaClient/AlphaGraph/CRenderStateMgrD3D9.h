@@ -4,7 +4,7 @@
 
 class CGraphic;
 
-class CRenderStateMgrD3D9: CRenderStateMgr
+class CRenderStateMgrD3D9: public CRenderStateMgr
 {
 public:
 	CRenderStateMgrD3D9(CGraphic* pGraphic);

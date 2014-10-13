@@ -92,6 +92,14 @@ enum ETextureAddress
 	eTA_Cnt
 };
 
+enum ETextureFilter
+{
+	eTFL_Point,
+	eTFL_Liner,
+	eTFL_None,
+	eTFL_Cnt
+};
+
 enum ESampleState
 {
 	eSS_MipFilter,

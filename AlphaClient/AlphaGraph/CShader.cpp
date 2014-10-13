@@ -144,7 +144,7 @@ uint8 CShader::GetParamIndex( const char* szParamName )
 	return INVALID_8BIT;
 }
 
-void CShader::SetShaderParam( const SMaterial& sMaterial, SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint8 nMatrixCnt )
+void CShader::SetShaderParam( const SMaterial& sMaterial,const SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint8 nMatrixCnt )
 {
 	CMatrix matWorld;
 	if (arrMatrix)
