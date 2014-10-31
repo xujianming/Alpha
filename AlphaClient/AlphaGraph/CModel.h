@@ -1,6 +1,5 @@
 #pragma once
 
-#include <d3d9.h>
 #include <d3dx9.h>
 #include "AlphaCommon\AlphaCommonType.h"
 
@@ -30,11 +29,11 @@ public:
 	void Shutdown();
 
 	
-	IDirect3DBaseTexture9* GetTexture();
-	SVertexType* GetVertexBuffer();
+	CTexture* GetTexture();
+	const  SVertexType* GetVertexBuffer();
 	uint16 GetVertexType();
 	uint16 GetVertexCount();
-	uint8* GetIndexBuffer();
+	uint16* GetIndexBuffer();
 	uint16 GetIndexCount();
 private:
 	bool InitializeBuffers(IDirect3DDevice9* pDevice);

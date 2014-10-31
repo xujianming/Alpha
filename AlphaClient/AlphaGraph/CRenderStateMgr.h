@@ -18,9 +18,9 @@ public:
 	
 	virtual ~CRenderStateMgr();
 
-	void Apply( const SMaterial& sMaterial, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
+	void Apply( const SMaterial& sMaterial, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
 
-	void Apply( const SMaterial& sMaterial, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
+	void Apply( const SMaterial& sMaterial, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
 
 protected:
 
@@ -44,9 +44,9 @@ protected:
 
 	void Reset();
 
-	virtual void Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint8 nVertexFormat, uint16 nVertexStride, const void* pArrVertex, const void* pArrIndex) = 0;
+	virtual void Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint16 nVertexFormat, uint16 nVertexStride, const void* pArrVertex, const void* pArrIndex) = 0;
 
-	virtual void Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint8 nVertexFormat, CGeometryBuffer* pVertexBuf, CGeometryBuffer* pIndexBuf) = 0; 
+	virtual void Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint16 nVertexFormat, CGeometryBuffer* pVertexBuf, CGeometryBuffer* pIndexBuf) = 0; 
 
 	CGraphic* m_pGraphic;
 

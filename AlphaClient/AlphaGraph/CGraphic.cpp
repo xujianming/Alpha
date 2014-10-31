@@ -5,6 +5,7 @@
 #include "CGraphicFactory.h"
 #include "CTexture.h"
 #include "CShader.h"
+#include "CVertexFormat.h"
 
 CGraphic::CGraphic( CAlphaWindow* pWnd ):
 	m_pWnd(pWnd),
@@ -66,9 +67,14 @@ void CGraphic::Destroy()
 	m_ResMgr.Clear();
 }
 
-void CGraphic::DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex )
+void CGraphic::DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex )
 {
-	m_cRenderCommandMgr.DrawPrimitive(material, primitiveType, vertexCnt, primitiveCnt, vertexType, vertexStride, arrVertex, arrIndex );
+	m_cRenderCommandMgr.DrawPrimitive(material, primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexStride, arrVertex, arrIndex );
+}
+
+void CGraphic::DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuffer, CGeometryBuffer* indexBuffer )
+{
+	m_cRenderCommandMgr.DrawPrimitive(material, primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexBuffer, indexBuffer );
 }
 
 uint32 CGraphic::GetCurFrame()
@@ -134,4 +140,19 @@ CShader* CGraphic::CreateShaderFromFile( const char* szFileName )
 	CShader* pShader = m_pGraphicFactory->CreateShader();
 	pShader->CreateShaderFromFile(szFileName);
 	return pShader;
+}
+
+uint16 CGraphic::CreateVertexFormat( SVertexElem* arrElem, uint16 cnt )
+{
+	uint16 nFormat = GetVertexFormatMgr().GetVertexFormat(arrElem, cnt);
+	if (nFormat != INVALID_16BIT)
+		return nFormat;
+	CVertexFormat* pFormat = GetCraphicFactor().CreateVertexFormat();
+	if (!pFormat->CreateVertexFormat(arrElem, cnt))
+	{
+		SAFE_DELETE(pFormat);
+		return INVALID_16BIT;
+	}
+	nFormat = GetVertexFormatMgr().AddVertexFormat(pFormat);
+	return nFormat;
 }

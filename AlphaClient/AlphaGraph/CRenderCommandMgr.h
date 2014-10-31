@@ -55,8 +55,8 @@ public:
 	CRenderCommandMgr(CGraphic* pGraphic);
 	~CRenderCommandMgr();
 	const SRenderEnvir& GetCurEnvir() { return m_curEnvir; }
-	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
-	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
+	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
+	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
 	void pushEnvir(SRenderEnvir envirState);
 	void popEnvir();
 	bool isEmpty();

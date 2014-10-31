@@ -31,9 +31,9 @@ public:
 
 	virtual bool SetRenderTarget();
 
-	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
+	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
 
-	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint8 vertexType, CGeometryBuffer* vertexBuffer, CGeometryBuffer* indexBuffer);
+	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuffer, CGeometryBuffer* indexBuffer);
 
 	uint32 GetCurFrame();
 
@@ -62,6 +62,8 @@ public:
 	CShader* CreateShaderFromFile(const char* szFileName);
 
 	CTexture* GetBlankTexture() { return m_pBlankTexture; };
+
+	uint16 CreateVertexFormat( SVertexElem* arrElem, uint16 cnt );
 
 protected:	
 	virtual bool CreateSuitableDevice();

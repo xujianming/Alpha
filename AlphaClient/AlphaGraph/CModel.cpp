@@ -3,6 +3,7 @@
 #include "CTexture.h"
 #include "AlphaCommon\AlphaCommonType.h"
 #include <fstream>
+#include "CShader.h"
 #include "CGraphicD3D9.h"
 #include "CTextureD3D9.h"
 using namespace std;
@@ -71,9 +72,9 @@ uint16 CModel::GetIndexCount()
 }
 
 
-IDirect3DBaseTexture9* CModel::GetTexture()
+CTexture* CModel::GetTexture()
 {
-	return static_cast<CTextureD3D9*>(m_Texture)->GetD3DTexture();
+	return m_Texture;
 }
 
 
@@ -187,12 +188,29 @@ void CModel::ReleaseModel()
 	return;
 }
 
-SVertexType* CModel::GetVertexBuffer()
+const SVertexType* CModel::GetVertexBuffer()
 {
 	return m_vertexBuffer;
 }
 
 uint16 CModel::GetVertexType()
 {
-	return D3DFVF_XYZ | D3DFVF_TEX1;
+	SVertexElem arrElem[] = 
+	{
+		0, eSDT_4Float, eDU_Position,
+		12, eSDT_4Float, eDU_Texcoord0,
+		24, eSDT_4Float, eDU_Normal
+	};
+	uint16 nVertexFormat = m_pGraphic->CreateVertexFormat(arrElem, 3); 
+	return nVertexFormat;
+}
+
+uint16 CModel::GetVertexCount()
+{
+	return m_vertexCount;
+}
+
+uint16* CModel::GetIndexBuffer()
+{
+	return m_indexBuffer;
 }

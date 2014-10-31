@@ -110,8 +110,10 @@ void CRenderStateMgrD3D9::SetShader( CShader* pShader )
 			pDevice->SetSamplerState(nIndex, D3DSAMP_MIPMAPLODBIAS, pState->m_eSampleState[eSS_MipmapLodBias]);
 		}
 	}
-	pDevice->SetVertexShaderConstantF(0, m_vecVertexShaderParam[0].v, m_nVertexRegisterCnt);
-	pDevice->SetPixelShaderConstantF(0, m_vecPixelShaderParam[0].v, m_nPixelRegisterCnt);
+	if (m_nVertexRegisterCnt)
+		pDevice->SetVertexShaderConstantF(0, m_vecVertexShaderParam[0].v, m_nVertexRegisterCnt);
+	if (m_nPixelRegisterCnt)
+		pDevice->SetPixelShaderConstantF(0, m_vecPixelShaderParam[0].v, m_nPixelRegisterCnt);
 
 	CShaderD3D9* pShaderD3D9 = static_cast<CShaderD3D9*>(pShader);
 	pDevice->SetVertexShader(pShaderD3D9->GetVertexShader());
@@ -119,7 +121,7 @@ void CRenderStateMgrD3D9::SetShader( CShader* pShader )
 
 }
 
-void CRenderStateMgrD3D9::Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint8 nVertexFormat, uint16 nVertexStride, const void* pArrVertex, const void* pArrIndex)
+void CRenderStateMgrD3D9::Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint16 nVertexFormat, uint16 nVertexStride, const void* pArrVertex, const void* pArrIndex)
 {
 	CGraphicD3D9* pGraphic = static_cast<CGraphicD3D9*>(m_pGraphic);
 	CVertexFormatD3D9* pVertexVormat = static_cast<CVertexFormatD3D9*>(pGraphic->GetVertexFormatMgr().GetVertexFormat(nVertexFormat));
@@ -130,7 +132,7 @@ void CRenderStateMgrD3D9::Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt,
 		pGraphic->GetDevice()->DrawPrimitiveUP(g_PrimitiyType[ePrimitiveType], nPrimitiveCnt, pArrVertex, nVertexStride);
 }
 
-void CRenderStateMgrD3D9::Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint8 nVertexFormat, CGeometryBuffer* pVertexBuf, CGeometryBuffer* pIndexBuf)
+void CRenderStateMgrD3D9::Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint16 nVertexFormat, CGeometryBuffer* pVertexBuf, CGeometryBuffer* pIndexBuf)
 {
 	CVertexBufferD3D9* pVertexBuffer = static_cast<CVertexBufferD3D9*>(pVertexBuf);
 	CIndexBufferD3D9* pIndexBuffer = static_cast<CIndexBufferD3D9*>(pIndexBuf);

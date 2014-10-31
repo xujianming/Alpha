@@ -25,7 +25,7 @@ bool CVertexFormat::IsVertexFormat( SVertexElem* arrElem, uint16 elemCnt )
 	return true;
 }
 
-bool CVertexFormat::CreateVertexFormat( SVertexElem* arrElem, uint8 elemCnt )
+bool CVertexFormat::CreateVertexFormat( SVertexElem* arrElem, uint16 elemCnt )
 {
 	memset(m_arrElem, 0xffff, sizeof(m_arrElem));
 	m_nElemCnt = elemCnt;

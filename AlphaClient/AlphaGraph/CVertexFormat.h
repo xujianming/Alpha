@@ -10,7 +10,7 @@ public:
 
 	bool IsVertexFormat(SVertexElem* arrElem, uint16 elemCnt);
 
-	virtual bool CreateVertexFormat(SVertexElem* arrElem, uint8 elemCnt);
+	virtual bool CreateVertexFormat(SVertexElem* arrElem, uint16 elemCnt);
 
 	const SVertexElem* GetVertexElemInfo();
 

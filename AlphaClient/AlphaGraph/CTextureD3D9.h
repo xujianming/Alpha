@@ -2,6 +2,7 @@
 
 #include <d3d9.h>
 #include "CTexture.h"
+#include <d3dx9.h>
 
 #define MAX_MIPMAP 4
 

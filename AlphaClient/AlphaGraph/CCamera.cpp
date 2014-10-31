@@ -91,7 +91,7 @@ void CCamera::roll( float angle )
 	}
 }
 
-void CCamera::getViewMatrix(D3DXMATRIX* vOut)
+void CCamera::GetViewMatrix(D3DXMATRIX* vOut)
 {
 	D3DXVec3Normalize(&m_Look, &m_Look);
 
