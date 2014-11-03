@@ -15,7 +15,7 @@ public:
 	const SVertexElem* GetVertexElemInfo();
 
 protected:
-	SVertexElem m_arrElem[eDT_Cnt];
-	uint8 m_nElemCnt;
+	SVertexElem m_arrElem[eDU_Cnt];
+	uint16 m_nElemCnt;
 	CGraphic* m_pGraphic;
 };

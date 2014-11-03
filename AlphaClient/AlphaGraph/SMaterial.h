@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GraphicHelp.h"
-
+#include "memory.h"
 class CTexture;
 class CShader;
 
@@ -20,4 +20,17 @@ struct SMaterial
 
 	uint8 m_nRGBWriteFlag;
 	uint8 m_nCullType;
+
+	SMaterial() :
+		m_pShader(nullptr),
+		m_nSrcBlend(0),
+		m_nDestBlend(0), 
+		m_nAlphaRef(0),
+		m_nZTestFun(0),
+		m_bZWR(1),
+		m_nRGBWriteFlag(0),
+		m_nCullType(0)
+	{
+		memset(m_pTexture, 0, sizeof(m_pTexture));
+	}
 };

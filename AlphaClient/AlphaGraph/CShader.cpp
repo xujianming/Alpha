@@ -19,7 +19,7 @@ void CShader::SetParamData( uint8 nIndex, const void* data, size_t size, EShader
 	if (nIndex > m_vecShaderParams.size())
 		return;
 	SShaderActiveParam& param = *m_vecShaderParams[nIndex];
-	assert(eDataType >= eSDT_Cnt);
+	assert(eDataType < eSDT_Cnt);
 	switch (eDataType)
 	{
 	case eSDT_4Bool:

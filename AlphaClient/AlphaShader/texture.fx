@@ -9,17 +9,13 @@
 matrix worldMatrix;
 matrix viewMatrix;
 matrix projectionMatrix;
-Texture2D shaderTexture;
-
-
-///////////////////
-// SAMPLE STATES //
-///////////////////
-SamplerState SampleType
+sampler2D textureSampler = sampler_state
 {
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Wrap;
-    AddressV = Wrap;
+	MinFilter = Linear;
+	MagFilter = Linear;
+	MipFilter = Linear;
+	AddressU = Wrap;
+	AddressV = Wrap;
 };
 
 
@@ -30,19 +26,21 @@ struct VertexInputType
 {
     float4 position : POSITION;
     float2 tex : TEXCOORD0;
+	float3 normal : NORMAL;
 };
 
 struct PixelInputType
 {
     float4 position : SV_POSITION;
     float2 tex : TEXCOORD0;
+	float3 normal : NORMAL;
 };
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // Vertex Shader
 ////////////////////////////////////////////////////////////////////////////////
-PixelInputType TextureVertexShader(VertexInputType input)
+PixelInputType VertexMain(VertexInputType input)
 {
     PixelInputType output;
     
@@ -57,7 +55,7 @@ PixelInputType TextureVertexShader(VertexInputType input)
     
 	// Store the texture coordinates for the pixel shader.
     output.tex = input.tex;
-    
+	output.normal = input.normal;
 	return output;
 }
 
@@ -65,13 +63,13 @@ PixelInputType TextureVertexShader(VertexInputType input)
 ////////////////////////////////////////////////////////////////////////////////
 // Pixel Shader
 ////////////////////////////////////////////////////////////////////////////////
-float4 TexturePixelShader(PixelInputType input) : SV_Target
+float4 PixelMain(PixelInputType input) : SV_Target
 {
 	float4 textureColor;
 
 
 	// Sample the pixel color from the texture using the sampler at this texture coordinate location.
-	textureColor = shaderTexture.Sample(SampleType, input.tex);
+	textureColor = tex2D(textureSampler, input.tex);
 
     return textureColor;
 }
@@ -84,8 +82,8 @@ technique10 TextureTechnique
 {
     pass pass0
     {
-        SetVertexShader(CompileShader(vs_4_0, TextureVertexShader()));
-        SetPixelShader(CompileShader(ps_4_0, TexturePixelShader()));
+		SetVertexShader(CompileShader(vs_3_0, VertexMain()));
+		SetPixelShader(CompileShader(ps_3_0, PixelMain()));
         SetGeometryShader(NULL);
     }
 }

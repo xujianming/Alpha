@@ -181,8 +181,8 @@ technique10 ShadowTechnique
 {
     pass pass0
     {
-        SetVertexShader(CompileShader(vs_4_0, VertexMain()));
-        SetPixelShader(CompileShader(ps_4_0, PixelMain()));
+        SetVertexShader(CompileShader(vs_3_0, VertexMain()));
+        SetPixelShader(CompileShader(ps_3_0, PixelMain()));
         SetGeometryShader(NULL);
     }
 }

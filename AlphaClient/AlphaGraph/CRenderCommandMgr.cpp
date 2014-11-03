@@ -14,17 +14,17 @@ CRenderCommandMgr::~CRenderCommandMgr()
 
 void CRenderCommandMgr::DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex )
 {
-	m_sPrimiveInfo.nPrimitiveGroupCnt ++;
-	m_sPrimiveInfo.nVertexCnt += vertexCnt;
-	m_sPrimiveInfo.nPrimitiveCnt += primitiveCnt;
+//	m_sPrimiveInfo.nPrimitiveGroupCnt ++;
+//	m_sPrimiveInfo.nVertexCnt += vertexCnt;
+//	m_sPrimiveInfo.nPrimitiveCnt += primitiveCnt;
 	m_pGraphic->GetRenderStateMgr().Apply(material, primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexStride, arrVertex, arrIndex);
 }
 
 void CRenderCommandMgr::DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf )
 {
-	m_sPrimiveInfo.nPrimitiveGroupCnt ++;
-	m_sPrimiveInfo.nVertexCnt += vertexCnt;
-	m_sPrimiveInfo.nPrimitiveCnt += primitiveCnt;
+//	m_sPrimiveInfo.nPrimitiveGroupCnt ++;
+//	m_sPrimiveInfo.nVertexCnt += vertexCnt;
+//	m_sPrimiveInfo.nPrimitiveCnt += primitiveCnt;
 	m_pGraphic->GetRenderStateMgr().Apply(material, primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexBuf, indexBuf);
 }
 

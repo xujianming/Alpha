@@ -51,7 +51,7 @@ struct PixelInputType
 ////////////////////////////////////////////////////////////////////////////////
 // Vertex Shader
 ////////////////////////////////////////////////////////////////////////////////
-PixelInputType BumpMapVertexShader(VertexInputType input)
+PixelInputType VertexMain(VertexInputType input)
 {
     PixelInputType output;
     
@@ -87,7 +87,7 @@ PixelInputType BumpMapVertexShader(VertexInputType input)
 ////////////////////////////////////////////////////////////////////////////////
 // Pixel Shader
 ////////////////////////////////////////////////////////////////////////////////
-float4 BumpMapPixelShader(PixelInputType input) : SV_Target
+float4 PixelMain(PixelInputType input) : SV_Target
 {
 	float4 textureColor;
     float4 bumpMap;
@@ -135,8 +135,8 @@ technique10 BumpMapTechnique
 {
     pass pass0
     {
-        SetVertexShader(CompileShader(vs_4_0, BumpMapVertexShader()));
-        SetPixelShader(CompileShader(ps_4_0, BumpMapPixelShader()));
+		SetVertexShader(CompileShader(vs_3_0, VertexMain()));
+		SetPixelShader(CompileShader(ps_3_0, PixelMain()));
         SetGeometryShader(NULL);
     }
 }

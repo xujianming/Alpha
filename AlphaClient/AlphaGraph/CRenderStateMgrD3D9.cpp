@@ -127,9 +127,13 @@ void CRenderStateMgrD3D9::Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt,
 	CVertexFormatD3D9* pVertexVormat = static_cast<CVertexFormatD3D9*>(pGraphic->GetVertexFormatMgr().GetVertexFormat(nVertexFormat));
 	pGraphic->GetDevice()->SetVertexDeclaration(pVertexVormat->GetVertexDeclaration());
 	if (pArrIndex)
+	{
 		pGraphic->GetDevice()->DrawIndexedPrimitiveUP(g_PrimitiyType[ePrimitiveType], 0, nVertexCnt, nPrimitiveCnt, pArrIndex, D3DFMT_INDEX16, pArrVertex, nVertexStride);
+	}
 	else
+	{
 		pGraphic->GetDevice()->DrawPrimitiveUP(g_PrimitiyType[ePrimitiveType], nPrimitiveCnt, pArrVertex, nVertexStride);
+	}
 }
 
 void CRenderStateMgrD3D9::Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint16 nVertexFormat, CGeometryBuffer* pVertexBuf, CGeometryBuffer* pIndexBuf)

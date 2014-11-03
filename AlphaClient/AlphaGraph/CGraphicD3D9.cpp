@@ -136,8 +136,8 @@ bool CGraphicD3D9::RenderBegin()
 		return false;
 	}
 	result = m_pDevice->BeginScene();
-	m_pDevice->ColorFill(m_pBackBuffer, 0, 0x000000ff);
-	m_pDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x000000ff, 1.0f, 0);
+	m_pDevice->ColorFill(m_pBackBuffer, 0, 0xffffffff);
+	m_pDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
 	return !FAILED(result);
 }
 
@@ -205,7 +205,7 @@ bool CGraphicD3D9::EnumSupportTextureFormat()
 
 	return (m_eSupportFormat[eTF_DXT1] != D3DFMT_UNKNOWN &&  
 			m_eSupportFormat[eTF_DXT5] != D3DFMT_UNKNOWN  &&
-			//m_eSupportFormat[eTF_RBG24] != D3DFMT_UNKNOWN  && 
+			m_eSupportFormat[eTF_RBG24] != D3DFMT_UNKNOWN  && 
 			m_eSupportFormat[eTF_ARGB32] != D3DFMT_UNKNOWN  &&
 			m_eSupportFormat[eTF_R5G6B5] != D3DFMT_UNKNOWN );
 

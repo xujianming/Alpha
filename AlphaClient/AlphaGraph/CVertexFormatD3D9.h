@@ -10,7 +10,7 @@ public:
 	CVertexFormatD3D9(CGraphic* pGraphic);
 	~CVertexFormatD3D9();
 
-	bool CreateVertexFormat(SVertexElem* arrElem, uint8 elemCnt);
+	virtual bool CreateVertexFormat(SVertexElem* arrElem, uint16 elemCnt);
 	IDirect3DVertexDeclaration9* GetVertexDeclaration();
 protected:
 	IDirect3DVertexDeclaration9* m_pDeclaration;

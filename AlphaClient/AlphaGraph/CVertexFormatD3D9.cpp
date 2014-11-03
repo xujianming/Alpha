@@ -15,7 +15,7 @@ CVertexFormatD3D9::~CVertexFormatD3D9()
 
 }
 
-bool CVertexFormatD3D9::CreateVertexFormat( SVertexElem* arrElem, uint8 elemCnt )
+bool CVertexFormatD3D9::CreateVertexFormat(SVertexElem* arrElem, uint16 elemCnt)
 {
 	uint8 arrDeclareUsg[eDU_Cnt][2] = 
 	{
@@ -43,7 +43,7 @@ bool CVertexFormatD3D9::CreateVertexFormat( SVertexElem* arrElem, uint8 elemCnt 
 	};
 	D3DVERTEXELEMENT9 endElement = D3DDECL_END();
 	std::vector<D3DVERTEXELEMENT9> vecD3DElements(elemCnt + 1, endElement);
-	for (uint8 i = 0; i < elemCnt; i ++)
+	for (uint16 i = 0; i < elemCnt; i ++)
 	{
 		vecD3DElements[i].Stream = 0;
 		vecD3DElements[i].Offset = arrElem[i].offset;

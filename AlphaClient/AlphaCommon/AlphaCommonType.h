@@ -33,4 +33,12 @@ const uint64 INVALID_64BIT = uint64(-1);
 #define CSize TVector2<uint32>
 #define CPos TVector2<float>
 
+#ifndef max
+#define max(a,b)            (((a) > (b)) ? (a) : (b))
+#endif
+
+#ifndef min
+#define min(a,b)            (((a) < (b)) ? (a) : (b))
+#endif
+
 #endif

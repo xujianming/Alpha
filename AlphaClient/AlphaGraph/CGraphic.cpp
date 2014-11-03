@@ -138,7 +138,8 @@ CRenderStateMgr& CGraphic::GetRenderStateMgr()
 CShader* CGraphic::CreateShaderFromFile( const char* szFileName )
 {
 	CShader* pShader = m_pGraphicFactory->CreateShader();
-	pShader->CreateShaderFromFile(szFileName);
+	if (!pShader->CreateShaderFromFile(szFileName))
+		SAFE_DELETE(pShader);
 	return pShader;
 }
 
