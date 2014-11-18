@@ -3,6 +3,7 @@
 #include "SMaterial.h"
 #include "GraphicHelp.h"
 #include "AlphaCommon\AlphaCommonType.h"
+#include "CRenderCommandMgr.h"
 #include <vector>
 
 using namespace std;
@@ -26,7 +27,7 @@ protected:
 
 	virtual void SetShader(CShader* pShader);
 
-	virtual void SetRenderTargetParam() = 0;
+	virtual void SetRenderTargetParam(const SRenderTargetInfo& info) = 0;
 
 	virtual void SetStencilParam() = 0;
 

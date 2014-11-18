@@ -19,7 +19,7 @@ CRenderStateMgr::~CRenderStateMgr()
 void CRenderStateMgr::Apply( const SMaterial& sMaterial, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex )
 {
 	ApplyRenderTargetParam();
-	//ApplyMaterialParam(sMaterial);
+	ApplyMaterialParam(sMaterial);
 	if (sMaterial.m_pShader)
 	{
 		sMaterial.m_pShader->SetShaderParam(sMaterial, m_pGraphic->GetRenderCommandMgr().GetCurEnvir(), nullptr, 0);
@@ -43,7 +43,7 @@ void CRenderStateMgr::Apply( const SMaterial& sMaterial, EPrimitiveType primitiv
 
 void CRenderStateMgr::ApplyRenderTargetParam()
 {
-
+	SetRenderTargetParam(m_pGraphic->GetRenderCommandMgr().GetCurEnvir().renderTargetInfo);
 }
 
 void CRenderStateMgr::ApplyMaterialParam( const SMaterial& material )

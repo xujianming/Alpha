@@ -26,6 +26,11 @@ CTexture* CGraphicFactoryD3D9::CreateTexture()
 	return new CTextureD3D9(m_pGraphic);
 }
 
+CTexture* CGraphicFactoryD3D9::CreateRenderTarget()
+{
+	return new CRenderTargetD3D(m_pGraphic);
+}
+
 CGeometryBuffer* CGraphicFactoryD3D9::CreateVertexBuffer()
 {
 	return new CVertexBufferD3D9(m_pGraphic);
@@ -40,4 +45,3 @@ CShader* CGraphicFactoryD3D9::CreateShader()
 {
 	return new CShaderD3D9(m_pGraphic);
 }
-

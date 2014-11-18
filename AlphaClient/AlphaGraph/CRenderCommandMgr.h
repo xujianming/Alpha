@@ -20,6 +20,17 @@ struct SLight
 
 };
 
+struct SRenderTargetInfo
+{
+	CTexture* pRenderTargets[MAX_RENDER_TARGET];
+	CTexture* pDepthpRenderTarget;
+	SRenderTargetInfo()
+	{
+		memset(pRenderTargets, 0, sizeof(pRenderTargets));
+		pDepthpRenderTarget = nullptr;
+	}
+};
+
 struct SRenderEnvir
 {
 	enum { MAX_LIGHT = 8 };
@@ -34,12 +45,12 @@ struct SRenderEnvir
 	SFogInfo fogInfo;
 	bool	 bShadowMaskEnable;
 	CTexture* pCurPeferredTarget;
-	CTexture* CurRenderTarget;
 	CVector4f scissor;
 	CVector4f baseBrightness;
 	uint8	 nLighCnt;
 	SLight	 aryLight[MAX_LIGHT];
-	CTexture* CurShadowMap;
+	CTexture* curShadowMap;
+	SRenderTargetInfo renderTargetInfo;
 };
 
 struct SPrimiveInfo
@@ -53,13 +64,31 @@ class CRenderCommandMgr
 {
 public:
 	CRenderCommandMgr(CGraphic* pGraphic);
+	
 	~CRenderCommandMgr();
+	
 	const SRenderEnvir& GetCurEnvir() { return m_curEnvir; }
+
+	void SetRenderTarget(CTexture* pRenderTargets[MAX_RENDER_TARGET], uint8 nCnt, CTexture* pDepthpRenderTargets);
+
 	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
+	
 	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
+	
 	void pushEnvir(SRenderEnvir envirState);
+	
 	void popEnvir();
+	
 	bool isEmpty();
+
+	void SetView(const CMatrix& matView);
+
+	const CMatrix& GetView();
+
+	void SetProj(const CMatrix& matProj);
+
+	const CMatrix& GetProj();
+
 protected:
 	SRenderEnvir m_curEnvir;
 	std::vector<SRenderEnvir> m_envirStack;

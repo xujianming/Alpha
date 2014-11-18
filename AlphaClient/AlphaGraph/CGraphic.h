@@ -29,7 +29,9 @@ public:
 
 	virtual bool CreateBackBuffer();
 
-	virtual bool SetRenderTarget();
+	void SetRenderTarget(CTexture* pRenderTarget, CTexture* pDepthpRenderTargets);
+
+	void SetRenderTarget(CTexture* pRenderTargets[MAX_RENDER_TARGET], uint8 nCnt, CTexture* pDepthpRenderTargets);
 
 	void DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex);
 
@@ -65,6 +67,20 @@ public:
 
 	uint16 CreateVertexFormat( SVertexElem* arrElem, uint16 cnt );
 
+	CTexture* CGraphic::CreateRenderTarget( uint32 nWidth, uint32 nHeight, ETextureFormat eTargetFormat, int32 nMipMap, ETextureFormat eDepthSttencilFormat );
+
+	TVector2<uint32> GetClientSize();
+
+	CTexture* GetMainRenderTarget()  { return m_pMainRenderTarget; }
+
+	void SetView(const CMatrix& matView);
+
+	const CMatrix& GetView();
+
+	void SetProj(const CMatrix& matProj);
+
+	const CMatrix& GetProj();
+
 protected:	
 	virtual bool CreateSuitableDevice();
 
@@ -80,7 +96,7 @@ protected:
 	uint8 m_nMaxSupportRenderTargetCnt;
 	uint32 m_nCurFrame;
 
+	CTexture* m_pMainRenderTarget;
 	CTexture* m_pBlankTexture;
-
 	uint32 m_nRef;
 };

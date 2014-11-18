@@ -4,6 +4,8 @@
 
 #define MAX_TEXTURE_STAGE 8
 
+#define MAX_RENDER_TARGET 4
+
 enum EPrimitiveType
 {
 	ePT_PointList,
@@ -115,21 +117,47 @@ enum ESampleState
 
 enum EMaterialCullType
 {
-	eMCT_None,
-	eMCT_CW, 
-	eMCT_CCW
+	eMCT_None = 1,
+	eMCT_CW = 2, 
+	eMCT_CCW = 3,
 };
 
 enum EMaterialCmpFunc
 {
 	eMCF_Disable,
 	eMCF_Never,
+	eMCF_Less,
 	eMCF_Equal,
 	eMCF_LessEqual,
 	eMCF_Greater,
 	eMCF_NotEqual,
 	eMCF_GreaterEqual,
 	eMCF_Always,
+};
+
+enum EMaterialBleadType
+{
+	eMBT_Disable,
+	eMBT_Zero,
+	eMBT_One,
+	eMBT_SrcColor,
+	eMBT_InvSrcColor,
+	eMBT_SrcAlpha,
+	eMBT_InvSrcAlpha,
+	eMBT_DesAlpha,
+	eMBT_InvDesAlpha,
+	eMBT_DesColor,
+	eMBT_InvDesColor,
+};
+
+enum EMaterialColorWriteFlag
+{
+	eMCWF_None = 0,
+	eMCWF_Red = 1,
+	eMCWF_Green = 1 << 1,
+	eMCWF_Blue = 1 << 2,
+	eMCWF_Alpha = 1 << 3,
+	eMCWF_All = 0xf,
 };
 
 struct SSampleState

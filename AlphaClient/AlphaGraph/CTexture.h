@@ -6,7 +6,7 @@
 class CTexture: public CGraphicRes
 {
 public:
-	CTexture(CGraphic* pGraphic, EResourceType eResType);
+	CTexture(CGraphic* pGraphic, EResourceType eResType = ERT_Texture);
 
 	~CTexture();
 
@@ -32,6 +32,8 @@ public:
 
 	bool IsVolumeTexture()				{ return GetHeight() && GetDepth();}
 
+	virtual bool CreateRenderTarget( uint32 nWidth, uint32 nHeight, ETextureFormat eTargetFormat, 
+		int32 nMipMap, ETextureFormat eDepthSttencilFormat ) { return false; }
 
 protected:
 	uint32 m_nWidth;

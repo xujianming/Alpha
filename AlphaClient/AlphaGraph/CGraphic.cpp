@@ -43,7 +43,7 @@ bool CGraphic::CreateSuitableDevice()
 
 bool CGraphic::RenderBegin()
 {
-	SetRenderTarget();
+	SetRenderTarget(nullptr, nullptr);
 	return m_pWnd && m_pWnd->IsShow();
 }
 
@@ -54,12 +54,19 @@ void CGraphic::RenderEnd()
 
 bool CGraphic::CreateBackBuffer()
 {
-	return true;
+	SAFE_DELETE(m_pMainRenderTarget);
+	m_pMainRenderTarget = CreateRenderTarget(GetClientSize().x, GetClientSize().y, eTF_ARGB32, 1, eTF_D24S8);
+	return m_pMainRenderTarget != nullptr;
 }
 
-bool CGraphic::SetRenderTarget()
+void CGraphic::SetRenderTarget(CTexture* pRenderTarget, CTexture* pDepthpRenderTargets)
 {
-	return true;
+	SetRenderTarget(&pRenderTarget, pRenderTarget ? 1 : 0, pDepthpRenderTargets);
+}
+
+void CGraphic::SetRenderTarget( CTexture* pRenderTargets[MAX_RENDER_TARGET], uint8 nCnt, CTexture* pDepthpRenderTargets )
+{
+	GetRenderCommandMgr().SetRenderTarget(pRenderTargets, nCnt, pDepthpRenderTargets);
 }
 
 void CGraphic::Destroy()
@@ -156,4 +163,41 @@ uint16 CGraphic::CreateVertexFormat( SVertexElem* arrElem, uint16 cnt )
 	}
 	nFormat = GetVertexFormatMgr().AddVertexFormat(pFormat);
 	return nFormat;
+}
+
+CTexture* CGraphic::CreateRenderTarget( uint32 nWidth, uint32 nHeight, ETextureFormat eTargetFormat, int32 nMipMap, ETextureFormat eDepthSttencilFormat )
+{
+	CTexture* pRenderTarget = m_pGraphicFactory->CreateRenderTarget();
+	if (!pRenderTarget->CreateRenderTarget(nWidth, nHeight, eTargetFormat, nMipMap, eDepthSttencilFormat))
+	{
+		SAFE_DELETE(pRenderTarget);
+		return nullptr;
+	}
+	return pRenderTarget;
+}
+
+TVector2<uint32> CGraphic::GetClientSize()
+{
+	RECT rect = m_pWnd->GetClientRect();
+	return TVector2<uint32>(rect.right, rect.bottom);
+}
+
+void CGraphic::SetView( const CMatrix& matView )
+{
+	GetRenderCommandMgr().SetView(matView);
+}
+
+const CMatrix& CGraphic::GetView()
+{
+	return GetRenderCommandMgr().GetView();
+}
+
+void CGraphic::SetProj( const CMatrix& matProj )
+{
+	GetRenderCommandMgr().SetProj(matProj);
+}
+
+const CMatrix& CGraphic::GetProj()
+{
+	return GetRenderCommandMgr().GetProj();
 }

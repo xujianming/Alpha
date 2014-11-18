@@ -122,7 +122,7 @@ void CShader::AddParam( bool bVertexShader, const char* strName, uint32 nRegiste
 			}
 		}
 	}
-	else
+	else if (eDataType >= eSDT_Texture)
 	{
 		if (pDefaultValue)
 			pParam->m_strBuffer.assign((const char*)pDefaultValue, sizeof(SSampleState));
@@ -148,20 +148,20 @@ void CShader::SetShaderParam( const SMaterial& sMaterial,const SRenderEnvir& sEn
 {
 	CMatrix matWorld;
 	if (arrMatrix)
-		SetParamData("matWorld", arrMatrix, nMatrixCnt, eSDT_Matrix);
+		SetParamData("matWorld", arrMatrix, nMatrixCnt * sizeof(CMatrix), eSDT_Matrix);
 	else
-		SetParamData("matWorld", &matWorld, 1, eSDT_Matrix);
+		SetParamData("matWorld", &matWorld, sizeof(CMatrix), eSDT_Matrix);
 
-	const CMatrix& matView= sEnvir.matView;
+	const CMatrix& matView = sEnvir.matView;
 	if (arrMatrix)
 	{
 		CMatrix matWorldView[256];
 		for (uint8 i = 0; i < nMatrixCnt; i ++)
 			matWorldView[i] = arrMatrix[i] * matView;
-		SetParamData("matWorldView", arrMatrix, nMatrixCnt, eSDT_Matrix);
+		SetParamData("matWorldView", arrMatrix, nMatrixCnt * sizeof(CMatrix), eSDT_Matrix);
 	}
 	else
-		SetParamData("matWorldView", &matView, 1, eSDT_Matrix);
+		SetParamData("matWorldView", &matView, sizeof(CMatrix), eSDT_Matrix);
 
 	const CMatrix& matViewProject = sEnvir.matViewProject;
 	if (arrMatrix)
@@ -169,16 +169,12 @@ void CShader::SetShaderParam( const SMaterial& sMaterial,const SRenderEnvir& sEn
 		CMatrix matWorldViewProject[256];
 		for (uint8 i = 0; i < nMatrixCnt; i ++)
 			matWorldViewProject[i] = arrMatrix[i] * matViewProject;
-		SetParamData("matWorldViewProject", arrMatrix, nMatrixCnt, eSDT_Matrix);
+		SetParamData("matWorldViewProject", arrMatrix, nMatrixCnt * sizeof(CMatrix), eSDT_Matrix);
 	}
 	else
-		SetParamData("matWorldViewProject", &matViewProject, 1, eSDT_Matrix);
+		SetParamData("matWorldViewProject", &matViewProject, sizeof(CMatrix), eSDT_Matrix);
 
-	SetParamData("matView", &matView, 1, eSDT_Matrix);
-	SetParamData("matViewInv", &matView, 1, eSDT_Matrix);
-	SetParamData("matProject", &sEnvir.matProject, 1, eSDT_Matrix);
-	SetParamData("matProject", &sEnvir.matProject, 1, eSDT_Matrix);
-
-
+	SetParamData("matView", &sEnvir.matView, sizeof(CMatrix), eSDT_Matrix);
+	SetParamData("matProject", &sEnvir.matProject, sizeof(CMatrix), eSDT_Matrix);
 }
 

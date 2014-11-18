@@ -25,3 +25,18 @@ protected:
 	IDirect3DBaseTexture9* m_pSysTexture;
 	IDirect3DBaseTexture9* m_pTexture;
 };
+
+class CRenderTargetD3D: public CTextureD3D9
+{
+public:
+	CRenderTargetD3D(CGraphic* pGraphic);
+	~CRenderTargetD3D();
+
+	virtual bool CreateRenderTarget(uint32 nWidth, uint32 nHeight, ETextureFormat eTargetFormat, int32 nMipMap, ETextureFormat eDepthSttencilFormat);
+	IDirect3DSurface9* GetRenderTargetSuface() { return m_pRenderTarget; }
+	IDirect3DSurface9* GetDepthStencilSuface() { return m_pDepthStencil; }
+protected:
+	IDirect3DSurface9* m_pRenderTarget;
+	IDirect3DSurface9* m_pDepthStencil;
+	ETextureFormat m_eDepthStencilFmt;
+};

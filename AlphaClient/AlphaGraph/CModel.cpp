@@ -87,6 +87,7 @@ bool CModel::InitializeBuffers(IDirect3DDevice9* device)
 	{
 		m_vertexBuffer[i].position = D3DXVECTOR3(m_model[i].x, m_model[i].y, m_model[i].z);
 		m_vertexBuffer[i].texture = D3DXVECTOR2(m_model[i].tu, m_model[i].tv);
+		m_vertexBuffer[i].normal =  D3DXVECTOR3(m_model[i].nx, m_model[i].ny, m_model[i].nz);
 		m_indexBuffer[i] = i;
 	}
 
@@ -201,7 +202,7 @@ uint16 CModel::GetVertexType()
 		12, eSDT_4Float, eDU_Texcoord0,
 		24, eSDT_4Float, eDU_Normal
 	};
-	uint16 nVertexFormat = m_pGraphic->CreateVertexFormat(arrElem, 3); 
+	uint16 nVertexFormat = m_pGraphic->CreateVertexFormat(arrElem, 2); 
 	return nVertexFormat;
 }
 

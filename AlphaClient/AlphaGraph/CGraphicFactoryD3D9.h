@@ -12,6 +12,8 @@ public:
 
 	virtual CTexture* CreateTexture();
 
+	virtual CTexture* CreateRenderTarget();
+
 	virtual CGeometryBuffer* CreateVertexBuffer();
 
 	virtual CGeometryBuffer* CreateIndexBuffer();

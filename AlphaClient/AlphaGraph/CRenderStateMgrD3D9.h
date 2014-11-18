@@ -18,7 +18,7 @@ protected:
 
 	virtual void SetFillModel(uint8 nRGBWriteFlag, uint8 nCullType);
 
-	virtual void SetRenderTargetParam();
+	virtual void SetRenderTargetParam(const SRenderTargetInfo& info);
 
 	virtual void SetStencilParam();
 

@@ -135,6 +135,7 @@ bool CGraphicD3D9::RenderBegin()
 		}
 		return false;
 	}
+	CGraphic::RenderBegin();
 	result = m_pDevice->BeginScene();
 	m_pDevice->ColorFill(m_pBackBuffer, 0, 0xffffffff);
 	m_pDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
@@ -143,6 +144,7 @@ bool CGraphicD3D9::RenderBegin()
 
 void CGraphicD3D9::RenderEnd()
 {
+	CGraphic::RenderEnd();
 	m_pDevice->EndScene();
 	m_pMainSwapChain->Present(0, 0, 0, 0, D3DPRESENT_DONOTWAIT);
 }
@@ -152,6 +154,8 @@ IDirect3DDevice9* CGraphicD3D9::GetDevice()
 	return m_pDevice;
 }
 
+
+
 HRESULT CGraphicD3D9::CheckDevice()
 {
 	HRESULT result = m_pDevice->TestCooperativeLevel();
@@ -160,6 +164,7 @@ HRESULT CGraphicD3D9::CheckDevice()
 	RECT rect = m_pWnd->GetClientRect();
 	if (rect.right - rect.left != m_D3D9Param.BackBufferWidth || 
 		rect.bottom - rect.top != m_D3D9Param.BackBufferHeight ||
+		m_pMainRenderTarget == NULL || 
 		m_pMainSwapChain == NULL)
 	{
 		m_D3D9Param.BackBufferWidth = rect.right - rect.left;
@@ -172,13 +177,15 @@ HRESULT CGraphicD3D9::CheckDevice()
 
 bool CGraphicD3D9::CreateBackBuffer()
 {
+	if (!CGraphic::CreateBackBuffer())
+		return false;
 	D3DPRESENT_PARAMETERS param = m_D3D9Param;
 	param.EnableAutoDepthStencil = false;
 	HRESULT result = m_pDevice->CreateAdditionalSwapChain(&param, &m_pMainSwapChain);
 	if (FAILED(result))
 		return false;
 	m_pMainSwapChain->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &m_pBackBuffer);
-	m_pDevice->SetRenderTarget(0, m_pBackBuffer);
+
 	return true;
 }
 
@@ -223,4 +230,12 @@ D3DFORMAT CGraphicD3D9::ToTextureFmt( ETextureFormat eFormat )
 	if (eFormat >= eTF_Cnt)
 		return D3DFMT_UNKNOWN;
 	return m_eSupportFormat[eFormat];
+}
+
+ETextureFormat CGraphicD3D9::FromD3DFmt(D3DFORMAT format)
+{
+	for (uint8 i = 0; i < eTF_Cnt; i ++)
+		if (g_eTextureD3D9Format[i] == format)
+			return (ETextureFormat)i;
+	return eTF_UNKNOWN;
 }

@@ -57,7 +57,7 @@ public:
 		Node.m_pPre = &NodePos;
 		Node.m_pNext = NodePos.m_pNext;
 		NodePos.m_pNext->m_pPre = &Node;
-		NodePos->m_pNext = &Node;
+		NodePos.m_pNext = &Node;
 	}
 
 	void InsertBefore(TInvasiveNode<T>& NodePos, TInvasiveNode<T>& Node)
@@ -65,7 +65,7 @@ public:
 		Node.m_pPre = NodePos.m_pPre;
 		Node.m_pNext = &NodePos;
 		NodePos.m_pPre->m_pNext = &Node;
-		Node.m_pPre = &Node;
+		NodePos.m_pPre = &Node;
 	}
 
 	void PushBack(TInvasiveNode<T>& Node)

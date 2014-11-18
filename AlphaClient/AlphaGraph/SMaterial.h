@@ -23,13 +23,13 @@ struct SMaterial
 
 	SMaterial() :
 		m_pShader(nullptr),
-		m_nSrcBlend(0),
-		m_nDestBlend(0), 
+		m_nSrcBlend(eMBT_Disable),
+		m_nDestBlend(eMBT_Disable), 
 		m_nAlphaRef(0),
-		m_nZTestFun(0),
-		m_bZWR(1),
-		m_nRGBWriteFlag(0),
-		m_nCullType(0)
+		m_nZTestFun(eMCF_LessEqual),
+		m_bZWR(true),
+		m_nRGBWriteFlag(eMCWF_All),
+		m_nCullType(eMCT_CCW)
 	{
 		memset(m_pTexture, 0, sizeof(m_pTexture));
 	}

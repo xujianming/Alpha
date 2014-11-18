@@ -26,6 +26,7 @@ enum EShaderDataType
 struct SShaderTextureState: public SSampleState
 {
 	CTexture* m_pTexture;
+	SShaderTextureState(): m_pTexture(nullptr) {};
 };
 
 struct SShaderParam

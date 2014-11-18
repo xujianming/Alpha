@@ -40,26 +40,46 @@ void updateFrame(uint32 nDeltaTime)
 {
 	if (g_pGraphic->RenderBegin())
 	{
-		D3DXVECTOR3 position(0, 0, -5);
+		D3DXVECTOR3 position(0, 0, -7);
 		D3DXVECTOR3 target(0, 0, 0);
 		D3DXVECTOR3 up(0, 1, 0);
 
-		D3DXMATRIX v;
-		D3DXMatrixLookAtLH(&v, &position, &target, &up);
-		g_pGraphic->GetDevice()->SetTransform(D3DTS_VIEW, &v);
+		D3DXMATRIX world;
+		D3DXMatrixIdentity(&world);
+	//	g_pGraphic->GetDevice()->SetTransform(D3DTS_WORLD, &world);
+
+		D3DXMATRIX view;
+		D3DXMatrixLookAtLH(&view, &position, &target, &up);
+	//	g_pGraphic->GetDevice()->SetTransform(D3DTS_VIEW, &view);
+		g_pGraphic->SetView(*(CMatrix*)&view);
 
 		D3DXMATRIX proj;
 		D3DXMatrixPerspectiveFovLH(&proj, D3DX_PI * 0.5f, g_pWindow->GetClientRect().right / g_pWindow->GetClientRect().bottom, 1.0f, 1000.0f);
-		g_pGraphic->GetDevice()->SetTransform(D3DTS_PROJECTION, &proj);
-		
-		SMaterial material;
-	//	material.m_pShader = g_pGraphic->CreateShaderFromFile("F://GameProject/Alpha/AlphaClient/AlphaShader/texture.fx");
-	//	material.m_pShader->SetParamData("textureSampler", g_pModel->GetTexture(), INVALID_32BIT, eSDT_Texture);
-	//	material.m_pShader->SetParamData("viewMatrix", &v, sizeof(v), eSDT_Matrix);
-	//	material.m_pShader->SetParamData("projectionMatrix", &proj, sizeof(proj), eSDT_Matrix);
+	//	g_pGraphic->GetDevice()->SetTransform(D3DTS_PROJECTION, &proj);
+		g_pGraphic->SetProj(*(CMatrix*)&proj);
 
-		g_pGraphic->DrawPrimitive(material, ePT_TriangleList, g_pModel->GetVertexCount(), g_pModel->GetVertexCount() - 2,
-			g_pModel->GetVertexType(), sizeof(SVertexType), (const void*)g_pModel->GetVertexBuffer(), (const void*)g_pModel->GetIndexBuffer());
+		CVector3f v[3];
+		v[0] = CVector3f(1, 0, 0);
+		v[1] = CVector3f(-1, 0, 0);
+		v[2] = CVector3f(0, 1, 0);
+		uint16 index[3];
+		index[0] = 0;
+		index[1] = 1; 
+		index[2] = 2;
+		SVertexElem arrElem[] = 
+		{
+			0, eSDT_4Float, eDU_Position
+		};
+		uint16 fmt = g_pGraphic->CreateVertexFormat(arrElem, 1);
+
+		SMaterial material;
+		material.m_pShader = g_pGraphic->CreateShaderFromFile("F://MyProject/Alpha/AlphaClient/AlphaShader/texture.fx");
+		material.m_pShader->SetParamData("textureSampler", g_pModel->GetTexture(), INVALID_32BIT, eSDT_Texture);
+		
+	//	g_pGraphic->DrawPrimitive(material, ePT_TriangleList, g_pModel->GetVertexCount(), g_pModel->GetVertexCount() - 2,
+	//		g_pModel->GetVertexType(), sizeof(SVertexType), (const void*)g_pModel->GetVertexBuffer(), (const void*)g_pModel->GetIndexBuffer());
+
+		g_pGraphic->DrawPrimitive(material, ePT_TriangleList, 3, 1, fmt, sizeof(CVector3f), v, index);
 
 		g_pGraphic->RenderEnd();
 	}

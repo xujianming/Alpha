@@ -30,8 +30,16 @@ CRenderStateMgrD3D9::~CRenderStateMgrD3D9()
 void CRenderStateMgrD3D9::SetAlphaBlend( uint8 nSrcBlend, uint8 nDesBlend )
 {
 	CGraphicD3D9* pGraphic = static_cast<CGraphicD3D9*>(m_pGraphic);
-	pGraphic->GetDevice()->SetRenderState(D3DRS_SRCBLEND, nSrcBlend);
-	pGraphic->GetDevice()->SetRenderState(D3DRS_DESTBLEND, nDesBlend);
+	if (nSrcBlend != eMBT_Disable && nDesBlend != eMBT_Disable)
+	{
+		pGraphic->GetDevice()->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+		pGraphic->GetDevice()->SetRenderState(D3DRS_SRCBLEND, nSrcBlend);
+		pGraphic->GetDevice()->SetRenderState(D3DRS_DESTBLEND, nDesBlend);
+	}
+	else
+	{
+		pGraphic->GetDevice()->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	}	
 }
 
 void CRenderStateMgrD3D9::SetZTest( uint8 nZTestFun, bool bZWR )
@@ -54,9 +62,31 @@ void CRenderStateMgrD3D9::SetFillModel( uint8 nRGBWriteFlag, uint8 nCullType )
 	pGraphic->GetDevice()->SetRenderState(D3DRS_FILLMODE, nCullType);
 }
 
-void CRenderStateMgrD3D9::SetRenderTargetParam()
+void CRenderStateMgrD3D9::SetRenderTargetParam(const SRenderTargetInfo& info)
 {
-
+	CGraphicD3D9* pGraphicD3D9 = static_cast<CGraphicD3D9*>(m_pGraphic);
+	for (int8 i = MAX_RENDER_TARGET - 1; i >= 0; i --)
+	{
+		pGraphicD3D9->GetDevice()->SetRenderTarget(i, NULL);
+	}
+	if (info.pRenderTargets[0])
+	{
+		for (int8 i = 0; i < MAX_RENDER_TARGET; i ++)
+		{
+			if (!info.pRenderTargets[i])
+				break;
+			CRenderTargetD3D* pTarget = static_cast<CRenderTargetD3D*>(info.pRenderTargets[i]);
+			pGraphicD3D9->GetDevice()->SetRenderTarget(i, pTarget->GetRenderTargetSuface());
+		}
+		CRenderTargetD3D* pDepth = static_cast<CRenderTargetD3D*>(info.pDepthpRenderTarget);
+		pGraphicD3D9->GetDevice()->SetDepthStencilSurface(pDepth->GetDepthStencilSuface());
+	}
+	else
+	{
+		CRenderTargetD3D* pDepth = static_cast<CRenderTargetD3D*>(pGraphicD3D9->GetMainRenderTarget());
+		pGraphicD3D9->GetDevice()->SetRenderTarget(0, pGraphicD3D9->GetBackBuffer());
+		pGraphicD3D9->GetDevice()->SetDepthStencilSurface(pDepth->GetDepthStencilSuface());
+	}
 }
 
 void CRenderStateMgrD3D9::SetStencilParam()

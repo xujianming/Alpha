@@ -112,10 +112,66 @@ IDirect3DBaseTexture9* CTextureD3D9::CreateTexture( bool bSys, bool bFetchSize )
 bool CTextureD3D9::CreateTextureFromFile( char* szFileName )
 {
 	CGraphicD3D9* pGraphicD3D9 = static_cast<CGraphicD3D9*>(m_pGraphic);
-	return D3DXCreateTextureFromFile(pGraphicD3D9->GetDevice(), szFileName, (IDirect3DTexture9**)&m_pTexture) == D3D_OK;
+	if (D3DXCreateTextureFromFile(pGraphicD3D9->GetDevice(), szFileName, (IDirect3DTexture9**)&m_pTexture) != D3D_OK)
+		return false;
+	D3DSURFACE_DESC desc;
+	((IDirect3DTexture9*) m_pTexture)->GetLevelDesc(0, &desc);
+	m_nWidth = desc.Width;
+	m_nHeight = desc.Height;
+	m_nDepth = 0;
+	m_eFormat = pGraphicD3D9->FromD3DFmt(desc.Format);
+	m_nMipmaps = ((IDirect3DTexture9*) m_pTexture)->GetLevelCount();
+	uint32 nSize = m_pTexture ? m_nWidth * m_nHeight * GetBitPerPixel(m_eFormat) / 8 : 0;
+	SetVedioMemSize(nSize);
+	return true;
 }
 
 IDirect3DBaseTexture9* CTextureD3D9::GetD3DTexture()
 {
 	return m_pSysTexture ? m_pSysTexture : m_pTexture;
+}
+
+CRenderTargetD3D::CRenderTargetD3D( CGraphic* pGraphic ):
+	CTextureD3D9(pGraphic, ERT_RenderTarget)
+{
+
+}
+
+CRenderTargetD3D::~CRenderTargetD3D()
+{
+
+}
+
+bool CRenderTargetD3D::CreateRenderTarget( uint32 nWidth, uint32 nHeight, ETextureFormat eTargetFormat, int32 nMipMap, ETextureFormat eDepthSttencilFormat )
+{
+	CGraphicD3D9* pGraphicD3D9 = static_cast<CGraphicD3D9*>(m_pGraphic);
+	D3DFORMAT targetFormat = pGraphicD3D9->ToTextureFmt(eTargetFormat);
+	IDirect3DTexture9* pRenderTargetTex;
+	if (pGraphicD3D9->GetDevice()->CreateTexture(nWidth, nHeight, 0, D3DUSAGE_RENDERTARGET, targetFormat, D3DPOOL_DEFAULT, &pRenderTargetTex, NULL) != D3D_OK)
+		return false;
+	m_pTexture = pRenderTargetTex;
+	if (pRenderTargetTex->GetSurfaceLevel(0, &m_pRenderTarget))
+		return false;
+	
+	D3DSURFACE_DESC desc;
+	m_pRenderTarget->GetDesc(&desc);
+	m_nWidth = desc.Width;
+	m_nHeight = desc.Height;
+	m_nDepth = 0;
+	m_eFormat = pGraphicD3D9->FromD3DFmt(desc.Format);
+	m_nMipmaps = pRenderTargetTex->GetLevelCount();
+	m_eDepthStencilFmt = eDepthSttencilFormat;
+	D3DFORMAT depthStencilFmt = pGraphicD3D9->ToTextureFmt(m_eDepthStencilFmt);
+	m_pDepthStencil = NULL;
+	if (pGraphicD3D9->GetDevice()->CreateDepthStencilSurface(m_nWidth, m_nHeight, depthStencilFmt, 
+		desc.MultiSampleType, desc.MultiSampleQuality, FALSE, &m_pDepthStencil, NULL) != S_OK)
+	{
+		SAFE_RELEASE(m_pRenderTarget);
+		SAFE_RELEASE(m_pTexture);
+		return false;
+	}
+	uint32 nSize = m_pTexture ? m_nWidth * m_nHeight * GetBitPerPixel(m_eFormat) / 8 : 0;
+	nSize += m_pDepthStencil ? m_nWidth * m_nHeight * GetBitPerPixel(eDepthSttencilFormat) / 8 : 0;
+	SetVedioMemSize(nSize);
+	return true;
 }
