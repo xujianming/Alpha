@@ -7,10 +7,10 @@
 // GLOBALS //
 /////////////
 
-matrix matWorld;
-matrix matView;
-matrix matProject;
-matrix matWorldViewProject;
+float4x4 matWorld;
+float4x4 matView;
+float4x4 matProject;
+float4x4 matWorldViewProject;
 sampler2D textureSampler:TEXTURE0 = 
 sampler_state
 {
@@ -48,12 +48,13 @@ PixelInputType VertexMain(VertexInputType input)
     PixelInputType output;
     
 	// Change the position vector to be 4 units for proper matrix calculations.
-    input.position.w = 1.0f;
-
+    input.position.w = 1;
 	// Calculate the position of the vertex against the world, view, and projection matrices.
-    output.position = mul(input.position, matWorldViewProject);
-    
-	// Store the texture coordinates for the pixel shader.
+	output.position = mul(input.position, matWorld);
+	output.position = mul(output.position, matView);
+    output.position = mul(output.position, matProject);
+
+//	 Store the texture coordinates for the pixel shader.
     output.tex = input.tex;
 	output.normal = input.normal;
 	return output;
@@ -66,13 +67,11 @@ PixelInputType VertexMain(VertexInputType input)
 float4 PixelMain(PixelInputType input) : SV_Target
 {
 	float4 textureColor;
-
+	
 	// Sample the pixel color from the texture using the sampler at this texture coordinate location.
 	textureColor = tex2D(textureSampler, input.tex);
-//	matrix matWorld;
-//	matrix matView;
-//	matrix matProject;
-    return matView[3];
+
+    return textureColor;
 }
 
 

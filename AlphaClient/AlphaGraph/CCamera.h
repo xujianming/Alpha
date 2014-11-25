@@ -26,10 +26,13 @@ public:
 	D3DXVECTOR3* GetUp();
 	D3DXVECTOR3* GetLook();
 
+	CMatrix GetProject();
+	void SetProject(float fFov, float fAspect, float fNear, float fFar);
 private:
 	CameraType m_eCameraType;
 	D3DXVECTOR3 m_Right;
 	D3DXVECTOR3 m_Up;
 	D3DXVECTOR3 m_Look;
 	D3DXVECTOR3 m_Pos;
+	CMatrix m_proj;
 };

@@ -163,6 +163,17 @@ enum EMaterialColorWriteFlag
 struct SSampleState
 {
 	uint32 m_eSampleState[eSS_Cnt];
+	SSampleState()
+	{
+		m_eSampleState[eSS_MipFilter] = eTFL_Liner;
+		m_eSampleState[eSS_MinFilter] = eTFL_Liner;
+		m_eSampleState[eSS_MagFilter] = eTFL_Liner;
+		m_eSampleState[eSS_AddressU] = eTA_Wrap;
+		m_eSampleState[eSS_AddressV] = eTA_Wrap;
+		m_eSampleState[eSS_AddressW] = eTA_Wrap;
+		m_eSampleState[eSS_BordeColor] = 0;
+		m_eSampleState[eSS_MipmapLodBias] = 0;
+	}
 };
 
 inline uint32 GetBitPerPixel(ETextureFormat eFormat)

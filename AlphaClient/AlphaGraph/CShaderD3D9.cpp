@@ -36,6 +36,8 @@ bool CShaderD3D9::CreateShaderFromFile( const char* szFileName )
 
 	hr = pGraphicD3D9->GetDevice()->CreateVertexShader((DWORD*)pBuffer->GetBufferPointer(), &m_pShaderVertexShader);
 	
+	SAFE_RELEASE(pBuffer);
+
 	if (hr != D3D_OK)
 		return false;
 
@@ -52,6 +54,8 @@ bool CShaderD3D9::CreateShaderFromFile( const char* szFileName )
 		return false;
 	
 	hr = pGraphicD3D9->GetDevice()->CreatePixelShader((DWORD*)pBuffer->GetBufferPointer(), &m_pShaderPixelShader);
+
+	SAFE_RELEASE(pBuffer);
 
 	if (hr != D3D_OK)
 		return false;

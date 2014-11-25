@@ -115,29 +115,33 @@ void CRenderStateMgrD3D9::SetShader( CShader* pShader )
 		{
 			IDirect3DBaseTexture9 *pTex = (static_cast<CTextureD3D9*>(pTexture))->GetD3DTexture();
 			uint32 nIndex = sampleParam[i]->m_nPixelRegisterIndex;
-			DWORD address[eTA_Cnt] = 
-			{
-				D3DTADDRESS_WRAP,
-				D3DTADDRESS_BORDER,
-				D3DTADDRESS_CLAMP,
-				D3DTADDRESS_MIRROR
-			};
-
-			DWORD filter[eTFL_Cnt] = 
-			{
-				D3DTEXF_POINT,
-				D3DTEXF_LINEAR,
-				D3DTEXF_NONE
-			};
 			pDevice->SetTexture(nIndex, pTex);
-			pDevice->SetSamplerState(nIndex, D3DSAMP_ADDRESSU, address[pState->m_eSampleState[eSS_AddressU]]);
-			pDevice->SetSamplerState(nIndex, D3DSAMP_ADDRESSV, address[pState->m_eSampleState[eSS_AddressV]]);
-			pDevice->SetSamplerState(nIndex, D3DSAMP_ADDRESSW, address[pState->m_eSampleState[eSS_AddressW]]);
-			pDevice->SetSamplerState(nIndex, D3DSAMP_MIPFILTER, filter[pState->m_eSampleState[eSS_MipFilter]]);
-			pDevice->SetSamplerState(nIndex, D3DSAMP_MINFILTER, filter[pState->m_eSampleState[eSS_MinFilter]]);
-			pDevice->SetSamplerState(nIndex, D3DSAMP_MAGFILTER, filter[pState->m_eSampleState[eSS_MagFilter]]);
-			pDevice->SetSamplerState(nIndex, D3DSAMP_BORDERCOLOR, pState->m_eSampleState[eSS_BordeColor]);
-			pDevice->SetSamplerState(nIndex, D3DSAMP_MIPMAPLODBIAS, pState->m_eSampleState[eSS_MipmapLodBias]);
+			if (pState->m_pSampleState)
+			{
+				DWORD address[eTA_Cnt] = 
+				{
+					D3DTADDRESS_WRAP,
+					D3DTADDRESS_BORDER,
+					D3DTADDRESS_CLAMP,
+					D3DTADDRESS_MIRROR
+				};
+
+				DWORD filter[eTFL_Cnt] = 
+				{
+					D3DTEXF_POINT,
+					D3DTEXF_LINEAR,
+					D3DTEXF_NONE
+				};
+				SSampleState* pSampleState = pState->m_pSampleState;
+				pDevice->SetSamplerState(nIndex, D3DSAMP_ADDRESSU, address[pSampleState->m_eSampleState[eSS_AddressU]]);
+				pDevice->SetSamplerState(nIndex, D3DSAMP_ADDRESSV, address[pSampleState->m_eSampleState[eSS_AddressV]]);
+				pDevice->SetSamplerState(nIndex, D3DSAMP_ADDRESSW, address[pSampleState->m_eSampleState[eSS_AddressW]]);
+				pDevice->SetSamplerState(nIndex, D3DSAMP_MIPFILTER, filter[pSampleState->m_eSampleState[eSS_MipFilter]]);
+				pDevice->SetSamplerState(nIndex, D3DSAMP_MINFILTER, filter[pSampleState->m_eSampleState[eSS_MinFilter]]);
+				pDevice->SetSamplerState(nIndex, D3DSAMP_MAGFILTER, filter[pSampleState->m_eSampleState[eSS_MagFilter]]);
+				pDevice->SetSamplerState(nIndex, D3DSAMP_BORDERCOLOR, pSampleState->m_eSampleState[eSS_BordeColor]);
+				pDevice->SetSamplerState(nIndex, D3DSAMP_MIPMAPLODBIAS, pSampleState->m_eSampleState[eSS_MipmapLodBias]);
+			}
 		}
 	}
 	if (m_nVertexRegisterCnt)

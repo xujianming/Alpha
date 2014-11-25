@@ -23,10 +23,14 @@ enum EShaderDataType
 	eSDT_Cnt,
 };
 
-struct SShaderTextureState: public SSampleState
+struct SShaderTextureState
 {
 	CTexture* m_pTexture;
-	SShaderTextureState(): m_pTexture(nullptr) {};
+	SSampleState* m_pSampleState;
+	SShaderTextureState(): 
+		m_pTexture(nullptr),
+		m_pSampleState(nullptr)
+	{};
 };
 
 struct SShaderParam
@@ -77,9 +81,9 @@ protected:
 	template<class dataType>
 	void SetParamVector4(SShaderActiveParam& sParam, const TVector4<dataType>* data, uint32 nElemCnt);
 	
-	void SetParamMatrix(SShaderActiveParam& sParam, const CMatrix* matrix, uint32 nElemCnt);
+	void SetParamMatrix(SShaderActiveParam& sParam, const CMatrix* pMatrix, uint32 nElemCnt);
 
-	void SetParamTexture(SShaderActiveParam& sParam, CTexture* texture);
+	void SetParamTexture(SShaderActiveParam& sParam, CTexture* pTexture, SSampleState* pState = nullptr);
 	
 	void AddParam(bool bVertexShader, const char* strName, uint32 nRegisterIndex, uint32 nRegisterCnt, EShaderDataType eDataType, const void* pDefaultValue, 
 		uint32 nCntPerReg, uint32 nRegPerElem, uint32 nElemCnt );

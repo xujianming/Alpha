@@ -368,12 +368,14 @@ struct TVector4
 		:	x(0), y(0), z(0), w(0)
 	{}
 
+
 	//initialize
-	TVector4( const T a, const T b, const T c, const T d )
-		:	x (a),
-			y (b),
-			z (c),
-			w (d)
+	TVector4( T a, T b, T c, T d )
+		:	
+		x (a),
+		y (b),
+		z (c),
+		w (d)
 	{}
 
 	template<class another>

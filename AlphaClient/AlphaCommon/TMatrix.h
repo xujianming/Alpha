@@ -339,7 +339,7 @@ public:
 	//pre-multiply by a vector
 	inline friend const V4 operator * ( const V4& v, const TMatrix4& m )
 	{
-		return V4( m.C[0].dot(v), m.C[1].dot(v), m.C[2].dot(v), m.C[2].dot(v) );
+		return V4( m.C[0].dot(v), m.C[1].dot(v), m.C[2].dot(v), m.C[3].dot(v) );
 	}
 
 	//post-multiply by a matrix
@@ -347,6 +347,7 @@ public:
 	{
 		return TMatrix4( (*this) * m.C[0], (*this) * m.C[1], (*this) * m.C[2], (*this) * m.C[3] );
 	}
+
 };
 
 

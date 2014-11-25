@@ -35,7 +35,15 @@ void CShader::SetParamData( uint8 nIndex, const void* data, size_t size, EShader
 		SetParamMatrix(param, (CMatrix*)data, size / sizeof(CMatrix));
 		break;
 	case eSDT_Texture:
-		SetParamTexture(param, (CTexture*)data);
+		{
+			if (size == sizeof(CTexture))
+				SetParamTexture(param, (CTexture*)data);
+			else if (size == sizeof(SShaderTextureState))
+			{
+				SShaderTextureState* pTextureState = (SShaderTextureState*)data;
+				SetParamTexture(param, pTextureState->m_pTexture, pTextureState->m_pSampleState);
+			}
+		}
 		break;
 	default:
 		break;
@@ -49,23 +57,25 @@ void CShader::SetParamData( const char* szParamName, const void* data, size_t si
 		SetParamData(index, data, size, eDataType);
 }
 
-void CShader::SetParamMatrix(SShaderActiveParam& sParam, const CMatrix* matrix, uint32 nElemCnt)
+void CShader::SetParamMatrix(SShaderActiveParam& sParam, const CMatrix* pMatrix, uint32 nElemCnt)
 {
 	assert(sParam.m_nRegPerElem > 1);
 	nElemCnt = min(nElemCnt, sParam.m_nElemCnt);
 	CVector4f* pDes = (CVector4f*)&sParam.m_strBuffer[0];
+
 	for (uint32 i = 0; i < nElemCnt; i ++)
 		for (uint32 j = 0; j < sParam.m_nRegPerElem; j ++)
-			memcpy(pDes ++, &matrix[i][j], sizeof(CVector4f));
+			*pDes ++ = CVector4f(pMatrix->C[0][j], pMatrix->C[1][j], pMatrix->C[2][j], pMatrix->C[3][j]);
 }
 
-void CShader::SetParamTexture(SShaderActiveParam& sParam, CTexture* texture )
+void CShader::SetParamTexture(SShaderActiveParam& sParam, CTexture* pTexture, SSampleState* pState)
 {
 	if (sParam.m_nElemCnt == 0)
 		return;
 	assert(sParam.m_eDataType >= eSDT_Texture);
 	SShaderTextureState* pDes = (SShaderTextureState*)&sParam.m_strBuffer[0];
-	pDes->m_pTexture = texture;
+	pDes->m_pSampleState = pState;
+	pDes->m_pTexture = pTexture;
 }
 
 void CShader::AddParam( bool bVertexShader, const char* strName, uint32 nRegisterIndex, uint32 nRegisterCnt, EShaderDataType eDataType, const void* pDefaultValue, uint32 nCntPerReg, uint32 nRegPerElem, uint32 nElemCnt )
@@ -124,10 +134,7 @@ void CShader::AddParam( bool bVertexShader, const char* strName, uint32 nRegiste
 	}
 	else if (eDataType >= eSDT_Texture)
 	{
-		if (pDefaultValue)
-			pParam->m_strBuffer.assign((const char*)pDefaultValue, sizeof(SSampleState));
-		else
-			pParam->m_strBuffer.resize(sizeof(SSampleState));
+		pParam->m_strBuffer.resize(sizeof(SShaderTextureState));
 	}
 
 	if (eDataType < eSDT_Texture)

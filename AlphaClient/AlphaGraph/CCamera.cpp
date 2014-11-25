@@ -5,7 +5,9 @@
 
 CCamera::CCamera( CameraType cameraType ): m_eCameraType(cameraType)
 {
-
+	m_Look = D3DXVECTOR3(0, 0, 1);
+	m_Right = D3DXVECTOR3(1, 0, 0);
+	m_Up = D3DXVECTOR3(0, 1, 0);
 }
 
 CCamera::~CCamera()
@@ -57,7 +59,7 @@ void CCamera::pitch( float angle )
 	D3DXMATRIX tMat;
 	D3DXMatrixRotationAxis(&tMat, &m_Right, angle);
 	D3DXVec3TransformCoord(&m_Up, &m_Up, &tMat);
-	D3DXVec3TransformCoord(&m_Look, &m_Pos, &tMat);
+	D3DXVec3TransformCoord(&m_Look, &m_Look, &tMat);
 }
 
 void CCamera::yaw( float angle )
@@ -77,7 +79,7 @@ void CCamera::yaw( float angle )
 		}
 	}
 	D3DXVec3TransformCoord(&m_Right, &m_Right, &tMat);
-	D3DXVec3TransformCoord(&m_Look, &m_Pos, &tMat);
+	D3DXVec3TransformCoord(&m_Look, &m_Look, &tMat);
 }
 
 void CCamera::roll( float angle )
@@ -124,6 +126,7 @@ void CCamera::GetViewMatrix(D3DXMATRIX* vOut)
 	(*vOut)(3, 1) = y;
 	(*vOut)(3, 2) = z;
 	(*vOut)(3, 3) = 1;
+
 }
 
 void CCamera::SetCameraType( CameraType cameraType )
@@ -154,4 +157,23 @@ D3DXVECTOR3* CCamera::GetUp()
 D3DXVECTOR3* CCamera::GetLook()
 {
 	return &m_Look;
+}
+
+void CCamera::SetProject(float fFov, float fAspect, float fNear, float fFar)
+{
+	float fctg = atanf(fFov / 2);
+	float h = 1.0 / fctg;
+	float w = h / fAspect;
+	float q = fFar / ( fFar - fNear );
+	memset ( &m_proj, 0, sizeof(CMatrix));
+	m_proj.C[0][0] = w;
+	m_proj.C[1][1] = h;
+	m_proj.C[2][2] = q;
+	m_proj.C[2][3] = 1.0f;
+	m_proj.C[3][2] = -q * fNear;
+}
+
+CMatrix CCamera::GetProject()
+{
+	return m_proj;
 }
