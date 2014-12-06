@@ -29,7 +29,7 @@ const uint64 INVALID_64BIT = uint64(-1);
 #define CVector3f TVector3<float>
 #define CVector4f TVector4<float>
 
-#define CMatrix TMatrix4<CVector4f, float>
+#define CMatrix TMatrix4<CVector4f>
 #define CSize TVector2<uint32>
 #define CPos TVector2<float>
 

@@ -74,14 +74,14 @@ void CGraphic::Destroy()
 	m_ResMgr.Clear();
 }
 
-void CGraphic::DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex )
+void CGraphic::DrawPrimitive( const SMaterial& material, CMatrix* matWorld, uint16 nMatCnt, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex )
 {
-	m_cRenderCommandMgr.DrawPrimitive(material, primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexStride, arrVertex, arrIndex );
+	m_cRenderCommandMgr.DrawPrimitive(material, matWorld, nMatCnt, primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexStride, arrVertex, arrIndex );
 }
 
-void CGraphic::DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuffer, CGeometryBuffer* indexBuffer )
+void CGraphic::DrawPrimitive( const SMaterial& material, CMatrix* matWorld, uint16 nMatCnt, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuffer, CGeometryBuffer* indexBuffer )
 {
-	m_cRenderCommandMgr.DrawPrimitive(material, primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexBuffer, indexBuffer );
+	m_cRenderCommandMgr.DrawPrimitive(material, matWorld, nMatCnt, primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexBuffer, indexBuffer );
 }
 
 uint32 CGraphic::GetCurFrame()

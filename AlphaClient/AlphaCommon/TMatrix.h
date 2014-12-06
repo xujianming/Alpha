@@ -3,10 +3,10 @@
 //
 // A 3x3 matrix
 //
-template <class V3, class SCALAR>
+template <class V3>
 struct TMatrix3
 {
-	V3 C[3];	//column vectors
+	V3 C[3];	//row vectors
 
 	//default
 	TMatrix3()
@@ -79,7 +79,7 @@ struct TMatrix3
 	}
 
 	//self-multiply by a scalar
-	const TMatrix3& operator *= ( const SCALAR s )
+	const TMatrix3& operator *= ( float s )
 	{
 		C[0] *= s;
 		C[1] *= s;
@@ -103,7 +103,7 @@ struct TMatrix3
 	}
 
 	//self-divide by a scalar
-	const TMatrix3& operator /= ( const SCALAR s )
+	const TMatrix3& operator /= ( float s )
 	{
 		C[0] /= s;
 		C[1] /= s;
@@ -125,39 +125,36 @@ struct TMatrix3
 	}
 
 	//divide by a scalar
-	const TMatrix3 operator / ( const SCALAR s ) const
+	const TMatrix3 operator / ( float s ) const
 	{
 		return TMatrix3( C[0]/s, C[1]/s, C[2]/s );
 	}
 
 	//post-multiply by a scalar
-	const TMatrix3 operator * ( const SCALAR s ) const
+	const TMatrix3 operator * ( float s ) const
 	{
 		return TMatrix3( C[0]*s, C[1]*s, C[2]*s );
 	}
 
 	//pre-multiply by a scalar
-	friend inline const TMatrix3 operator * ( const SCALAR s, const TMatrix3& m )
+	friend inline const TMatrix3 operator * ( float s, const TMatrix3& m )
 	{
 		return m * s;
-	}
-
-	//post-multiply by a vector
-	const V3 operator * ( const V3& v ) const
-	{
-		return( C[0]*v.x + C[1]*v.y + C[2]*v.z );
 	}
 
 	//pre-multiply by a vector
 	inline friend const V3 operator * ( const V3& v, const TMatrix3& m )
 	{
-		return V3( m.C[0].dot(v), m.C[1].dot(v), m.C[2].dot(v) );
+		V3 ret;
+		for (uint32 i = 0; i < 3; i ++)
+			ret[i] = v[0] * m.C[i][0] + v[1] * m.C[i][1] + v[2] * m.C[i][2];
+		return ret;
 	}
 
 	//post-multiply by a matrix
 	const TMatrix3 operator * ( const TMatrix3& m ) const
 	{
-		return TMatrix3( (*this) * m.C[0], (*this) * m.C[1], (*this) * m.C[2] );
+		return TMatrix4( C[0] * m, C[1] * m, C[2] * m );
 	}
 
 	//transpose
@@ -172,7 +169,7 @@ struct TMatrix3
 	}
 
 	//determinant
-	const SCALAR determinant() const
+	float determinant() const
 	{
 		return C[0].dot( C[1].cross(C[2]) );
 	}
@@ -184,12 +181,12 @@ struct TMatrix3
 
 
 //4x4 matrix for linear transformations
-template <class V4, class SCALAR>
+template <class V4>
 class TMatrix4
 {
 public:
 
-	V4 C[4];	//column vectors
+	V4 C[4];	//row vectors
 
 public:
 
@@ -263,7 +260,7 @@ public:
 	}
 
 	//self-multiply by a scalar
-	const TMatrix4& operator *= ( const SCALAR s )
+	const TMatrix4& operator *= ( float s )
 	{
 		C[0] *= s;
 		C[1] *= s;
@@ -289,7 +286,7 @@ public:
 	}
 
 	//self-divide by a scalar
-	const TMatrix4& operator /= ( const SCALAR s )
+	const TMatrix4& operator /= ( float s )
 	{
 		C[0] /= s;
 		C[1] /= s;
@@ -312,54 +309,60 @@ public:
 	}
 
 	//divide by a scalar
-	const TMatrix4 operator / ( const SCALAR s ) const
+	const TMatrix4 operator / ( float s ) const
 	{
 		return TMatrix4( C[0]/s, C[1]/s, C[2]/s, C[3]/s );
 	}
 
 	//post-multiply by a scalar
-	const TMatrix4 operator * ( const SCALAR s ) const
+	const TMatrix4 operator * ( float s ) const
 	{
 		return TMatrix4( C[0]*s, C[1]*s, C[2]*s, C[3]*s );
 	}
 
 	//pre-multiply by a scalar
-	friend inline const TMatrix4 operator * ( const SCALAR s, const TMatrix4& m )
+	friend inline const TMatrix4 operator * ( float s, const TMatrix4& m )
 	{
 		return m * s;
-	}
-
-	//post-multiply by a vector
-	const V4 operator * ( const V4& v ) const
-	{
-		//sum up in columns
-		return( C[0]*v.x + C[1]*v.y + C[2]*v.z + C[3]*v.w );
 	}
 
 	//pre-multiply by a vector
 	inline friend const V4 operator * ( const V4& v, const TMatrix4& m )
 	{
-		return V4( m.C[0].dot(v), m.C[1].dot(v), m.C[2].dot(v), m.C[3].dot(v) );
+		V4 ret;
+		for (uint32 i = 0; i < 4; i ++)
+			ret[i] = v[0] * m.C[0][i] + v[1] * m.C[1][i] + v[2] * m.C[2][i] + v[3] * m.C[3][i];
+		return ret;
 	}
 
 	//post-multiply by a matrix
 	const TMatrix4 operator * ( const TMatrix4& m ) const
 	{
-		return TMatrix4( (*this) * m.C[0], (*this) * m.C[1], (*this) * m.C[2], (*this) * m.C[3] );
+		return TMatrix4( C[0] * m, C[1] * m, C[2] * m, C[3] * m );
 	}
 
+	TMatrix4 transpose() const
+	{
+		//turn columns on their side
+		return TMatrix4(
+			V4( C[0].x, C[1].x, C[2].x, C[3].x ),	//row 0
+			V4( C[0].y, C[1].y, C[2].y, C[3].y ),	//row 1
+			V4( C[0].z, C[1].z, C[2].z, C[3].z ),	//row 2
+			V4( C[0].w, C[1].w, C[2].w, C[3].w )	//row 2
+			);
+	}
 };
 
 
 
 // Symmetric matrices can be optimized
-template< class SCALAR, class V3, class TMatrix3 >
+template< class V3, class TMatrix3 >
 class T_SYMMETRIC_MATRIX3
 {
 	public:
 
-		SCALAR xx, yy, zz;	//diagonal elements
-		SCALAR xy, xz, yz;	//off-diagonal elements
+		float xx, yy, zz;	//diagonal elements
+		float xy, xz, yz;	//off-diagonal elements
 
 	public:
 
@@ -371,12 +374,12 @@ class T_SYMMETRIC_MATRIX3
 		}
 
 		T_SYMMETRIC_MATRIX3(
-							const SCALAR xx,
-							const SCALAR yy,
-							const SCALAR zz,
-							const SCALAR xy,
-							const SCALAR xz,
-							const SCALAR yz
+							float xx,
+							float yy,
+							float zz,
+							float xy,
+							float xz,
+							float yz
 							)
 		{
 			this->xx = xx;

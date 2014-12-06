@@ -165,7 +165,7 @@ void CShader::SetShaderParam( const SMaterial& sMaterial,const SRenderEnvir& sEn
 		CMatrix matWorldView[256];
 		for (uint8 i = 0; i < nMatrixCnt; i ++)
 			matWorldView[i] = arrMatrix[i] * matView;
-		SetParamData("matWorldView", arrMatrix, nMatrixCnt * sizeof(CMatrix), eSDT_Matrix);
+		SetParamData("matWorldView", matWorldView, nMatrixCnt * sizeof(CMatrix), eSDT_Matrix);
 	}
 	else
 		SetParamData("matWorldView", &matView, sizeof(CMatrix), eSDT_Matrix);
@@ -176,7 +176,7 @@ void CShader::SetShaderParam( const SMaterial& sMaterial,const SRenderEnvir& sEn
 		CMatrix matWorldViewProject[256];
 		for (uint8 i = 0; i < nMatrixCnt; i ++)
 			matWorldViewProject[i] = arrMatrix[i] * matViewProject;
-		SetParamData("matWorldViewProject", arrMatrix, nMatrixCnt * sizeof(CMatrix), eSDT_Matrix);
+		SetParamData("matWorldViewProject", matWorldViewProject, nMatrixCnt * sizeof(CMatrix), eSDT_Matrix);
 	}
 	else
 		SetParamData("matWorldViewProject", &matViewProject, sizeof(CMatrix), eSDT_Matrix);

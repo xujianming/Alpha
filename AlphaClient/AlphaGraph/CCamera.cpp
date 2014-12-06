@@ -93,7 +93,7 @@ void CCamera::roll( float angle )
 	}
 }
 
-void CCamera::GetViewMatrix(D3DXMATRIX* vOut)
+void CCamera::GetViewMatrix(CMatrix* vOut)
 {
 	D3DXVec3Normalize(&m_Look, &m_Look);
 
@@ -107,25 +107,25 @@ void CCamera::GetViewMatrix(D3DXMATRIX* vOut)
 	float y = -D3DXVec3Dot(&m_Up, &m_Pos);
 	float z = -D3DXVec3Dot(&m_Look, &m_Pos);
 
-	(*vOut)(0, 0) = m_Right.x;
-	(*vOut)(0, 1) = m_Up.x;
-	(*vOut)(0, 2) = m_Look.x;
-	(*vOut)(0, 3) = 0;
+	(*vOut)[0][0] = m_Right.x;
+	(*vOut)[0][1] = m_Up.x;
+	(*vOut)[0][2] = m_Look.x;
+	(*vOut)[0][3] = 0;
 
-	(*vOut)(1, 0) = m_Right.y;
-	(*vOut)(1, 1) = m_Up.y;
-	(*vOut)(1, 2) = m_Look.y;
-	(*vOut)(1, 3) = 0;
+	(*vOut)[1][0] = m_Right.y;
+	(*vOut)[1][1] = m_Up.y;
+	(*vOut)[1][2] = m_Look.y;
+	(*vOut)[1][3] = 0;
 
-	(*vOut)(2, 0) = m_Right.z;
-	(*vOut)(2, 1) = m_Up.z;
-	(*vOut)(2, 2) = m_Look.z;
-	(*vOut)(2, 3) = 0;
+	(*vOut)[2][0] = m_Right.z;
+	(*vOut)[2][1] = m_Up.z;
+	(*vOut)[2][2] = m_Look.z;
+	(*vOut)[2][3] = 0;
 
-	(*vOut)(3, 0) = x;
-	(*vOut)(3, 1) = y;
-	(*vOut)(3, 2) = z;
-	(*vOut)(3, 3) = 1;
+	(*vOut)[3][0] = x;
+	(*vOut)[3][1] = y;
+	(*vOut)[3][2] = z;
+	(*vOut)[3][3] = 1;
 
 }
 

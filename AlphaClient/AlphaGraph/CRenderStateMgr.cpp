@@ -16,25 +16,25 @@ CRenderStateMgr::~CRenderStateMgr()
 
 }
 
-void CRenderStateMgr::Apply( const SMaterial& sMaterial, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex )
+void CRenderStateMgr::Apply( const SMaterial& sMaterial, CMatrix* matWorld, uint16 nMatCnt, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex )
 {
 	ApplyRenderTargetParam();
 	ApplyMaterialParam(sMaterial);
 	if (sMaterial.m_pShader)
 	{
-		sMaterial.m_pShader->SetShaderParam(sMaterial, m_pGraphic->GetRenderCommandMgr().GetCurEnvir(), nullptr, 0);
+		sMaterial.m_pShader->SetShaderParam(sMaterial, m_pGraphic->GetRenderCommandMgr().GetCurEnvir(), matWorld, nMatCnt);
 		SetShader(sMaterial.m_pShader);
 	}
 	Draw(primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexStride, arrVertex, arrIndex);
 }
 
-void CRenderStateMgr::Apply( const SMaterial& sMaterial, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf )
+void CRenderStateMgr::Apply( const SMaterial& sMaterial, CMatrix* matWorld, uint16 nMatCnt, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf )
 {
 	ApplyRenderTargetParam();
 	ApplyMaterialParam(sMaterial);
 	if (sMaterial.m_pShader)
 	{
-		sMaterial.m_pShader->SetShaderParam(sMaterial, m_pGraphic->GetRenderCommandMgr().GetCurEnvir(), nullptr, 0);
+		sMaterial.m_pShader->SetShaderParam(sMaterial, m_pGraphic->GetRenderCommandMgr().GetCurEnvir(), matWorld, nMatCnt);
 		SetShader(sMaterial.m_pShader);
 	}
 	Draw(primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexBuf, indexBuf);

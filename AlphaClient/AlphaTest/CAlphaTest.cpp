@@ -15,7 +15,8 @@
 
 CAlphaWindow* g_pWindow;
 CGraphicD3D9* g_pGraphic;
-CModel* g_pModel;
+CModel* g_pCube;
+CModel* g_pSphere;
 CCamera* g_pCamera;
 void init()
 {
@@ -23,11 +24,18 @@ void init()
 	g_pWindow->Initialize(NULL, 800, 600, "MyTestTitle", 0);
 	g_pGraphic = new CGraphicD3D9(g_pWindow);
 	g_pGraphic->Create();
-	g_pModel = new CModel(g_pGraphic);
+	g_pCube = new CModel(g_pGraphic);
+	g_pSphere = new CModel(g_pGraphic);
 	g_pCamera = new CCamera(CCamera::ECT_AIRCRAFT);
 	g_pCamera->SetPosition(new D3DXVECTOR3(0, 1, -5));
 	g_pCamera->SetProject(D3DX_PI * 0.5f, g_pWindow->GetClientRect().right * 1.0f / g_pWindow->GetClientRect().bottom, 1.0f, 1000.0f);
-	bool result = g_pModel->Initialize("../data/cube.txt", "../data/seafloor.dds");
+	bool result = g_pCube->Initialize("../data/cube.txt", "../data/wall01.dds");
+	if(!result)
+	{
+		MessageBox(g_pWindow->GetHandle(), L"Could not initialize the model object.", L"Error", MB_OK);
+		return;
+	}
+	result = g_pSphere->Initialize("../data/sphere.txt", "../data/metal001.dds");
 	if(!result)
 	{
 		MessageBox(g_pWindow->GetHandle(), L"Could not initialize the model object.", L"Error", MB_OK);
@@ -75,24 +83,17 @@ void updateFrame(uint32 nDeltaTime)
 		D3DXVECTOR3 target(0, 0, 0);
 		D3DXVECTOR3 up(0, 1, 0);
 
-		D3DXMATRIX world;
-		D3DXMatrixIdentity(&world);
-		g_pGraphic->GetDevice()->SetTransform(D3DTS_WORLD, &world);
-
-		D3DXMATRIX view;
-		D3DXMatrixLookAtLH(&view, &position, &target, &up);
-		g_pGraphic->GetDevice()->SetTransform(D3DTS_VIEW, &view);
+		//D3DXMATRIX view;
+		//D3DXMatrixLookAtLH(&view, &position, &target, &up);
+		//g_pGraphic->GetDevice()->SetTransform(D3DTS_VIEW, &view);
 		
+		CMatrix view;
+		g_pCamera->GetViewMatrix(&view);
+		g_pGraphic->SetView(view);
 
-		D3DXMATRIX view2;
-		g_pCamera->GetViewMatrix(&view2);
-		g_pGraphic->SetView(*(CMatrix*)&view2);
-
-
-		D3DXMATRIX proj;
-		D3DXMatrixPerspectiveFovLH(&proj, D3DX_PI * 0.5f, g_pWindow->GetClientRect().right / g_pWindow->GetClientRect().bottom, 1.0f, 1000.0f);
-		g_pGraphic->GetDevice()->SetTransform(D3DTS_PROJECTION, &proj);
-
+		//D3DXMATRIX proj;
+		//D3DXMatrixPerspectiveFovLH(&proj, D3DX_PI * 0.5f, g_pWindow->GetClientRect().right / g_pWindow->GetClientRect().bottom, 1.0f, 1000.0f);
+		//g_pGraphic->GetDevice()->SetTransform(D3DTS_PROJECTION, &proj);
 		g_pGraphic->SetProj(g_pCamera->GetProject());
 
 		CVector3f v[3];
@@ -111,10 +112,17 @@ void updateFrame(uint32 nDeltaTime)
 
 		SMaterial material;
 		material.m_pShader = g_pGraphic->CreateShaderFromFile("F://MyProject/Alpha/AlphaClient/AlphaShader/texture.fx");
-		material.m_pShader->SetParamData("textureSampler", g_pModel->GetTexture(), sizeof(CTexture), eSDT_Texture);
+		material.m_pShader->SetParamData("textureSampler", g_pCube->GetTexture(), sizeof(CTexture), eSDT_Texture);
 		
-		g_pGraphic->DrawPrimitive(material, ePT_TriangleList, g_pModel->GetVertexCount(), g_pModel->GetVertexCount() - 2,
-			g_pModel->GetVertexType(), sizeof(SVertexType), (const void*)g_pModel->GetVertexBuffer(), (const void*)g_pModel->GetIndexBuffer());
+		g_pGraphic->DrawPrimitive(material, nullptr, 0, ePT_TriangleList, g_pCube->GetVertexCount(), g_pCube->GetVertexCount() - 2,
+			g_pCube->GetVertexType(), sizeof(SVertexType), (const void*)g_pCube->GetVertexBuffer(), nullptr);
+
+
+		CMatrix sphereWorld;
+		sphereWorld[3][0] += 3;
+		material.m_pShader->SetParamData("textureSampler", g_pSphere->GetTexture(), sizeof(CTexture), eSDT_Texture);
+		g_pGraphic->DrawPrimitive(material, &sphereWorld, 1, ePT_TriangleList, g_pSphere->GetVertexCount(), g_pSphere->GetVertexCount() - 2,
+			g_pSphere->GetVertexType(), sizeof(SVertexType), (const void*)g_pSphere->GetVertexBuffer(), nullptr);
 
 	//	g_pGraphic->DrawPrimitive(material, ePT_TriangleList, 3, 1, fmt, sizeof(CVector3f), v, index);
 

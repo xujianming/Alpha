@@ -50,9 +50,7 @@ PixelInputType VertexMain(VertexInputType input)
 	// Change the position vector to be 4 units for proper matrix calculations.
     input.position.w = 1;
 	// Calculate the position of the vertex against the world, view, and projection matrices.
-	output.position = mul(input.position, matWorld);
-	output.position = mul(output.position, matView);
-    output.position = mul(output.position, matProject);
+	output.position = mul(input.position, matWorldViewProject);
 
 //	 Store the texture coordinates for the pixel shader.
     output.tex = input.tex;

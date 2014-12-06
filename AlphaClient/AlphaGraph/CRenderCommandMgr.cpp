@@ -12,20 +12,20 @@ CRenderCommandMgr::~CRenderCommandMgr()
 {
 }
 
-void CRenderCommandMgr::DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex )
+void CRenderCommandMgr::DrawPrimitive( const SMaterial& material, CMatrix* matWorld, uint16 nMatCnt, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, uint16 vertexStride, const void* arrVertex, const void* arrIndex )
 {
 //	m_sPrimiveInfo.nPrimitiveGroupCnt ++;
 //	m_sPrimiveInfo.nVertexCnt += vertexCnt;
 //	m_sPrimiveInfo.nPrimitiveCnt += primitiveCnt;
-	m_pGraphic->GetRenderStateMgr().Apply(material, primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexStride, arrVertex, arrIndex);
+	m_pGraphic->GetRenderStateMgr().Apply(material, matWorld, nMatCnt, primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexStride, arrVertex, arrIndex);
 }
 
-void CRenderCommandMgr::DrawPrimitive( const SMaterial& material, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf )
+void CRenderCommandMgr::DrawPrimitive( const SMaterial& material, CMatrix* matWorld, uint16 nMatCnt, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf )
 {
 //	m_sPrimiveInfo.nPrimitiveGroupCnt ++;
 //	m_sPrimiveInfo.nVertexCnt += vertexCnt;
 //	m_sPrimiveInfo.nPrimitiveCnt += primitiveCnt;
-	m_pGraphic->GetRenderStateMgr().Apply(material, primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexBuf, indexBuf);
+	m_pGraphic->GetRenderStateMgr().Apply(material, matWorld, nMatCnt, primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexBuf, indexBuf);
 }
 
 void CRenderCommandMgr::pushEnvir( SRenderEnvir envirState )
