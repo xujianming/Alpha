@@ -17,6 +17,7 @@ CAlphaWindow* g_pWindow;
 CGraphicD3D9* g_pGraphic;
 CModel* g_pCube;
 CModel* g_pSphere;
+CModel* g_pPlane;
 CCamera* g_pCamera;
 void init()
 {
@@ -26,6 +27,7 @@ void init()
 	g_pGraphic->Create();
 	g_pCube = new CModel(g_pGraphic);
 	g_pSphere = new CModel(g_pGraphic);
+	g_pPlane = new CModel(g_pGraphic);
 	g_pCamera = new CCamera(CCamera::ECT_AIRCRAFT);
 	g_pCamera->SetPosition(new D3DXVECTOR3(0, 1, -5));
 	g_pCamera->SetProject(D3DX_PI * 0.5f, g_pWindow->GetClientRect().right * 1.0f / g_pWindow->GetClientRect().bottom, 1.0f, 1000.0f);
@@ -35,8 +37,14 @@ void init()
 		MessageBox(g_pWindow->GetHandle(), L"Could not initialize the model object.", L"Error", MB_OK);
 		return;
 	}
-	result = g_pSphere->Initialize("../data/sphere.txt", "../data/metal001.dds");
+	result = g_pSphere->Initialize("../data/sphere.txt", "../data/seafloor.dds");
 	if(!result)
+	{
+		MessageBox(g_pWindow->GetHandle(), L"Could not initialize the model object.", L"Error", MB_OK);
+		return;
+	}
+	result = g_pPlane->Initialize("../data/plane01.txt", "../data/metal001.dds");
+	if (!result)
 	{
 		MessageBox(g_pWindow->GetHandle(), L"Could not initialize the model object.", L"Error", MB_OK);
 		return;
@@ -96,35 +104,24 @@ void updateFrame(uint32 nDeltaTime)
 		//g_pGraphic->GetDevice()->SetTransform(D3DTS_PROJECTION, &proj);
 		g_pGraphic->SetProj(g_pCamera->GetProject());
 
-		CVector3f v[3];
-		v[0] = CVector3f(1, 0, 0);
-		v[1] = CVector3f(-1, 0, 0);
-		v[2] = CVector3f(0, 1, 0);
-		uint16 index[3];
-		index[0] = 0;
-		index[1] = 1; 
-		index[2] = 2;
-		SVertexElem arrElem[] = 
-		{
-			0, eSDT_4Float, eDU_Position
-		};
-		uint16 fmt = g_pGraphic->CreateVertexFormat(arrElem, 1);
-
 		SMaterial material;
-		material.m_pShader = g_pGraphic->CreateShaderFromFile("F://MyProject/Alpha/AlphaClient/AlphaShader/texture.fx");
+		material.m_pShader = g_pGraphic->CreateShaderFromFile("F://GameProject/Alpha/AlphaClient/AlphaShader/texture.fx");
 		material.m_pShader->SetParamData("textureSampler", g_pCube->GetTexture(), sizeof(CTexture), eSDT_Texture);
 		
-		g_pGraphic->DrawPrimitive(material, nullptr, 0, ePT_TriangleList, g_pCube->GetVertexCount(), g_pCube->GetVertexCount() - 2,
-			g_pCube->GetVertexType(), sizeof(SVertexType), (const void*)g_pCube->GetVertexBuffer(), nullptr);
-
+		g_pGraphic->DrawPrimitive(material, nullptr, 0, ePT_TriangleList, g_pCube->GetVertexCount(), g_pCube->GetVertexCount() / 3,
+			g_pCube->GetVertexType(), g_pCube->GetVertexSize(), (const void*)g_pCube->GetVertexBuffer(), nullptr);
 
 		CMatrix sphereWorld;
 		sphereWorld[3][0] += 3;
 		material.m_pShader->SetParamData("textureSampler", g_pSphere->GetTexture(), sizeof(CTexture), eSDT_Texture);
-		g_pGraphic->DrawPrimitive(material, &sphereWorld, 1, ePT_TriangleList, g_pSphere->GetVertexCount(), g_pSphere->GetVertexCount() - 2,
-			g_pSphere->GetVertexType(), sizeof(SVertexType), (const void*)g_pSphere->GetVertexBuffer(), nullptr);
+		g_pGraphic->DrawPrimitive(material, &sphereWorld, 1, ePT_TriangleList, g_pSphere->GetVertexCount(), g_pSphere->GetVertexCount() / 3,
+			g_pSphere->GetVertexType(), g_pSphere->GetVertexSize(), (const void*)g_pSphere->GetVertexBuffer(), nullptr);
 
-	//	g_pGraphic->DrawPrimitive(material, ePT_TriangleList, 3, 1, fmt, sizeof(CVector3f), v, index);
+		CMatrix planeWorld;
+		planeWorld[3][1] -= 2;
+		material.m_pShader->SetParamData("textureSampler", g_pPlane->GetTexture(), sizeof(CTexture), eSDT_Texture);
+		g_pGraphic->DrawPrimitive(material, &planeWorld, 1, ePT_TriangleList, g_pPlane->GetVertexCount(), g_pPlane->GetVertexCount() / 3,
+			g_pPlane->GetVertexType(), g_pPlane->GetVertexSize(), (const void*)g_pPlane->GetVertexBuffer(), nullptr);
 
 		g_pGraphic->RenderEnd();
 	}

@@ -41,4 +41,6 @@ const uint64 INVALID_64BIT = uint64(-1);
 #define min(a,b)            (((a) < (b)) ? (a) : (b))
 #endif
 
+#define ELEMENT_CNT(arr)	(sizeof(arr) / sizeof(arr[0]))
+
 #endif

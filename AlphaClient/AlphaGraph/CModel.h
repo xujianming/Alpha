@@ -33,6 +33,7 @@ public:
 	CTexture* GetTexture();
 	const  SVertexType* GetVertexBuffer();
 	uint16 GetVertexType();
+	uint16 GetVertexSize();
 	uint16 GetVertexCount();
 	uint16* GetIndexBuffer();
 	uint16 GetIndexCount();

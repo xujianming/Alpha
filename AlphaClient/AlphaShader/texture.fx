@@ -11,6 +11,9 @@ float4x4 matWorld;
 float4x4 matView;
 float4x4 matProject;
 float4x4 matWorldViewProject;
+
+float4 lightDirection;
+
 sampler2D textureSampler:TEXTURE0 = 
 sampler_state
 {

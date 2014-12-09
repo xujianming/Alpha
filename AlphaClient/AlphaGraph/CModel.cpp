@@ -198,12 +198,17 @@ uint16 CModel::GetVertexType()
 {
 	SVertexElem arrElem[] = 
 	{
-		0, eSDT_4Float, eDU_Position,
-		12, eSDT_4Float, eDU_Texcoord0,
-		24, eSDT_4Float, eDU_Normal
+		0, eDT_3Float, eDU_Position,
+		12, eDT_2Float, eDU_Texcoord0,
+		20, eDT_3Float, eDU_Normal
 	};
-	uint16 nVertexFormat = m_pGraphic->CreateVertexFormat(arrElem, 2); 
+	uint16 nVertexFormat = m_pGraphic->CreateVertexFormat(arrElem, ELEMENT_CNT(arrElem));
 	return nVertexFormat;
+}
+
+uint16 CModel::GetVertexSize()
+{
+	return sizeof(SVertexType);
 }
 
 uint16 CModel::GetVertexCount()
