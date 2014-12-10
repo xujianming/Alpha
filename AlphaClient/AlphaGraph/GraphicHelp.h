@@ -186,3 +186,72 @@ inline bool IsDepthFormat(ETextureFormat eFormat)
 {
 	return eFormat == eTF_D16 || eFormat == eTF_D24S8 || eFormat == eTF_INTZ;
 }
+
+struct SLight
+{
+	enum ELightType
+	{
+		eLT_Direct,
+		eLT_Point,
+		eLT_Spot,
+		eLT_Cnt
+	};
+	ELightType m_eType;
+	CVector3f m_vPos;
+	CVector3f m_vDir;
+	float m_fAngle;
+	uint32 m_nColor;
+	float m_fRange;
+	float m_fAtten0;
+	float m_fAtten1;
+	float m_fAtten2;
+	SLight()
+	{
+		SetDirectLigth(CVector3f(0, 1, 0), 0xffffffff);
+	}
+	void SetDirectLigth(const CVector3f& vDir, uint32 nColor = 0xffffffff)
+	{
+		m_eType = eLT_Direct;
+		m_vDir = vDir;
+		m_nColor = nColor;
+		m_fRange = 100000;
+		m_fAtten0 = 1;
+		m_fAtten1 = 0;
+		m_fAtten2 = 0;
+		m_vDir.normalize();
+	}
+	void SetPointLight(const CVector3f& vPos, 
+						float fRange,
+						uint32 nColor = 0xffffffff,
+						float fConstant = 0.0,
+						float fLinear = 1.0,
+						float fQuadric = 0.0)
+	{
+		m_eType = eLT_Point;
+		m_fRange = fRange;
+		m_nColor = nColor;
+		m_fAtten0 = fConstant;
+		m_fAtten1 = fLinear;
+		m_fAtten2 = fQuadric;
+	}
+	void SetSpotLight(const CVector3f& vPos,
+						const CVector3f& vDir,
+						float fAngle,
+						float fRange,
+						float nColor = 0xffffffff,
+						float fConstant = 0.0,
+						float fLinear = 1.0,
+						float fQuadric = 0.0)
+	{
+		m_eType = eLT_Spot;
+		m_vPos = vPos;
+		m_vDir = vDir;
+		m_fAngle = fAngle;
+		m_fRange = fRange;
+		m_nColor = nColor;
+		m_fAtten0 = fConstant;
+		m_fAtten1 = fLinear;
+		m_fAtten2 = fQuadric;
+	}
+
+};
