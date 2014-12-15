@@ -207,7 +207,7 @@ struct SLight
 	float m_fAtten2;
 	SLight()
 	{
-		SetDirectLigth(CVector3f(0, 1, 0), 0xffffffff);
+		SetDirectLigth(CVector3f(-0.717, -0.717, 0), 0xffffffff);
 	}
 	void SetDirectLigth(const CVector3f& vDir, uint32 nColor = 0xffffffff)
 	{
@@ -238,7 +238,7 @@ struct SLight
 						const CVector3f& vDir,
 						float fAngle,
 						float fRange,
-						float nColor = 0xffffffff,
+						uint32 nColor = 0xffffffff,
 						float fConstant = 0.0,
 						float fLinear = 1.0,
 						float fQuadric = 0.0)

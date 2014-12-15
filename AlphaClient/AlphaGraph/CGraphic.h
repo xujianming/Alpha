@@ -81,6 +81,12 @@ public:
 
 	const CMatrix& GetProj();
 
+	void SetAmbient(const CVector4f& ambient);
+
+	void SetLigth(const SLight* arrLigth, uint8 nCnt);
+
+	void AddLight(const SLight& light);
+
 protected:	
 	virtual bool CreateSuitableDevice();
 

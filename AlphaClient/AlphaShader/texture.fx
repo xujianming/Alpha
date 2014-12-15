@@ -12,6 +12,7 @@ float4x4 matView;
 float4x4 matProject;
 float4x4 matWorldViewProject;
 
+float4 ambient;
 float4 lightDirection;
 
 sampler2D textureSampler:TEXTURE0 = 
@@ -69,8 +70,11 @@ float4 PixelMain(PixelInputType input) : SV_Target
 {
 	float4 textureColor;
 	
+	float lightIntensity = saturate(dot(input.normal, lightDirection));
+	lightIntensity = saturate(lightIntensity + ambient);
 	// Sample the pixel color from the texture using the sampler at this texture coordinate location.
 	textureColor = tex2D(textureSampler, input.tex);
+	textureColor = textureColor * lightIntensity;
 
     return textureColor;
 }

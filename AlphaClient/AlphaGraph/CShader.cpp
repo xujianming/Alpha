@@ -182,6 +182,17 @@ void CShader::SetShaderParam( const SMaterial& sMaterial,const SRenderEnvir& sEn
 		SetParamData("matWorldViewProject", &matViewProject, sizeof(CMatrix), eSDT_Matrix);
 
 	SetParamData("matView", &sEnvir.matView, sizeof(CMatrix), eSDT_Matrix);
+
 	SetParamData("matProject", &sEnvir.matProject, sizeof(CMatrix), eSDT_Matrix);
+
+	SetParamData("lightDirection", &sEnvir.arrLightDir, sizeof(CVector4f) * sEnvir.MAX_LIGHT, eSDT_4Float);
+
+	SetParamData("lightPosition", &sEnvir.arrLightPos, sizeof(CVector4f) * sEnvir.MAX_LIGHT, eSDT_4Float);
+
+	SetParamData("lightColor", &sEnvir.arrLightColor, sizeof(CVector4f) * sEnvir.MAX_LIGHT, eSDT_4Float);
+
+	SetParamData("lightParam", &sEnvir.arrLightParam, sizeof(CVector4f) * sEnvir.MAX_LIGHT, eSDT_4Float);
+
+	SetParamData("ambient", &sEnvir.ambient, sizeof(CVector4f), eSDT_4Float);
 }
 

@@ -15,11 +15,6 @@ struct SFogInfo
 	uint32 nColor;
 };
 
-struct SLight
-{
-
-};
-
 struct SRenderTargetInfo
 {
 	CTexture* pRenderTargets[MAX_RENDER_TARGET];
@@ -33,12 +28,12 @@ struct SRenderTargetInfo
 
 struct SRenderEnvir
 {
-	enum { MAX_LIGHT = 8 };
+	enum { MAX_LIGHT = 16 };
 	CVector4f ambient;
 	CMatrix matView;
-	CMatrix matViewInvert;
+	//CMatrix matViewInvert;
 	CMatrix matProject;
-	CMatrix matProjectInvert;
+	//CMatrix matProjectInvert;
 	CMatrix matViewProject;
 	CVector4f viewPort;
 	bool	 bFogEnable;
@@ -48,9 +43,17 @@ struct SRenderEnvir
 	CVector4f scissor;
 	CVector4f baseBrightness;
 	uint8	 nLighCnt;
-	SLight	 aryLight[MAX_LIGHT];
+	SLight	 arryLight[MAX_LIGHT];
 	CTexture* curShadowMap;
 	SRenderTargetInfo renderTargetInfo;
+
+	// 镜头空间灯光参数，随matview或arrlight的更新而更新
+	bool bLightInvalid; 
+	CVector4f arrLightPos[MAX_LIGHT];
+	CVector4f arrLightDir[MAX_LIGHT];
+	CVector4f arrLightColor[MAX_LIGHT];
+	CVector4f arrLightParam[MAX_LIGHT];
+
 };
 
 struct SPrimiveInfo
@@ -89,7 +92,15 @@ public:
 
 	const CMatrix& GetProj();
 
+	void SetAmbient(const CVector4f& ambient);
+
+	void SetLigth(const SLight* arrLigth, uint8 nCnt);
+
+	void AddLight(const SLight& light);
+
 protected:
+	void BuildViewSpaceLigth();
+
 	SRenderEnvir m_curEnvir;
 	std::vector<SRenderEnvir> m_envirStack;
 	CGraphic* m_pGraphic; 

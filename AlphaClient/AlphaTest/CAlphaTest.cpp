@@ -19,6 +19,7 @@ CModel* g_pCube;
 CModel* g_pSphere;
 CModel* g_pPlane;
 CCamera* g_pCamera;
+
 void init()
 {
 	g_pWindow = new CAlphaWindow;
@@ -49,6 +50,8 @@ void init()
 		MessageBox(g_pWindow->GetHandle(), L"Could not initialize the model object.", L"Error", MB_OK);
 		return;
 	}
+	g_pGraphic->AddLight(SLight());
+	g_pGraphic->SetAmbient(CVector4f(0.3, 0.3, 0.3, 1));
 }
 
 void destroy()
@@ -105,7 +108,7 @@ void updateFrame(uint32 nDeltaTime)
 		g_pGraphic->SetProj(g_pCamera->GetProject());
 
 		SMaterial material;
-		material.m_pShader = g_pGraphic->CreateShaderFromFile("F://GameProject/Alpha/AlphaClient/AlphaShader/texture.fx");
+		material.m_pShader = g_pGraphic->CreateShaderFromFile("F://MyProject/Alpha/AlphaClient/AlphaShader/texture.fx");
 		material.m_pShader->SetParamData("textureSampler", g_pCube->GetTexture(), sizeof(CTexture), eSDT_Texture);
 		
 		g_pGraphic->DrawPrimitive(material, nullptr, 0, ePT_TriangleList, g_pCube->GetVertexCount(), g_pCube->GetVertexCount() / 3,

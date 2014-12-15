@@ -201,3 +201,18 @@ const CMatrix& CGraphic::GetProj()
 {
 	return GetRenderCommandMgr().GetProj();
 }
+
+void CGraphic::SetAmbient( const CVector4f& ambient )
+{
+	m_cRenderCommandMgr.SetAmbient(ambient);
+}
+
+void CGraphic::SetLigth( const SLight* arrLigth, uint8 nCnt )
+{
+	m_cRenderCommandMgr.SetLigth(arrLigth, nCnt);
+}
+
+void CGraphic::AddLight( const SLight& light )
+{
+	m_cRenderCommandMgr.AddLight(light);
+}

@@ -378,6 +378,15 @@ struct TVector4
 		w (d)
 	{}
 
+	TVector4( const TVector3<T>& vec3, T d):
+		x(vec3.x),
+		y(vec3.y),
+		z(vec3.z),
+		w(d)
+	{
+
+	}
+
 	template<class another>
 	explicit TVector4( const another& ot)
 		:x(T(ot.x)), y(T(ot.y)), z(T(ot.z)), w(T(ot.w))
