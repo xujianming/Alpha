@@ -19,7 +19,7 @@ CModel* g_pCube;
 CModel* g_pSphere;
 CModel* g_pPlane;
 CCamera* g_pCamera;
-
+CRenderTargetD3D* g_pRenderTarget;
 void init()
 {
 	g_pWindow = new CAlphaWindow;
@@ -51,13 +51,37 @@ void init()
 		return;
 	}
 	g_pGraphic->AddLight(SLight());
-	g_pGraphic->SetAmbient(CVector4f(0.3, 0.3, 0.3, 1));
+	g_pGraphic->SetAmbient(CVector4f(0.1, 0.1, 0.1, 1));
+	g_pRenderTarget = g_pGraphic->CreateRenderTarget(g_pWindow->GetClientRect().right, g_pWindow->GetClientRect().bottom, eTF_ARGB32, 0, eTF_D24S8);
 }
 
 void destroy()
 {
 	SAFE_DELETE(g_pGraphic);
 	SAFE_DELETE(g_pWindow);
+}
+
+void renderMainScene()
+{
+	SMaterial material;
+	material.m_pShader = g_pGraphic->CreateShaderFromFile("F://MyProject/Alpha/AlphaClient/AlphaShader/texture.fx");
+	material.m_pShader->SetParamData("textureSampler", g_pCube->GetTexture(), sizeof(CTexture), eSDT_Texture);
+
+	g_pGraphic->DrawPrimitive(material, nullptr, 0, ePT_TriangleList, g_pCube->GetVertexCount(), g_pCube->GetVertexCount() / 3,
+		g_pCube->GetVertexType(), g_pCube->GetVertexSize(), (const void*)g_pCube->GetVertexBuffer(), nullptr);
+
+	CMatrix sphereWorld;
+	sphereWorld[3][0] += 3;
+	material.m_pShader->SetParamData("textureSampler", g_pSphere->GetTexture(), sizeof(CTexture), eSDT_Texture);
+	g_pGraphic->DrawPrimitive(material, &sphereWorld, 1, ePT_TriangleList, g_pSphere->GetVertexCount(), g_pSphere->GetVertexCount() / 3,
+		g_pSphere->GetVertexType(), g_pSphere->GetVertexSize(), (const void*)g_pSphere->GetVertexBuffer(), nullptr);
+
+	CMatrix planeWorld;
+	planeWorld[3][0] += 2;
+	planeWorld[3][1] -= 1;
+	material.m_pShader->SetParamData("textureSampler", g_pPlane->GetTexture(), sizeof(CTexture), eSDT_Texture);
+	g_pGraphic->DrawPrimitive(material, &planeWorld, 1, ePT_TriangleList, g_pPlane->GetVertexCount(), g_pPlane->GetVertexCount() / 3,
+		g_pPlane->GetVertexType(), g_pPlane->GetVertexSize(), (const void*)g_pPlane->GetVertexBuffer(), nullptr);
 }
 
 void updateFrame(uint32 nDeltaTime)
@@ -90,41 +114,10 @@ void updateFrame(uint32 nDeltaTime)
 
 	if (g_pGraphic->RenderBegin())
 	{
-		D3DXVECTOR3 position(0, 0, -5);
-		D3DXVECTOR3 target(0, 0, 0);
-		D3DXVECTOR3 up(0, 1, 0);
-
-		//D3DXMATRIX view;
-		//D3DXMatrixLookAtLH(&view, &position, &target, &up);
-		//g_pGraphic->GetDevice()->SetTransform(D3DTS_VIEW, &view);
-		
-		CMatrix view;
-		g_pCamera->GetViewMatrix(&view);
-		g_pGraphic->SetView(view);
-
-		//D3DXMATRIX proj;
-		//D3DXMatrixPerspectiveFovLH(&proj, D3DX_PI * 0.5f, g_pWindow->GetClientRect().right / g_pWindow->GetClientRect().bottom, 1.0f, 1000.0f);
-		//g_pGraphic->GetDevice()->SetTransform(D3DTS_PROJECTION, &proj);
+		g_pGraphic->SetView(g_pCamera->GetView());
 		g_pGraphic->SetProj(g_pCamera->GetProject());
-
-		SMaterial material;
-		material.m_pShader = g_pGraphic->CreateShaderFromFile("F://MyProject/Alpha/AlphaClient/AlphaShader/texture.fx");
-		material.m_pShader->SetParamData("textureSampler", g_pCube->GetTexture(), sizeof(CTexture), eSDT_Texture);
-		
-		g_pGraphic->DrawPrimitive(material, nullptr, 0, ePT_TriangleList, g_pCube->GetVertexCount(), g_pCube->GetVertexCount() / 3,
-			g_pCube->GetVertexType(), g_pCube->GetVertexSize(), (const void*)g_pCube->GetVertexBuffer(), nullptr);
-
-		CMatrix sphereWorld;
-		sphereWorld[3][0] += 3;
-		material.m_pShader->SetParamData("textureSampler", g_pSphere->GetTexture(), sizeof(CTexture), eSDT_Texture);
-		g_pGraphic->DrawPrimitive(material, &sphereWorld, 1, ePT_TriangleList, g_pSphere->GetVertexCount(), g_pSphere->GetVertexCount() / 3,
-			g_pSphere->GetVertexType(), g_pSphere->GetVertexSize(), (const void*)g_pSphere->GetVertexBuffer(), nullptr);
-
-		CMatrix planeWorld;
-		planeWorld[3][1] -= 2;
-		material.m_pShader->SetParamData("textureSampler", g_pPlane->GetTexture(), sizeof(CTexture), eSDT_Texture);
-		g_pGraphic->DrawPrimitive(material, &planeWorld, 1, ePT_TriangleList, g_pPlane->GetVertexCount(), g_pPlane->GetVertexCount() / 3,
-			g_pPlane->GetVertexType(), g_pPlane->GetVertexSize(), (const void*)g_pPlane->GetVertexBuffer(), nullptr);
+		g_pGraphic->SetRenderTarget(g_pRenderTarget, g_pGraphic->GetMainRenderTarget());
+		renderMainScene();
 
 		g_pGraphic->RenderEnd();
 	}

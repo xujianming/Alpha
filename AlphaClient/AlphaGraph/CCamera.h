@@ -17,7 +17,7 @@ public:
 	void yaw(float angle);			// rotate on up vector
 	void roll(float angle);			// rotate on look vector
 
-	void GetViewMatrix(CMatrix* vOut);
+	CMatrix GetView();
 	void SetCameraType(CameraType cameraType);
 	D3DXVECTOR3* GetPosition();
 	void SetPosition(D3DXVECTOR3* pos);
@@ -35,4 +35,5 @@ private:
 	D3DXVECTOR3 m_Look;
 	D3DXVECTOR3 m_Pos;
 	CMatrix m_proj;
+	CMatrix m_view;
 };

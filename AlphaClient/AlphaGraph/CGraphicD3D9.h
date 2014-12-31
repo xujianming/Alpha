@@ -26,8 +26,6 @@ public:
 
 	bool CreateBackBuffer();
 
-	CTexture* CreateRenderTarget(uint32 nWidth, uint32 nHeight, ETextureFormat eTargetFormat, int32 nMipMap, ETextureFormat eDepthSttencilFormat);
-
 	void Destroy();
 
 	D3DFORMAT ToD3DFmt(ETextureFormat eFormat);

@@ -67,7 +67,7 @@ public:
 
 	uint16 CreateVertexFormat( SVertexElem* arrElem, uint16 cnt );
 
-	CTexture* CGraphic::CreateRenderTarget( uint32 nWidth, uint32 nHeight, ETextureFormat eTargetFormat, int32 nMipMap, ETextureFormat eDepthSttencilFormat );
+	CTexture* CGraphic::CreateRenderTarget( uint32 nWidth, uint32 nHeight, ETextureFormat eTargetFormat, int32 nMipMap, ETextureFormat eDepthStencilFormat );
 
 	TVector2<uint32> GetClientSize();
 

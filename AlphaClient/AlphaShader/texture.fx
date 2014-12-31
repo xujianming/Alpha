@@ -69,12 +69,10 @@ PixelInputType VertexMain(VertexInputType input)
 float4 PixelMain(PixelInputType input) : SV_Target
 {
 	float4 textureColor;
-	
-	float lightIntensity = saturate(dot(input.normal, lightDirection));
-	lightIntensity = saturate(lightIntensity + ambient);
+	float lightIntensity = saturate(dot(input.normal, -lightDirection));
 	// Sample the pixel color from the texture using the sampler at this texture coordinate location.
 	textureColor = tex2D(textureSampler, input.tex);
-	textureColor = textureColor * lightIntensity;
+	textureColor = textureColor * saturate(lightIntensity + ambient);
 
     return textureColor;
 }

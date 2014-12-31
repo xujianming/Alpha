@@ -126,8 +126,8 @@ void CRenderCommandMgr::BuildViewSpaceLigth()
 	m_curEnvir.bLightInvalid = false;
 	for (uint8 i = 0; i < m_curEnvir.nLighCnt; i ++)
 	{
-		m_curEnvir.arrLightPos[i] = CVector4f(m_curEnvir.arryLight[i].m_vPos, 1.0f) * m_curEnvir.matView;
-		m_curEnvir.arrLightDir[i] = CVector4f(m_curEnvir.arryLight[i].m_vDir, 1.0f) * m_curEnvir.matView;
+		m_curEnvir.arrLightPos[i] = CVector4f(m_curEnvir.arryLight[i].m_vPos, 1.0f);// * m_curEnvir.matView;
+		m_curEnvir.arrLightDir[i] = CVector4f(m_curEnvir.arryLight[i].m_vDir, 1.0f);// * m_curEnvir.matView;
 		m_curEnvir.arrLightDir[i].v[3] = cos(m_curEnvir.arryLight[i].m_fAngle / 2);
 		for (uint8 j = 0; j < 4; j ++)
 			m_curEnvir.arrLightColor[i].v[j] = ((m_curEnvir.arryLight[i].m_nColor >> j) & 0xff) / 255.0f;
@@ -137,9 +137,9 @@ void CRenderCommandMgr::BuildViewSpaceLigth()
 		m_curEnvir.arrLightParam[i].v[3] = m_curEnvir.arryLight[i].m_fRange;
 	}
 	memset(m_curEnvir.arrLightPos +  m_curEnvir.nLighCnt, 0x00, sizeof(CVector4f) * (m_curEnvir.MAX_LIGHT - m_curEnvir.nLighCnt));
-	memset(m_curEnvir.arrLightDir +  m_curEnvir.nLighCnt, 0x3f, sizeof(CVector4f) * (m_curEnvir.MAX_LIGHT - m_curEnvir.nLighCnt));
+	memset(m_curEnvir.arrLightDir +  m_curEnvir.nLighCnt, 0x00, sizeof(CVector4f) * (m_curEnvir.MAX_LIGHT - m_curEnvir.nLighCnt));
 	memset(m_curEnvir.arrLightColor +  m_curEnvir.nLighCnt, 0x00, sizeof(CVector4f) * (m_curEnvir.MAX_LIGHT - m_curEnvir.nLighCnt));
-	memset(m_curEnvir.arrLightParam +  m_curEnvir.nLighCnt, 0x3f, sizeof(CVector4f) * (m_curEnvir.MAX_LIGHT - m_curEnvir.nLighCnt));
+	memset(m_curEnvir.arrLightParam +  m_curEnvir.nLighCnt, 0x00, sizeof(CVector4f) * (m_curEnvir.MAX_LIGHT - m_curEnvir.nLighCnt));
 }
 
 void CRenderCommandMgr::SetAmbient( const CVector4f& ambient )

@@ -165,10 +165,10 @@ uint16 CGraphic::CreateVertexFormat( SVertexElem* arrElem, uint16 cnt )
 	return nFormat;
 }
 
-CTexture* CGraphic::CreateRenderTarget( uint32 nWidth, uint32 nHeight, ETextureFormat eTargetFormat, int32 nMipMap, ETextureFormat eDepthSttencilFormat )
+CTexture* CGraphic::CreateRenderTarget( uint32 nWidth, uint32 nHeight, ETextureFormat eTargetFormat, int32 nMipMap, ETextureFormat eDepthStencilFormat )
 {
 	CTexture* pRenderTarget = m_pGraphicFactory->CreateRenderTarget();
-	if (!pRenderTarget->CreateRenderTarget(nWidth, nHeight, eTargetFormat, nMipMap, eDepthSttencilFormat))
+	if (!pRenderTarget->CreateRenderTarget(nWidth, nHeight, eTargetFormat, nMipMap, eDepthStencilFormat))
 	{
 		SAFE_DELETE(pRenderTarget);
 		return nullptr;
