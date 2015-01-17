@@ -22,6 +22,10 @@ bool CShaderD3D9::CreateShaderFromFile( const char* szFileName )
 	ID3DXConstantTable* pConstantTable = nullptr;
 	CGraphicD3D9* pGraphicD3D9 = static_cast<CGraphicD3D9*>(m_pGraphic);
 	ID3DXBuffer* pBuffer = 0;
+
+	D3DXAssembleShaderFromFile(szFileName, NULL, NULL, 0, &pBuffer, &pErrorBuffer);
+
+
 	HRESULT hr;
 
 	hr = D3DXCompileShaderFromFile(szFileName, NULL, NULL, "VertexMain", D3DXGetVertexShaderProfile(pGraphicD3D9->GetDevice()), 0, &pBuffer, &pErrorBuffer, &pConstantTable);
