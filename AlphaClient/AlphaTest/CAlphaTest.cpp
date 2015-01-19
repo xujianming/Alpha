@@ -19,7 +19,7 @@ CModel* g_pCube;
 CModel* g_pSphere;
 CModel* g_pPlane;
 CCamera* g_pCamera;
-CRenderTargetD3D* g_pRenderTarget;
+CTexture* g_pRenderTarget;
 void init()
 {
 	g_pWindow = new CAlphaWindow;
@@ -118,7 +118,10 @@ void updateFrame(uint32 nDeltaTime)
 		g_pGraphic->SetProj(g_pCamera->GetProject());
 		g_pGraphic->SetRenderTarget(g_pRenderTarget, g_pGraphic->GetMainRenderTarget());
 		renderMainScene();
-
+		g_pGraphic->SetRenderTarget(g_pGraphic->GetMainRenderTarget(), g_pGraphic->GetMainRenderTarget());
+		SMaterial material;
+		material.m_pTexture
+		g_pGraphic->DrawPrimitive(&material, nullptr, 0, );
 		g_pGraphic->RenderEnd();
 	}
 }

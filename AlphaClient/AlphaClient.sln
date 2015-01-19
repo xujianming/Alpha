@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlphaTest", "AlphaTest\AlphaTest.vcxproj", "{61C55715-68EB-4524-BC5A-682F7B574093}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlphaCommon", "AlphaCommon\AlphaCommon.vcxproj", "{3E4B6BFE-C552-4F99-A9D4-3608D05D97A0}"
@@ -10,6 +12,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlphaNetwork", "AlphaNetwork\AlphaNetwork.vcxproj", "{BE82819B-7B28-49BE-B8D4-B54AAE696A1C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlphaShader", "AlphaShader\AlphaShader.vcxproj", "{5B3C50C1-B18C-4344-A146-7913285D0212}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua5.3", "implib\lua-5.3.0\src\Lua5.3.vcxproj", "{59E80920-25FE-4C54-B35F-B5F1115B50A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +41,10 @@ Global
 		{5B3C50C1-B18C-4344-A146-7913285D0212}.Debug|Win32.Build.0 = Debug|Win32
 		{5B3C50C1-B18C-4344-A146-7913285D0212}.Release|Win32.ActiveCfg = Release|Win32
 		{5B3C50C1-B18C-4344-A146-7913285D0212}.Release|Win32.Build.0 = Release|Win32
+		{59E80920-25FE-4C54-B35F-B5F1115B50A6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{59E80920-25FE-4C54-B35F-B5F1115B50A6}.Debug|Win32.Build.0 = Debug|Win32
+		{59E80920-25FE-4C54-B35F-B5F1115B50A6}.Release|Win32.ActiveCfg = Release|Win32
+		{59E80920-25FE-4C54-B35F-B5F1115B50A6}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
