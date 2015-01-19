@@ -64,7 +64,7 @@ void destroy()
 void renderMainScene()
 {
 	SMaterial material;
-	material.m_pShader = g_pGraphic->CreateShaderFromFile("F://MyProject/Alpha/AlphaClient/AlphaShader/texture.fx");
+	material.m_pShader = g_pGraphic->CreateShaderFromFile("F://MyProject/Alpha/AlphaClient/AlphaShader/normal.fx");
 	material.m_pShader->SetParamData("textureSampler", g_pCube->GetTexture(), sizeof(CTexture), eSDT_Texture);
 
 	g_pGraphic->DrawPrimitive(material, nullptr, 0, ePT_TriangleList, g_pCube->GetVertexCount(), g_pCube->GetVertexCount() / 3,
@@ -83,6 +83,30 @@ void renderMainScene()
 	g_pGraphic->DrawPrimitive(material, &planeWorld, 1, ePT_TriangleList, g_pPlane->GetVertexCount(), g_pPlane->GetVertexCount() / 3,
 		g_pPlane->GetVertexType(), g_pPlane->GetVertexSize(), (const void*)g_pPlane->GetVertexBuffer(), nullptr);
 }
+
+struct SVertexType
+{
+	D3DXVECTOR3 position;
+	D3DXVECTOR2 texture;
+};
+
+void renderTexture()
+{
+	SMaterial material;
+	material.m_pShader = g_pGraphic->CreateShaderFromFile("F://MyProject/Alpha/AlphaClient/AlphaShader/texture.fx");
+	material.m_pShader->SetParamData("textureSampler", g_pRenderTarget, sizeof(CTexture), eSDT_Texture);
+	SVertexElem arrElem[] =
+	{
+		0, eDT_3Float, eDU_Position,
+		12, eDT_2Float, eDU_Texcoord0,
+	};
+	uint16 nVertexFormat = g_pGraphic->CreateVertexFormat(arrElem, ELEMENT_CNT(arrElem));
+	SVertexType v[4];
+	v[0].position;
+	g_pGraphic->DrawPrimitive(&material, nullptr, 0, ePT_TriangleStrip, 4, 2, nVertexFormat, );
+
+}
+
 
 void updateFrame(uint32 nDeltaTime)
 {
@@ -118,10 +142,10 @@ void updateFrame(uint32 nDeltaTime)
 		g_pGraphic->SetProj(g_pCamera->GetProject());
 		g_pGraphic->SetRenderTarget(g_pRenderTarget, g_pGraphic->GetMainRenderTarget());
 		renderMainScene();
+
 		g_pGraphic->SetRenderTarget(g_pGraphic->GetMainRenderTarget(), g_pGraphic->GetMainRenderTarget());
-		SMaterial material;
-		material.m_pTexture
-		g_pGraphic->DrawPrimitive(&material, nullptr, 0, );
+		renderTexture();
+
 		g_pGraphic->RenderEnd();
 	}
 }
