@@ -36,6 +36,9 @@
     <ClInclude Include="AlphaCommonType.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CommonHelp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAlphaWindow.cpp">
