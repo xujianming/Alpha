@@ -68,6 +68,7 @@
     <FxCompile Include="PCFShadow.fx" />
     <FxCompile Include="shadow.fx" />
     <FxCompile Include="shadowvalue.fx" />
+    <FxCompile Include="normal.fx" />
     <FxCompile Include="texture.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

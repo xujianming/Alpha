@@ -24,6 +24,9 @@
     <FxCompile Include="shadowvalue.fx">
       <Filter>TestShader</Filter>
     </FxCompile>
+    <FxCompile Include="normal.fx">
+      <Filter>TestShader</Filter>
+    </FxCompile>
     <FxCompile Include="texture.fx">
       <Filter>TestShader</Filter>
     </FxCompile>
