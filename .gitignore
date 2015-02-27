@@ -51,3 +51,5 @@ AlphaClient/AlphaGraph/AlphaGraph.vcxproj
 AlphaClient/AlphaNetwork/AlphaNetwork.vcxproj
 AlphaClient/AlphaShader/AlphaShader.vcxproj
 AlphaClient/AlphaTest/AlphaTest.vcxproj
+*.obj
+*.pdb

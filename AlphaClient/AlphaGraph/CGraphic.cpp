@@ -216,3 +216,13 @@ void CGraphic::AddLight( const SLight& light )
 {
 	m_cRenderCommandMgr.AddLight(light);
 }
+
+void CGraphic::PopEnvir()
+{
+	m_cRenderCommandMgr.PopEnvir();
+}
+
+void CGraphic::PushEnvir(const SRenderEnvir& evir)
+{
+	m_cRenderCommandMgr.PushEnvir(evir);
+}

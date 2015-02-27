@@ -51,7 +51,7 @@ void init()
 		return;
 	}
 	g_pGraphic->AddLight(SLight());
-	g_pGraphic->SetAmbient(CVector4f(0.1, 0.1, 0.1, 1));
+	g_pGraphic->SetAmbient(CVector4f(0.3, 0.3, 0.3, 1));
 	g_pRenderTarget = g_pGraphic->CreateRenderTarget(g_pWindow->GetClientRect().right, g_pWindow->GetClientRect().bottom, eTF_ARGB32, 0, eTF_D24S8);
 }
 
@@ -64,7 +64,7 @@ void destroy()
 void renderMainScene()
 {
 	SMaterial material;
-	material.m_pShader = g_pGraphic->CreateShaderFromFile("F://MyProject/Alpha/AlphaClient/AlphaShader/normal.fx");
+	material.m_pShader = g_pGraphic->CreateShaderFromFile("F://GameProject/Alpha/AlphaClient/AlphaShader/normal.fx");
 	material.m_pShader->SetParamData("textureSampler", g_pCube->GetTexture(), sizeof(CTexture), eSDT_Texture);
 
 	g_pGraphic->DrawPrimitive(material, nullptr, 0, ePT_TriangleList, g_pCube->GetVertexCount(), g_pCube->GetVertexCount() / 3,
@@ -86,7 +86,7 @@ void renderMainScene()
 
 }
 
-struct SVertexType
+struct SVertexType2
 {
 	D3DXVECTOR3 position;
 	D3DXVECTOR2 texture;
@@ -95,7 +95,7 @@ struct SVertexType
 void renderTexture()
 {
 	SMaterial material;
-	material.m_pShader = g_pGraphic->CreateShaderFromFile("F://MyProject/Alpha/AlphaClient/AlphaShader/texture.fx");
+	material.m_pShader = g_pGraphic->CreateShaderFromFile("F://GameProject/Alpha/AlphaClient/AlphaShader/texture.fx");
 	material.m_pShader->SetParamData("textureSampler", g_pRenderTarget, sizeof(CTexture), eSDT_Texture);
 	SVertexElem arrElem[] =
 	{
@@ -103,12 +103,47 @@ void renderTexture()
 		12, eDT_2Float, eDU_Texcoord0,
 	};
 	uint16 nVertexFormat = g_pGraphic->CreateVertexFormat(arrElem, ELEMENT_CNT(arrElem));
-	SVertexType v[4];
-	v[0].position;
-	g_pGraphic->DrawPrimitive(&material, nullptr, 0, ePT_TriangleStrip, 4, 2, nVertexFormat, );
-
+	SVertexType2 v[4];
+	v[0].position = D3DXVECTOR3(-1, -1, 0);
+	v[0].texture = D3DXVECTOR2(0, 0);
+	v[1].position = D3DXVECTOR3(-1, 1, 0);
+	v[1].texture = D3DXVECTOR2(0, 1);
+	v[2].position = D3DXVECTOR3(1, -1, 0);
+	v[2].texture = D3DXVECTOR2(1, 0);
+	v[3].position = D3DXVECTOR3(1, 1, 0);
+	v[3].texture = D3DXVECTOR2(1, 1);
+	g_pGraphic->DrawPrimitive(material, nullptr, 0, ePT_TriangleStrip, 4, 2, nVertexFormat, sizeof(SVertexType2), (const void*)v, nullptr);
 }
 
+struct SVertexType3
+{
+	D3DXVECTOR3 position;
+	D3DXVECTOR3 color;
+};
+
+
+void renderColor()
+{
+	SMaterial material;
+	material.m_pShader = g_pGraphic->CreateShaderFromFile("F://GameProject/Alpha/AlphaClient/AlphaShader/color.fx");
+	SVertexElem arrElem[] =
+	{
+		0, eDT_3Float, eDU_Position,
+		12, eDT_3Float, eDU_Color0,
+	};
+	uint16 nVertexFormat = g_pGraphic->CreateVertexFormat(arrElem, ELEMENT_CNT(arrElem));
+	SVertexType3 v[4];
+	v[0].position = D3DXVECTOR3(-1, -1, 0);
+	v[0].color = D3DXVECTOR3(0, 0, 0);
+	v[1].position = D3DXVECTOR3(-1, 1, 0);
+	v[1].color = D3DXVECTOR3(0, 255, 0);
+	v[2].position = D3DXVECTOR3(1, -1, 0);
+	v[2].color = D3DXVECTOR3(255, 0, 0);
+	v[3].position = D3DXVECTOR3(1, 1, 0);
+	v[3].color = D3DXVECTOR3(0, 0, 255);
+	g_pGraphic->DrawPrimitive(material, nullptr, 0, ePT_TriangleStrip, 4, 2, nVertexFormat, sizeof(SVertexType2), (const void*)v, nullptr);
+
+}
 
 void updateFrame(uint32 nDeltaTime)
 {
@@ -140,14 +175,21 @@ void updateFrame(uint32 nDeltaTime)
 
 	if (g_pGraphic->RenderBegin())
 	{
-		g_pGraphic->SetView(g_pCamera->GetView());
-		g_pGraphic->SetProj(g_pCamera->GetProject());
-		g_pGraphic->SetRenderTarget(g_pRenderTarget, g_pGraphic->GetMainRenderTarget());
-		renderMainScene();
+ 		g_pGraphic->SetView(g_pCamera->GetView());
+ 		g_pGraphic->SetProj(g_pCamera->GetProject());
+ 		g_pGraphic->SetRenderTarget(g_pRenderTarget, g_pGraphic->GetMainRenderTarget());
+ 		renderMainScene();
+		
+		CTexture* tar[1];
+		tar[0] = nullptr;
+		g_pGraphic->SetRenderTarget(tar, 1, nullptr);
+		SMaterial material;
+		material.m_pShader = g_pGraphic->CreateShaderFromFile("F://GameProject/Alpha/AlphaClient/AlphaShader/normal.fx");
+		material.m_pShader->SetParamData("textureSampler", g_pRenderTarget, sizeof(CTexture), eSDT_Texture);
 
-		g_pGraphic->SetRenderTarget(g_pGraphic->GetMainRenderTarget(), g_pGraphic->GetMainRenderTarget());
-		renderTexture();
-
+		g_pGraphic->DrawPrimitive(material, nullptr, 0, ePT_TriangleList, g_pCube->GetVertexCount(), g_pCube->GetVertexCount() / 3,
+			g_pCube->GetVertexType(), g_pCube->GetVertexSize(), (const void*)g_pCube->GetVertexBuffer(), nullptr);
+	
 		g_pGraphic->RenderEnd();
 	}
 }

@@ -87,6 +87,10 @@ public:
 
 	void AddLight(const SLight& light);
 
+	void PopEnvir();
+
+	void PushEnvir(const SRenderEnvir& evir);
+
 protected:	
 	virtual bool CreateSuitableDevice();
 

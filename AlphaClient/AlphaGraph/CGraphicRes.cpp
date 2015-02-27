@@ -82,7 +82,8 @@ void CGraphicRes::AddRef()
 void CGraphicRes::Release()
 {
 	assert(m_nRef > 0);
-	if (m_nRef --)
+	m_nRef --;
+	if (!m_nRef)
 	{
 		Remove();
 		delete this;

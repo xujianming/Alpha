@@ -78,13 +78,19 @@ void CRenderStateMgrD3D9::SetRenderTargetParam(const SRenderTargetInfo& info)
 			CRenderTargetD3D* pTarget = static_cast<CRenderTargetD3D*>(info.pRenderTargets[i]);
 			pGraphicD3D9->GetDevice()->SetRenderTarget(i, pTarget->GetRenderTargetSuface());
 		}
+	}
+	else
+	{
+		pGraphicD3D9->GetDevice()->SetRenderTarget(0, pGraphicD3D9->GetBackBuffer());
+	}
+	if (info.pDepthpRenderTarget)
+	{
 		CRenderTargetD3D* pDepth = static_cast<CRenderTargetD3D*>(info.pDepthpRenderTarget);
 		pGraphicD3D9->GetDevice()->SetDepthStencilSurface(pDepth->GetDepthStencilSuface());
 	}
 	else
 	{
 		CRenderTargetD3D* pDepth = static_cast<CRenderTargetD3D*>(pGraphicD3D9->GetMainRenderTarget());
-		pGraphicD3D9->GetDevice()->SetRenderTarget(0, pGraphicD3D9->GetBackBuffer());
 		pGraphicD3D9->GetDevice()->SetDepthStencilSurface(pDepth->GetDepthStencilSuface());
 	}
 }

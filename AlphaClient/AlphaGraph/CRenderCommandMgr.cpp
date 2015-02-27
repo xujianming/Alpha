@@ -33,7 +33,7 @@ void CRenderCommandMgr::DrawPrimitive( const SMaterial& material, CMatrix* matWo
 	m_pGraphic->GetRenderStateMgr().Apply(material, matWorld, nMatCnt, primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexBuf, indexBuf);
 }
 
-void CRenderCommandMgr::pushEnvir( SRenderEnvir envirState )
+void CRenderCommandMgr::PushEnvir( SRenderEnvir envirState )
 {
 	m_envirStack.push_back(envirState);
 	SRenderTargetInfo& info = m_curEnvir.renderTargetInfo;
@@ -42,10 +42,12 @@ void CRenderCommandMgr::pushEnvir( SRenderEnvir envirState )
 		if (info.pRenderTargets[i])
 			info.pRenderTargets[i]->AddRef();
 	}
-	info.pDepthpRenderTarget->AddRef();
+	if (info.pDepthpRenderTarget)
+		info.pDepthpRenderTarget->AddRef();
+	m_curEnvir = *m_envirStack.rbegin();
 }
 
-void CRenderCommandMgr::popEnvir()
+void CRenderCommandMgr::PopEnvir()
 {
 	SRenderTargetInfo& info = m_curEnvir.renderTargetInfo;
 	for (uint8 i = 0; i < MAX_RENDER_TARGET; i ++)

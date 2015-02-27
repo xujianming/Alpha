@@ -63,6 +63,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <FxCompile Include="bumpmap.fx" />
+    <FxCompile Include="color.fx" />
     <FxCompile Include="depth.fx" />
     <FxCompile Include="depthShadow.fx" />
     <FxCompile Include="PCFShadow.fx" />

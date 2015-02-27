@@ -13,7 +13,7 @@ float4x4 matProject;
 float4x4 matWorldViewProject;
 
 float4 ambient;
-float4 lightDirection;
+float3 lightDirection;
 
 sampler2D textureSampler:TEXTURE0 = 
 sampler_state

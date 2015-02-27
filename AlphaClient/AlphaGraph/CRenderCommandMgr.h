@@ -53,7 +53,10 @@ struct SRenderEnvir
 	CVector4f arrLightDir[MAX_LIGHT];
 	CVector4f arrLightColor[MAX_LIGHT];
 	CVector4f arrLightParam[MAX_LIGHT];
-
+	SRenderEnvir()
+	{
+		memset(this, 0, sizeof(SRenderEnvir));
+	}
 };
 
 struct SPrimiveInfo
@@ -78,9 +81,9 @@ public:
 	
 	void DrawPrimitive( const SMaterial& material, CMatrix* matWorld, uint16 nMatCnt, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
 	
-	void pushEnvir(SRenderEnvir envirState);
+	void PushEnvir(SRenderEnvir envirState);
 	
-	void popEnvir();
+	void PopEnvir();
 	
 	bool isEmpty();
 
