@@ -81,7 +81,7 @@ public:
 	
 	void DrawPrimitive( const SMaterial& material, CMatrix* matWorld, uint16 nMatCnt, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
 	
-	void PushEnvir(SRenderEnvir envirState);
+	void PushEnvir();
 	
 	void PopEnvir();
 	
@@ -100,6 +100,8 @@ public:
 	void SetLigth(const SLight* arrLigth, uint8 nCnt);
 
 	void AddLight(const SLight& light);
+
+	void ClearRenderTarget(bool bClearTarget, bool bClearZBuffer, bool bClearStencil, uint32 nClearColor);
 
 protected:
 	void BuildViewSpaceLigth();

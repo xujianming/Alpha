@@ -187,6 +187,11 @@ inline bool IsDepthFormat(ETextureFormat eFormat)
 	return eFormat == eTF_D16 || eFormat == eTF_D24S8 || eFormat == eTF_INTZ;
 }
 
+inline bool IsStencilFormat(ETextureFormat eFormat)
+{
+	return eFormat == eTF_D24S8 || eFormat == eTF_INTZ;
+}
+
 struct SLight
 {
 	enum ELightType
@@ -207,7 +212,7 @@ struct SLight
 	float m_fAtten2;
 	SLight()
 	{
-		SetDirectLigth(CVector3f(0.717, -0.717, 0), 0xffffffff);
+		SetDirectLigth(CVector3f(0.717f, -0.717f, 0.0f), 0xffffffff);
 	}
 	void SetDirectLigth(const CVector3f& vDir, uint32 nColor = 0xffffffff)
 	{

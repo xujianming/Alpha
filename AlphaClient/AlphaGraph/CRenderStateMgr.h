@@ -23,6 +23,8 @@ public:
 
 	void Apply( const SMaterial& sMaterial, CMatrix* matWorld, uint16 nMatCnt, EPrimitiveType primitiveType, uint16 vertexCnt, uint16 primitiveCnt, uint16 vertexFormat, CGeometryBuffer* vertexBuf, CGeometryBuffer* indexBuf);
 
+	void ClearBackBuffer(bool bClearTarget, bool bClearZBuffer, bool bClearStencil, uint32 nClearColor);
+
 protected:
 
 	virtual void SetShader(CShader* pShader);
@@ -43,11 +45,11 @@ protected:
 
 	void ApplyMaterialParam(const SMaterial& material);
 
-	void Reset();
-
 	virtual void Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint16 nVertexFormat, uint16 nVertexStride, const void* pArrVertex, const void* pArrIndex) = 0;
 
 	virtual void Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint16 nVertexFormat, CGeometryBuffer* pVertexBuf, CGeometryBuffer* pIndexBuf) = 0; 
+
+	virtual void Clear(bool bClearTarget, bool bClearZBuffer, bool bClearStencil, uint32 nClearColor) = 0;
 
 	CGraphic* m_pGraphic;
 

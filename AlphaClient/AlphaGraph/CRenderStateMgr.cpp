@@ -80,3 +80,9 @@ void CRenderStateMgr::SetShader( CShader* pShader )
 		}
 	}
 }
+
+void CRenderStateMgr::ClearBackBuffer(bool bClearTarget, bool bClearZBuffer, bool bClearStencil, uint32 nClearColor)
+{
+	ApplyRenderTargetParam();
+	Clear(bClearTarget, bClearZBuffer, bClearStencil, nClearColor);
+}

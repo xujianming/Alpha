@@ -33,9 +33,9 @@ void CRenderCommandMgr::DrawPrimitive( const SMaterial& material, CMatrix* matWo
 	m_pGraphic->GetRenderStateMgr().Apply(material, matWorld, nMatCnt, primitiveType, vertexCnt, primitiveCnt, vertexFormat, vertexBuf, indexBuf);
 }
 
-void CRenderCommandMgr::PushEnvir( SRenderEnvir envirState )
+void CRenderCommandMgr::PushEnvir()
 {
-	m_envirStack.push_back(envirState);
+	m_envirStack.push_back(m_curEnvir);
 	SRenderTargetInfo& info = m_curEnvir.renderTargetInfo;
 	for (uint8 i = 0; i < MAX_RENDER_TARGET; i ++)
 	{
@@ -44,7 +44,6 @@ void CRenderCommandMgr::PushEnvir( SRenderEnvir envirState )
 	}
 	if (info.pDepthpRenderTarget)
 		info.pDepthpRenderTarget->AddRef();
-	m_curEnvir = *m_envirStack.rbegin();
 }
 
 void CRenderCommandMgr::PopEnvir()
@@ -71,12 +70,19 @@ void CRenderCommandMgr::SetRenderTarget( CTexture* pRenderTargets[MAX_RENDER_TAR
 		pDepthpRenderTargets->AddRef();
 	SAFE_RELEASE(info.pDepthpRenderTarget);
 	info.pDepthpRenderTarget = pDepthpRenderTargets;
-	for (uint8 i = 0; i < nCnt; i ++)
+	for (uint8 i = 0; i < ELEMENT_CNT(info.pRenderTargets); i++)
 	{
-		if (pRenderTargets[i])
-			pRenderTargets[i]->AddRef();
-		SAFE_RELEASE(info.pRenderTargets[i]);
-		info.pRenderTargets[i] = pRenderTargets[i];
+		if (i < nCnt)
+		{
+			if (pRenderTargets[i])
+				pRenderTargets[i]->AddRef();
+			SAFE_RELEASE(info.pRenderTargets[i]);
+			info.pRenderTargets[i] = pRenderTargets[i];
+		}
+		else
+		{
+			SAFE_RELEASE(info.pRenderTargets[i]);
+		}
 	}
 }
 
@@ -147,4 +153,9 @@ void CRenderCommandMgr::BuildViewSpaceLigth()
 void CRenderCommandMgr::SetAmbient( const CVector4f& ambient )
 {
 	m_curEnvir.ambient = ambient;
+}
+
+void CRenderCommandMgr::ClearRenderTarget(bool bClearTarget, bool bClearZBuffer, bool bClearStencil, uint32 nClearColor)
+{
+	m_pGraphic->GetRenderStateMgr().ClearBackBuffer(bClearTarget, bClearZBuffer, bClearStencil, nClearColor);
 }

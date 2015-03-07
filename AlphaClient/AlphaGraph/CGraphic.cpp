@@ -222,7 +222,12 @@ void CGraphic::PopEnvir()
 	m_cRenderCommandMgr.PopEnvir();
 }
 
-void CGraphic::PushEnvir(const SRenderEnvir& evir)
+void CGraphic::PushEnvir()
 {
-	m_cRenderCommandMgr.PushEnvir(evir);
+	m_cRenderCommandMgr.PushEnvir();
+}
+
+void CGraphic::ClearRenderTarget(bool bClearTarget, bool bClearZBuffer, bool bClearStencil, uint32 nClearColor)
+{
+	m_cRenderCommandMgr.ClearRenderTarget(bClearTarget, bClearZBuffer, bClearStencil, nClearColor);
 }

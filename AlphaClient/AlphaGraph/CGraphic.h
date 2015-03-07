@@ -89,7 +89,9 @@ public:
 
 	void PopEnvir();
 
-	void PushEnvir(const SRenderEnvir& evir);
+	void PushEnvir();
+
+	void ClearRenderTarget(bool bClearTarget, bool bClearZBuffer, bool bClearStencil, uint32 nClearColor);
 
 protected:	
 	virtual bool CreateSuitableDevice();

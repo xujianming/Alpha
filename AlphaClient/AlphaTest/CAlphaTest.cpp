@@ -19,6 +19,7 @@ CModel* g_pCube;
 CModel* g_pSphere;
 CModel* g_pPlane;
 CCamera* g_pCamera;
+CCamera* g_pCamera2;
 CTexture* g_pRenderTarget;
 void init()
 {
@@ -32,6 +33,11 @@ void init()
 	g_pCamera = new CCamera(CCamera::ECT_AIRCRAFT);
 	g_pCamera->SetPosition(new D3DXVECTOR3(0, 1, -5));
 	g_pCamera->SetProject(D3DX_PI * 0.5f, g_pWindow->GetClientRect().right * 1.0f / g_pWindow->GetClientRect().bottom, 1.0f, 1000.0f);
+
+	g_pCamera2 = new CCamera(CCamera::ECT_AIRCRAFT);
+	g_pCamera2->SetPosition(new D3DXVECTOR3(0, 1, -5));
+	g_pCamera2->SetProject(D3DX_PI * 0.5f, g_pWindow->GetClientRect().right * 1.0f / g_pWindow->GetClientRect().bottom, 1.0f, 1000.0f);
+
 	bool result = g_pCube->Initialize("../data/cube.txt", "../data/wall01.dds");
 	if(!result)
 	{
@@ -51,8 +57,8 @@ void init()
 		return;
 	}
 	g_pGraphic->AddLight(SLight());
-	g_pGraphic->SetAmbient(CVector4f(0.3, 0.3, 0.3, 1));
-	g_pRenderTarget = g_pGraphic->CreateRenderTarget(g_pWindow->GetClientRect().right, g_pWindow->GetClientRect().bottom, eTF_ARGB32, 0, eTF_D24S8);
+	g_pGraphic->SetAmbient(CVector4f(0.3f, 0.3f, 0.3f, 1.0f));
+	g_pRenderTarget = g_pGraphic->CreateRenderTarget(g_pWindow->GetClientRect().right, g_pWindow->GetClientRect().bottom, eTF_ARGB32, 1, eTF_D24S8);
 }
 
 void destroy()
@@ -96,7 +102,7 @@ void renderTexture()
 {
 	SMaterial material;
 	material.m_pShader = g_pGraphic->CreateShaderFromFile("F://GameProject/Alpha/AlphaClient/AlphaShader/texture.fx");
-	material.m_pShader->SetParamData("textureSampler", g_pRenderTarget, sizeof(CTexture), eSDT_Texture);
+	material.m_pShader->SetParamData("textureSampler", g_pGraphic->GetMainRenderTarget(), sizeof(CTexture), eSDT_Texture);
 	SVertexElem arrElem[] =
 	{
 		0, eDT_3Float, eDU_Position,
@@ -175,14 +181,17 @@ void updateFrame(uint32 nDeltaTime)
 
 	if (g_pGraphic->RenderBegin())
 	{
- 		g_pGraphic->SetView(g_pCamera->GetView());
- 		g_pGraphic->SetProj(g_pCamera->GetProject());
- 		g_pGraphic->SetRenderTarget(g_pRenderTarget, g_pGraphic->GetMainRenderTarget());
+		g_pGraphic->PushEnvir();
+ 		g_pGraphic->SetView(g_pCamera2->GetView());
+ 		g_pGraphic->SetProj(g_pCamera2->GetProject());
+		g_pGraphic->SetRenderTarget(g_pRenderTarget, g_pGraphic->GetMainRenderTarget());
  		renderMainScene();
-		
-		CTexture* tar[1];
-		tar[0] = nullptr;
-		g_pGraphic->SetRenderTarget(tar, 1, nullptr);
+		g_pGraphic->ClearRenderTarget(false, true, true, 0x00000000);
+		g_pGraphic->PopEnvir();
+
+		g_pGraphic->SetView(g_pCamera->GetView());
+		g_pGraphic->SetProj(g_pCamera->GetProject());
+		g_pGraphic->SetRenderTarget(nullptr, nullptr);
 		SMaterial material;
 		material.m_pShader = g_pGraphic->CreateShaderFromFile("F://GameProject/Alpha/AlphaClient/AlphaShader/normal.fx");
 		material.m_pShader->SetParamData("textureSampler", g_pRenderTarget, sizeof(CTexture), eSDT_Texture);

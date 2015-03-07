@@ -30,4 +30,5 @@ protected:
 
 	virtual void Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt, uint16 nPrimitiveCnt, uint16 nVertexFormat, CGeometryBuffer* pVertexBuf, CGeometryBuffer* pIndexBuf);
 
+	virtual void Clear(bool bClearTarget, bool bClearZBuffer, bool bClearStencil, uint32 nClearColor);
 };

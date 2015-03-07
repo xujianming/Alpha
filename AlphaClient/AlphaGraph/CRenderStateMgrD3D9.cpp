@@ -78,18 +78,12 @@ void CRenderStateMgrD3D9::SetRenderTargetParam(const SRenderTargetInfo& info)
 			CRenderTargetD3D* pTarget = static_cast<CRenderTargetD3D*>(info.pRenderTargets[i]);
 			pGraphicD3D9->GetDevice()->SetRenderTarget(i, pTarget->GetRenderTargetSuface());
 		}
-	}
-	else
-	{
-		pGraphicD3D9->GetDevice()->SetRenderTarget(0, pGraphicD3D9->GetBackBuffer());
-	}
-	if (info.pDepthpRenderTarget)
-	{
 		CRenderTargetD3D* pDepth = static_cast<CRenderTargetD3D*>(info.pDepthpRenderTarget);
 		pGraphicD3D9->GetDevice()->SetDepthStencilSurface(pDepth->GetDepthStencilSuface());
 	}
 	else
 	{
+		pGraphicD3D9->GetDevice()->SetRenderTarget(0, pGraphicD3D9->GetBackBuffer());
 		CRenderTargetD3D* pDepth = static_cast<CRenderTargetD3D*>(pGraphicD3D9->GetMainRenderTarget());
 		pGraphicD3D9->GetDevice()->SetDepthStencilSurface(pDepth->GetDepthStencilSuface());
 	}
@@ -193,4 +187,22 @@ void CRenderStateMgrD3D9::Draw(EPrimitiveType ePrimitiveType, uint16 nVertexCnt,
 	{
 		pGraphic->GetDevice()->DrawPrimitive(g_PrimitiyType[ePrimitiveType], 0, nPrimitiveCnt);
 	}
+}
+
+void CRenderStateMgrD3D9::Clear(bool bClearTarget, bool bClearZBuffer, bool bClearStencil, uint32 nClearColor)
+{
+	ETextureFormat eDepthFormat = eTF_UNKNOWN;
+	const SRenderTargetInfo& info = m_pGraphic->GetRenderCommandMgr().GetCurEnvir().renderTargetInfo;
+	if (info.pRenderTargets[0] && info.pDepthpRenderTarget)
+		eDepthFormat = static_cast<CRenderTargetD3D*>(info.pDepthpRenderTarget)->GetDepthStencilFormat();
+	else if (!info.pRenderTargets[0])
+		eDepthFormat = static_cast<CRenderTargetD3D*>(m_pGraphic->GetMainRenderTarget())->GetDepthStencilFormat();
+	uint32 nClearFlag = 0;
+	if (bClearTarget)
+		nClearFlag |= D3DCLEAR_TARGET;
+	if (bClearZBuffer && IsDepthFormat(eDepthFormat))
+		nClearFlag |= D3DCLEAR_ZBUFFER;
+	if (bClearStencil && IsStencilFormat(eDepthFormat))
+		nClearFlag |= D3DCLEAR_STENCIL;
+	static_cast<CGraphicD3D9*>(m_pGraphic)->GetDevice()->Clear(0, nullptr, nClearFlag, nClearColor, 1, 0);
 }
