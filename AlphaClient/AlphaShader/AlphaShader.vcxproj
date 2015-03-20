@@ -62,10 +62,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <FxCompile Include="brickShader.fx" />
     <FxCompile Include="bumpmap.fx" />
     <FxCompile Include="color.fx" />
     <FxCompile Include="depth.fx" />
     <FxCompile Include="depthShadow.fx" />
+    <FxCompile Include="outline.fx" />
     <FxCompile Include="PCFShadow.fx" />
     <FxCompile Include="shadow.fx" />
     <FxCompile Include="shadowvalue.fx" />

@@ -16,7 +16,16 @@ matrix lightProjectionMatrix;
 //////////////
 // TEXTURES //
 //////////////
-Texture2D depthMapTexture;
+sampler2D depthMapTexture:TEXTURE0 =
+sampler_state
+{
+	MinFilter = Linear;
+	MagFilter = Linear;
+	MipFilter = Linear;
+	AddressU = Wrap;
+	AddressV = Wrap;
+	BorderColor = 0;
+};
 
 /////////////
 // GLOBALS //
@@ -24,24 +33,6 @@ Texture2D depthMapTexture;
 float4 ambientColor;
 float4 diffuseColor;
 float3 lightPosition;
-
-
-///////////////////
-// SAMPLE STATES //
-///////////////////
-SamplerState SampleTypeClamp
-{
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Clamp;
-    AddressV = Clamp;
-};
-
-SamplerState SampleTypeWrap
-{
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Wrap;
-    AddressV = Wrap;
-};
 
 
 //////////////
@@ -67,7 +58,7 @@ struct PixelInputType
 ////////////////////////////////////////////////////////////////////////////////
 // Vertex Shader
 ////////////////////////////////////////////////////////////////////////////////
-PixelInputType ShadowVertexShader(VertexInputType input)
+PixelInputType VertexMain(VertexInputType input)
 {
     PixelInputType output;
 	float4 worldPosition;
@@ -111,7 +102,7 @@ PixelInputType ShadowVertexShader(VertexInputType input)
 ////////////////////////////////////////////////////////////////////////////////
 // Pixel Shader
 ////////////////////////////////////////////////////////////////////////////////
-float4 ShadowPixelShader(PixelInputType input) : SV_Target
+float4 PixelMain(PixelInputType input) : SV_Target
 {
 	float bias;
     float4 color;
@@ -136,7 +127,7 @@ float4 ShadowPixelShader(PixelInputType input) : SV_Target
 	if((saturate(projectTexCoord.x) == projectTexCoord.x) && (saturate(projectTexCoord.y) == projectTexCoord.y))
 	{
 		// Sample the shadow map depth value from the depth texture using the sampler at the projected texture coordinate location.
-		depthValue = depthMapTexture.Sample(SampleTypeClamp, projectTexCoord).r;
+		depthValue = tex2D(depthMapTexture, projectTexCoord).r;
 
 		// Calculate the depth of the light.
 		lightDepthValue = input.lightViewPosition.z / input.lightViewPosition.w;

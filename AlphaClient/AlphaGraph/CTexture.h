@@ -2,6 +2,7 @@
 
 #include "CGraphicRes.h"
 #include "GraphicHelp.h"
+#include "AlphaCommon/TRect.h"
 
 class CTexture: public CGraphicRes
 {
@@ -13,8 +14,6 @@ public:
 	virtual bool CreateTexture(uint32 nWidht, uint32 nHeight, uint32 nDepth, ETextureFormat eFormat, int32 nMipMap, bool bPoolManager){ return false; }
 
 	virtual bool CreateTextureFromFile(char* szFileName) { return false; };
-
-//	bool CreateRenderTarget( uint32 nWidth, uint32 nHeight, uint32 nDepth, ETextureFormat eRecommandFormat, int32 nMipMap, bool bPoolManager) { return false; }
 
 	uint32 GetWidth() 					{ return m_nWidth; }
 	
@@ -32,6 +31,8 @@ public:
 
 	bool IsVolumeTexture()				{ return GetHeight() && GetDepth();}
 
+	virtual bool FillFromMemory(void* pMemory, ETextureFormat eFormat, const CIRect* rect = nullptr, uint32 nMipMapLevel = 0) = 0;
+	
 	virtual bool CreateRenderTarget( uint32 nWidth, uint32 nHeight, ETextureFormat eTargetFormat, 
 		int32 nMipMap, ETextureFormat eDepthSttencilFormat ) { return false; }
 

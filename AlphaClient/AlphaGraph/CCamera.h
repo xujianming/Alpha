@@ -9,6 +9,8 @@ public:
 	CCamera(CameraType cameraType);
 	~CCamera();
 
+	void Reset(D3DXVECTOR3 pos, D3DXVECTOR3 look, D3DXVECTOR3 right, D3DXVECTOR3 up);
+
 	void strafe(float units);		//left / right
 	void fly(float units);			//up / down
 	void walk(float units);			//forward / backward

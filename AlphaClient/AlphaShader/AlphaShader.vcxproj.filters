@@ -33,5 +33,11 @@
     <FxCompile Include="color.fx">
       <Filter>TestShader</Filter>
     </FxCompile>
+    <FxCompile Include="brickShader.fx">
+      <Filter>TestShader</Filter>
+    </FxCompile>
+    <FxCompile Include="outline.fx">
+      <Filter>TestShader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

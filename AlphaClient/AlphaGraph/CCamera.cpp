@@ -163,7 +163,7 @@ D3DXVECTOR3* CCamera::GetLook()
 void CCamera::SetProject(float fFov, float fAspect, float fNear, float fFar)
 {
 	float fctg = atanf(fFov / 2);
-	float h = 1.0 / fctg;
+	float h = 1.0f / fctg;
 	float w = h / fAspect;
 	float q = fFar / ( fFar - fNear );
 	memset ( &m_proj, 0, sizeof(CMatrix));
@@ -177,4 +177,12 @@ void CCamera::SetProject(float fFov, float fAspect, float fNear, float fFar)
 CMatrix CCamera::GetProject()
 {
 	return m_proj;
+}
+
+void CCamera::Reset(D3DXVECTOR3 pos, D3DXVECTOR3 look, D3DXVECTOR3 right, D3DXVECTOR3 up)
+{
+	m_Pos = pos;
+	m_Look = look;
+	m_Right = right;
+	m_Up = up;
 }

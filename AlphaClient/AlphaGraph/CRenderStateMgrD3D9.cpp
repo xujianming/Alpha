@@ -55,11 +55,11 @@ void CRenderStateMgrD3D9::SetZTest( uint8 nZTestFun, bool bZWR )
 	pGraphic->GetDevice()->SetRenderState(D3DRS_ZWRITEENABLE, bZWR);
 }
 
-void CRenderStateMgrD3D9::SetFillModel( uint8 nRGBWriteFlag, uint8 nCullType )
+void CRenderStateMgrD3D9::SetCullModel( uint8 nRGBWriteFlag, uint8 nCullType )
 {
 	CGraphicD3D9* pGraphic = static_cast<CGraphicD3D9*>(m_pGraphic);
 	pGraphic->GetDevice()->SetRenderState(D3DRS_COLORWRITEENABLE, nRGBWriteFlag);
-	pGraphic->GetDevice()->SetRenderState(D3DRS_FILLMODE, nCullType);
+	pGraphic->GetDevice()->SetRenderState(D3DRS_CULLMODE, nCullType);
 }
 
 void CRenderStateMgrD3D9::SetRenderTargetParam(const SRenderTargetInfo& info)

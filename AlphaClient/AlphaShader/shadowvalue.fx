@@ -1,14 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////
-// Filename: shadow.fx
-////////////////////////////////////////////////////////////////////////////////
-
 
 //////////////
 // MATRICES //
 //////////////
-matrix worldMatrix;
-matrix viewMatrix;
-matrix projectionMatrix;
+float4x4 matWorld;
+float4x4 matView;
+float4x4 matProject;
+float4x4 matWorldViewProject;
 matrix lightViewMatrix;
 matrix lightProjectionMatrix;
 
@@ -16,25 +13,13 @@ matrix lightProjectionMatrix;
 //////////////
 // TEXTURES //
 //////////////
-Texture2D depthMapTexture;
-
-///////////////////
-// SAMPLE STATES //
-///////////////////
-SamplerState SampleTypeClamp
+sampler2D depthMapSampler:TEXTURE0 =
+sampler_state
 {
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Clamp;
-    AddressV = Clamp;
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = Clamp;
+	AddressV = Clamp;
 };
-
-SamplerState SampleTypeWrap
-{
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Wrap;
-    AddressV = Wrap;
-};
-
 
 //////////////
 // TYPEDEFS //
@@ -58,22 +43,19 @@ struct PixelInputType
 ////////////////////////////////////////////////////////////////////////////////
 // Vertex Shader
 ////////////////////////////////////////////////////////////////////////////////
-PixelInputType ShadowVertexShader(VertexInputType input)
+PixelInputType VertexMain(VertexInputType input)
 {
     PixelInputType output;
     
 	// Change the position vector to be 4 units for proper matrix calculations.
-    input.position.w = 1.0f;
-
+	input.position.w = 1;
 	// Calculate the position of the vertex against the world, view, and projection matrices.
-    output.position = mul(input.position, worldMatrix);
-    output.position = mul(output.position, viewMatrix);
-    output.position = mul(output.position, projectionMatrix);
+	output.position = mul(input.position, matWorldViewProject);
     
 	// Calculate the position of the vertice as viewed by the light source.
-    output.lightViewPosition = mul(input.position, worldMatrix);
-    output.lightViewPosition = mul(output.lightViewPosition, lightViewMatrix);
-    output.lightViewPosition = mul(output.lightViewPosition, lightProjectionMatrix);
+	output.lightViewPosition = mul(input.position, matWorld);
+	output.lightViewPosition = mul(output.lightViewPosition, lightViewMatrix);
+	output.lightViewPosition = mul(output.lightViewPosition, lightProjectionMatrix);
 
 	// Store the texture coordinates for the pixel shader.
     output.tex = input.tex;
@@ -91,7 +73,7 @@ PixelInputType ShadowVertexShader(VertexInputType input)
 ////////////////////////////////////////////////////////////////////////////////
 // Pixel Shader
 ////////////////////////////////////////////////////////////////////////////////
-float4 ShadowPixelShader(PixelInputType input) : SV_Target
+float4 PixelMain(PixelInputType input) : SV_Target
 {
 	float bias;
 	float2 projectTexCoord;
@@ -112,7 +94,7 @@ float4 ShadowPixelShader(PixelInputType input) : SV_Target
 	if((saturate(projectTexCoord.x) == projectTexCoord.x) && (saturate(projectTexCoord.y) == projectTexCoord.y))
 	{
 		// Sample the shadow map depth value from the depth texture using the sampler at the projected texture coordinate location.
-		depthValue = depthMapTexture.Sample(SampleTypeClamp, projectTexCoord).r;
+		depthValue = tex2D(depthMapSampler, projectTexCoord).r;
 
 		// Calculate the depth of the light.
 		lightDepthValue = input.lightViewPosition.z / input.lightViewPosition.w;
@@ -139,8 +121,8 @@ technique10 ShadowTechnique
 {
     pass pass0
     {
-        SetVertexShader(CompileShader(vs_4_0, ShadowVertexShader()));
-        SetPixelShader(CompileShader(ps_4_0, ShadowPixelShader()));
+		SetVertexShader(CompileShader(vs_4_0, VertexMain()));
+		SetPixelShader(CompileShader(ps_4_0, PixelMain()));
         SetGeometryShader(NULL);
     }
 }

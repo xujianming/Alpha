@@ -182,6 +182,17 @@ inline uint32 GetBitPerPixel(ETextureFormat eFormat)
 	return size[eFormat];
 }
 
+inline uint32 GetLinePerPitch(ETextureFormat eFormat)
+{
+	uint32 line[] = { 4, 4, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+	return line[eFormat];
+}
+
+inline uint32 GetPitch(ETextureFormat eFormat, uint32 nWidth)
+{
+	return GetBitPerPixel(eFormat) * GetLinePerPitch(eFormat) * nWidth / 8;
+}
+
 inline bool IsDepthFormat(ETextureFormat eFormat)
 {
 	return eFormat == eTF_D16 || eFormat == eTF_D24S8 || eFormat == eTF_INTZ;

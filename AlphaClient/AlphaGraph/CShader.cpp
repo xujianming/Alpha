@@ -151,7 +151,7 @@ uint8 CShader::GetParamIndex( const char* szParamName )
 	return INVALID_8BIT;
 }
 
-void CShader::SetShaderParam( const SMaterial& sMaterial,const SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint8 nMatrixCnt )
+void CShader::SetShaderParam( const SMaterial& sMaterial,const SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint16 nMatrixCnt )
 {
 	CMatrix matWorld;
 	if (arrMatrix)
@@ -194,5 +194,7 @@ void CShader::SetShaderParam( const SMaterial& sMaterial,const SRenderEnvir& sEn
 	SetParamData("lightParam", &sEnvir.arrLightParam, sizeof(CVector4f) * sEnvir.MAX_LIGHT, eSDT_4Float);
 
 	SetParamData("ambient", &sEnvir.ambient, sizeof(CVector4f), eSDT_4Float);
+
+	SetParamData("diffuse", &sEnvir.diffuse, sizeof(CVector4f), eSDT_4Float);
 }
 

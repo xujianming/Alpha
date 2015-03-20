@@ -6,9 +6,10 @@
 //////////////
 // MATRICES //
 //////////////
-matrix worldMatrix;
-matrix viewMatrix;
-matrix projectionMatrix;
+float4x4 matWorld;
+float4x4 matView;
+float4x4 matProject;
+float4x4 matWorldViewProject;
 matrix lightViewMatrix;
 matrix lightProjectionMatrix;
 
@@ -22,29 +23,32 @@ matrix lightProjectionMatrix;
 /////////////
 // GLOBALS //
 /////////////
-float4 ambientColor;
-float4 diffuseColor;
-float3 lightPosition;
+float4 ambient;
+float4 diffuse;
+float3 lightPos;
 
 
 ///////////////////
 // SAMPLE STATES //
 ///////////////////
-sampler2D depthMapTexture = 
+sampler2D textureSampler:TEXTURE0 =
+sampler_state
+{
+	MinFilter = Linear;
+	MagFilter = Linear;
+	MipFilter = Linear;
+	AddressU = Wrap;
+	AddressV = Wrap;
+	BorderColor = 0;
+};
+
+sampler2D depthMapSampler:TEXTURE1 =
 sampler_state 
 {
     Filter = MIN_MAG_MIP_LINEAR;
     AddressU = Clamp;
     AddressV = Clamp;
 };
-sampler2D shaderTexture = 
-sampler_state 
-{
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Wrap;
-    AddressV = Wrap;
-};
-
 
 //////////////
 // TYPEDEFS //
@@ -74,17 +78,13 @@ PixelInputType VertexMain(VertexInputType input)
     PixelInputType output;
 	float4 worldPosition;
     
-    
 	// Change the position vector to be 4 units for proper matrix calculations.
-    input.position.w = 1.0f;
-
+	input.position.w = 1;
 	// Calculate the position of the vertex against the world, view, and projection matrices.
-    output.position = mul(input.position, worldMatrix);
-    output.position = mul(output.position, viewMatrix);
-    output.position = mul(output.position, projectionMatrix);
+	output.position = mul(input.position, matWorldViewProject);
     
 	// Calculate the position of the vertice as viewed by the light source.
-    output.lightViewPosition = mul(input.position, worldMatrix);
+	output.lightViewPosition = mul(input.position, matWorld);
     output.lightViewPosition = mul(output.lightViewPosition, lightViewMatrix);
     output.lightViewPosition = mul(output.lightViewPosition, lightProjectionMatrix);
 
@@ -92,16 +92,16 @@ PixelInputType VertexMain(VertexInputType input)
     output.tex = input.tex;
     
 	// Calculate the normal vector against the world matrix only.
-    output.normal = mul(input.normal, (float3x3)worldMatrix);
+	output.normal = mul(input.normal, (float3x3)matWorld);
 	
     // Normalize the normal vector.
     output.normal = normalize(output.normal);
 
     // Calculate the position of the vertex in the world.
-    worldPosition = mul(input.position, worldMatrix);
+	worldPosition = mul(input.position, matWorld);
 
     // Determine the light position based on the position of the light and the position of the vertex in the world.
-    output.lightPos = lightPosition.xyz - worldPosition.xyz;
+    output.lightPos = lightPos.xyz - worldPosition.xyz;
 
     // Normalize the light position vector.
     output.lightPos = normalize(output.lightPos);
@@ -125,10 +125,10 @@ float4 PixelMain(PixelInputType input) : SV_Target
 
 
 	// Set the bias value for fixing the floating point precision issues.
-	bias = 0.001f;
+	bias = 0.01f;
 
 	// Set the default output color to the ambient light value for all pixels.
-    color = ambientColor;
+	color = ambient;
 
 	// Calculate the projected texture coordinates.
 	projectTexCoord.x =  input.lightViewPosition.x / input.lightViewPosition.w / 2.0f + 0.5f;
@@ -138,7 +138,7 @@ float4 PixelMain(PixelInputType input) : SV_Target
 	if((saturate(projectTexCoord.x) == projectTexCoord.x) && (saturate(projectTexCoord.y) == projectTexCoord.y))
 	{
 		// Sample the shadow map depth value from the depth texture using the sampler at the projected texture coordinate location.
-		depthValue = tex2D(depthMapTexture, projectTexCoord).r;
+		depthValue = tex2D(depthMapSampler, projectTexCoord).r;
 
 		// Calculate the depth of the light.
 		lightDepthValue = input.lightViewPosition.z / input.lightViewPosition.w;
@@ -156,7 +156,7 @@ float4 PixelMain(PixelInputType input) : SV_Target
 		    if(lightIntensity > 0.0f)
 			{
 				// Determine the final diffuse color based on the diffuse color and the amount of light intensity.
-				color += (diffuseColor * lightIntensity);
+				color += (diffuse * lightIntensity);
 
 				// Saturate the final light color.
 				color = saturate(color);
@@ -165,7 +165,7 @@ float4 PixelMain(PixelInputType input) : SV_Target
 	}
 
 	// Sample the pixel color from the texture using the sampler at this texture coordinate location.
-	textureColor = tex2D(shaderTexture, input.tex);
+	textureColor = tex2D(textureSampler, input.tex);
 
 	// Combine the light and texture color.
 	color = color * textureColor;

@@ -18,6 +18,8 @@ public:
 
 	IDirect3DBaseTexture9* GetD3DTexture();
 
+	virtual bool FillFromMemory(void* pMemory, ETextureFormat eFormat, const CIRect* rect = nullptr, uint32 nMipMapLevel = 0);
+
 protected:
 
 	IDirect3DBaseTexture9* CreateTexture( bool bSys, bool bFetchSize);
@@ -31,11 +33,12 @@ class CRenderTargetD3D: public CTextureD3D9
 public:
 	CRenderTargetD3D(CGraphic* pGraphic);
 	~CRenderTargetD3D();
-
+	
 	virtual bool CreateRenderTarget(uint32 nWidth, uint32 nHeight, ETextureFormat eTargetFormat, int32 nMipMap, ETextureFormat eDepthSttencilFormat);
 	IDirect3DSurface9* GetRenderTargetSuface() { return m_pRenderTarget; }
 	IDirect3DSurface9* GetDepthStencilSuface() { return m_pDepthStencil; }
 	ETextureFormat GetDepthStencilFormat() { return m_eDepthStencilFmt; }
+	
 protected:
 	IDirect3DSurface9* m_pRenderTarget;
 	IDirect3DSurface9* m_pDepthStencil;

@@ -131,6 +131,56 @@ IDirect3DBaseTexture9* CTextureD3D9::GetD3DTexture()
 	return m_pSysTexture ? m_pSysTexture : m_pTexture;
 }
 
+
+bool CTextureD3D9::FillFromMemory(void* pMemory, ETextureFormat eFormat, const CIRect* rect, uint32 nMipMapLevel)
+{
+	if (!Is2DTexture())
+		return false;
+
+	if (!m_pSysTexture && !m_pTexture)
+		return false;
+
+	uint32 nWidth = m_nWidth;
+	uint32 nHeight = m_nHeight;
+	for (uint32 i = 0; i < nMipMapLevel; i++)
+	{
+		nWidth >>= 1;
+		nHeight >>= 1;
+	}
+	RECT rectDes = { 0, 0, nWidth, nHeight };
+	if (rect)
+	{
+		rectDes.left = rect->left;
+		rectDes.right = rect->right;
+		rectDes.top = rect->top;
+		rectDes.bottom = rect->bottom;
+	}
+		
+
+	//非manager贴图不支持部分填充
+	if (!m_pSysTexture && (rectDes.left != 0 || rectDes.top != 0 || rectDes.right != nWidth || rectDes.bottom != nHeight))
+		return false;
+
+	CGraphicD3D9* pGraphic = static_cast<CGraphicD3D9*>(m_pGraphic);
+	D3DFORMAT fmt = pGraphic->ToTextureFmt(eFormat);
+	IDirect3DTexture9* pCurTexture;
+	if (m_pSysTexture)
+		pCurTexture = (IDirect3DTexture9*)m_pSysTexture;
+	else
+		pCurTexture = (IDirect3DTexture9*)m_pTexture;
+	IDirect3DSurface9* pSurf;
+	if (SUCCEEDED(pCurTexture->GetSurfaceLevel(nMipMapLevel, &pSurf)))
+	{
+		RECT rectSrc = { 0, 0, rectDes.right - rectDes.left, rectDes.bottom - rectDes.top };
+		uint32 nPitch = GetPitch(eFormat, rectDes.bottom - rectDes.top);
+		bool flag = SUCCEEDED(D3DXLoadSurfaceFromMemory(pSurf, nullptr, &rectDes, pMemory, fmt, nPitch, nullptr, &rectSrc, D3DX_FILTER_NONE, 0));
+		SAFE_RELEASE(pSurf);
+		return flag;
+	}
+	return false;
+}
+
+
 CRenderTargetD3D::CRenderTargetD3D( CGraphic* pGraphic ):
 	CTextureD3D9(pGraphic, ERT_RenderTarget)
 {

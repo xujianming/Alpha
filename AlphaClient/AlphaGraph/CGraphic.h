@@ -83,6 +83,8 @@ public:
 
 	void SetAmbient(const CVector4f& ambient);
 
+	void SetDiffuse(const CVector4f& diffuse);
+
 	void SetLigth(const SLight* arrLigth, uint8 nCnt);
 
 	void AddLight(const SLight& light);

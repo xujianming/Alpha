@@ -71,7 +71,7 @@ public:
 
 	uint8 GetParamIndex(const char* szParamName);
 
-	void SetShaderParam(const SMaterial& sMaterial, const SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint8 nMatrixCnt);
+	void SetShaderParam(const SMaterial& sMaterial, const SRenderEnvir& sEnvir, const CMatrix* arrMatrix, uint16 nMatrixCnt);
 
 	const vector<SShaderActiveParam*>& GetVectorParams() { return m_vecVectorParams; }
 

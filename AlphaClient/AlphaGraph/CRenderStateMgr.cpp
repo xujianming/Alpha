@@ -52,7 +52,7 @@ void CRenderStateMgr::ApplyMaterialParam( const SMaterial& material )
 
 	SetZTest(material.m_nZTestFun, material.m_bZWR);
 
-	SetFillModel(material.m_nRGBWriteFlag, material.m_nCullType);
+	SetCullModel(material.m_nRGBWriteFlag, material.m_nCullType);
 }
 
 void CRenderStateMgr::SetShader( CShader* pShader )

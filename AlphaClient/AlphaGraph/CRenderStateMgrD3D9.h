@@ -16,7 +16,7 @@ protected:
 
 	virtual void SetZTest(uint8 nZTestFun, bool bZWR);
 
-	virtual void SetFillModel(uint8 nRGBWriteFlag, uint8 nCullType);
+	virtual void SetCullModel(uint8 nRGBWriteFlag, uint8 nCullType);
 
 	virtual void SetRenderTargetParam(const SRenderTargetInfo& info);
 

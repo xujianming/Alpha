@@ -30,6 +30,7 @@ struct SRenderEnvir
 {
 	enum { MAX_LIGHT = 16 };
 	CVector4f ambient;
+	CVector4f diffuse;
 	CMatrix matView;
 	//CMatrix matViewInvert;
 	CMatrix matProject;
@@ -96,6 +97,8 @@ public:
 	const CMatrix& GetProj();
 
 	void SetAmbient(const CVector4f& ambient);
+
+	void SetDiffuse(const CVector4f& diffuse);
 
 	void SetLigth(const SLight* arrLigth, uint8 nCnt);
 

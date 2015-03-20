@@ -155,6 +155,12 @@ void CRenderCommandMgr::SetAmbient( const CVector4f& ambient )
 	m_curEnvir.ambient = ambient;
 }
 
+
+void CRenderCommandMgr::SetDiffuse(const CVector4f& diffuse)
+{
+	m_curEnvir.diffuse = diffuse;
+}
+
 void CRenderCommandMgr::ClearRenderTarget(bool bClearTarget, bool bClearZBuffer, bool bClearStencil, uint32 nClearColor)
 {
 	m_pGraphic->GetRenderStateMgr().ClearBackBuffer(bClearTarget, bClearZBuffer, bClearStencil, nClearColor);

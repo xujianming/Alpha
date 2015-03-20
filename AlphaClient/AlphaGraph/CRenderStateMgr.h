@@ -41,7 +41,7 @@ protected:
 
 	virtual void SetZTest(uint8 nZTestFun, bool bZWR) = 0;
 
-	virtual void SetFillModel(uint8 nRGBWriteFlag, uint8 nCullType) = 0;
+	virtual void SetCullModel(uint8 nRGBWriteFlag, uint8 nCullType) = 0;
 
 	void ApplyMaterialParam(const SMaterial& material);
 

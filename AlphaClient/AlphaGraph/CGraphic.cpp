@@ -207,6 +207,11 @@ void CGraphic::SetAmbient( const CVector4f& ambient )
 	m_cRenderCommandMgr.SetAmbient(ambient);
 }
 
+void CGraphic::SetDiffuse(const CVector4f& diffuse)
+{
+	m_cRenderCommandMgr.SetDiffuse(diffuse);
+}
+
 void CGraphic::SetLigth( const SLight* arrLigth, uint8 nCnt )
 {
 	m_cRenderCommandMgr.SetLigth(arrLigth, nCnt);
