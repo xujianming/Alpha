@@ -2,7 +2,7 @@
 
 #include "CGraphicRes.h"
 #include "GraphicHelp.h"
-#include "AlphaCommon/TRect.h"
+#include "AlphaCommon\AlphaCommonType.h"
 
 class CTexture: public CGraphicRes
 {

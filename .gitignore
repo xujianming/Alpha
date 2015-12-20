@@ -53,3 +53,6 @@ AlphaClient/AlphaShader/AlphaShader.vcxproj
 AlphaClient/AlphaTest/AlphaTest.vcxproj
 *.obj
 *.pdb
+AlphaClient/AlphaCommon/Debug/AlphaCommon.Build.CppClean.log
+AlphaClient/AlphaGraph/AlphaGraph.vcxproj.user
+AlphaClient/.vs/AlphaClient/v14/.suo

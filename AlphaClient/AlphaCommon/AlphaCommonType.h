@@ -2,6 +2,7 @@
 
 #include "TMatrix.h"
 #include "TVector.h"
+#include "TRect.h"
 
 #define SAFE_DELETE(p) {if (p) delete (p); (p) = NULL;}
 #define SAFE_RELEASE(p) {if (p) (p)->Release(); (p) = NULL;}
@@ -28,6 +29,8 @@ const uint64 INVALID_64BIT = uint64(-1);
 #define CVector2f TVector2<float>
 #define CVector3f TVector3<float>
 #define CVector4f TVector4<float>
+
+#define CIRect TRect<uint32>
 
 #define CMatrix TMatrix4<CVector4f>
 #define CSize TVector2<uint32>
